@@ -12,7 +12,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'bisq.Daemon'
+    mainClass = 'bisq.Server'
 }
 
 tasks.named('test') {

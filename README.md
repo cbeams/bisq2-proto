@@ -16,14 +16,14 @@ This repository demonstrates a proposed developer and node operator experience f
 
     $ ./gradlew build
 
-## Run the daemon
+## Run the server
 
     $ ./bisqd
     listening on port 9999
 
-The daemon will listen on port 9999, accept a single connection, return the value '42' and exit.
+The server will listen on port 9999, accept a single connection, return the value '42' and exit.
 
-## Connect to the daemon
+## Connect to the server
 
     $ ./bisq-cli
     42

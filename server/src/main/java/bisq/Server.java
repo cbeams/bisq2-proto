@@ -8,9 +8,9 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Daemon implements Runnable {
+public class Server implements Runnable {
     public static void main(String[] args) {
-        new Daemon().run();
+        new Server().run();
     }
 
     @Override
