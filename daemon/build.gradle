@@ -12,9 +12,11 @@ dependencies {
 }
 
 application {
-    mainClass = 'bisq.App'
+    mainClass = 'bisq.Daemon'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+build.dependsOn installDist

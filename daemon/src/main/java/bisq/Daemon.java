@@ -3,12 +3,29 @@
  */
 package bisq;
 
-public class Daemon {
-    public String getGreeting() {
-        return "Hello World!";
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Daemon implements Runnable {
+    public static void main(String[] args) {
+        new Daemon().run();
     }
 
-    public static void main(String[] args) {
-        System.out.println(new Daemon().getGreeting());
+    @Override
+    public void run() {
+        try {
+            int port = 9999;
+            ServerSocket socket = new ServerSocket(port);
+            System.out.println("listening on port " + port);
+            Socket s = socket.accept();
+            OutputStream out = s.getOutputStream();
+            out.write(new byte[]{'4', '2', '\n'});
+            out.flush();
+            System.out.println("exiting");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
