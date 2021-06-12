@@ -1,2 +1,3 @@
 rootProject.name = 'bisq2'
 include('daemon')
+include('cli')

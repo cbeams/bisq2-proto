@@ -1,0 +1,22 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+application {
+    mainClass = 'bisq.Cli'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+build.dependsOn installDist

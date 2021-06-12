@@ -25,5 +25,5 @@ The daemon will listen on port 9999, accept a single connection, return the valu
 
 ## Connect to the daemon
 
-    $ nc localhost 9999
+    $ ./bisq-cli
     42
