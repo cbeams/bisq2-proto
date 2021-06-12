@@ -1,0 +1,2 @@
+- Java 16+ required
+- When importing into IDEA, select Java 16 SDK in the project settings
