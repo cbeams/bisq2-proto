@@ -12,23 +12,23 @@ configure(project(':swagger')) {
     apply plugin: "org.hidetake.swagger.generator"
 
     repositories {
-      jcenter()
+        mavenCentral()
     }
 
     dependencies {
-      //swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'             // Swagger Codegen V2
-      //swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'  // or Swagger Codegen V3
-      swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'     // or OpenAPI Generator
-      swaggerUI 'org.webjars:swagger-ui:3.10.0'
+        //swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'             // Swagger Codegen V2
+        //swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'  // or Swagger Codegen V3
+        swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'     // or OpenAPI Generator
+        swaggerUI 'org.webjars:swagger-ui:3.10.0'
     }
 
     swaggerSources {
-      petstore {
-        inputFile = file('petstore.yaml')
-        code {
-          language = 'spring'
+        petstore {
+            inputFile = file('petstore.yaml')
+            code {
+                language = 'spring'
+            }
         }
-      }
     }
 }
 
@@ -43,7 +43,7 @@ configure(project(':desktop')) {
     javafx {
         //version = "17-ea+11"
         sdk = "/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/"
-        modules = [ 'javafx.controls' ]
+        modules = ['javafx.controls']
     }
 
     application {
