@@ -12,6 +12,31 @@ configure(project(':api')) {
     apply plugin: 'java'
 }
 
+configure(project(':core')) {
+    apply plugin: 'java'
+
+    dependencies {
+        implementation project(':api')
+    }
+}
+
+configure(project(':http-client')) {
+    apply plugin: 'java'
+
+    dependencies {
+        implementation project(':api')
+    }
+}
+
+configure(project(':http-server')) {
+    apply plugin: 'java'
+
+    dependencies {
+        implementation project(':api')
+        implementation project(':core')
+    }
+}
+
 configure(project(':daemon')) {
     apply plugin: 'application'
 
@@ -20,6 +45,9 @@ configure(project(':daemon')) {
     }
 
     dependencies {
+        implementation project(':api')
+        implementation project(':core')
+        implementation project(':http-server')
         implementation 'com.sparkjava:spark-core:2.9.3'
     }
 
@@ -35,6 +63,7 @@ configure(project(':cli')) {
 
     dependencies {
         implementation project(':api')
+        implementation project(':http-client')
     }
 
     application {

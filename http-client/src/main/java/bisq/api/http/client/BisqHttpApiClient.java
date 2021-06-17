@@ -1,4 +1,6 @@
-package bisq.api;
+package bisq.api.http.client;
+
+import bisq.api.client.BisqApiClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,16 +8,17 @@ import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.net.Socket;
 
-public class BisqApi {
+public class BisqHttpApiClient implements BisqApiClient {
 
     private final String host;
     private final int port;
 
-    public BisqApi(String host, int port) {
+    public BisqHttpApiClient(String host, int port) {
         this.host = host;
         this.port = port;
     }
 
+    @Override
     public String getVersion() {
         try {
             try (Socket client = new Socket(host, port);
@@ -28,6 +31,7 @@ public class BisqApi {
         }
     }
 
+    @Override
     public String getPrice() {
         return "$42.00";
     }
