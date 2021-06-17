@@ -1,0 +1,154 @@
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath "gradle.plugin.org.hidetake:gradle-swagger-generator-plugin:2.18.2"
+        classpath "org.openjfx:javafx-plugin:0.0.10"
+    }
+}
+
+configure(project(':swagger')) {
+    apply plugin: "org.hidetake.swagger.generator"
+
+    repositories {
+      jcenter()
+    }
+
+    dependencies {
+      //swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'             // Swagger Codegen V2
+      //swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'  // or Swagger Codegen V3
+      swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'     // or OpenAPI Generator
+      swaggerUI 'org.webjars:swagger-ui:3.10.0'
+    }
+
+    swaggerSources {
+      petstore {
+        inputFile = file('petstore.yaml')
+        code {
+          language = 'spring'
+        }
+      }
+    }
+}
+
+configure(project(':desktop')) {
+    apply plugin: 'application'
+    apply plugin: 'org.openjfx.javafxplugin'
+
+    repositories {
+        mavenCentral()
+    }
+
+    javafx {
+        //version = "17-ea+11"
+        sdk = "/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/"
+        modules = [ 'javafx.controls' ]
+    }
+
+    application {
+        mainClass = 'bisq.desktop.BisqDesktop'
+    }
+
+    dependencies {
+        implementation "io.reactivex.rxjava3:rxjava:3.0.13"
+    }
+
+    startScripts {
+        defaultJvmOpts = [
+                "--module-path=/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/lib",
+                "--add-modules=javafx.controls"
+        ]
+    }
+
+    build.dependsOn installDist
+}
+
+configure(project(':server')) {
+    apply plugin: 'application'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+        implementation 'com.sparkjava:spark-core:2.9.3'
+    }
+
+    application {
+        mainClass = 'bisq.Server'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+    build.dependsOn installDist
+}
+
+configure(project(':cli')) {
+    apply plugin: 'application'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation project(":api-client")
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    }
+
+    application {
+        mainClass = 'bisq.cli.BisqCli'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+    build.dependsOn installDist
+}
+
+configure(project(':api-client')) {
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
+
+configure(project(':rx')) {
+    apply plugin: 'application'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation "io.reactivex.rxjava3:rxjava:3.0.13"
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    }
+
+    application {
+        mainClass = 'bisq.HelloRx'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+    build.dependsOn installDist
+}
