@@ -1,13 +1,14 @@
-package bisq;
+package bisq.daemon;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server implements Runnable {
+public class BisqDaemon implements Runnable {
+
     public static void main(String[] args) {
-        new Server().run();
+        new BisqDaemon().run();
     }
 
     @Override

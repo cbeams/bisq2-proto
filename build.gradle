@@ -12,7 +12,7 @@ configure(project(':api-client')) {
     apply plugin: 'java'
 }
 
-configure(project(':server')) {
+configure(project(':daemon')) {
     apply plugin: 'application'
 
     repositories {
@@ -24,7 +24,7 @@ configure(project(':server')) {
     }
 
     application {
-        mainClass = 'bisq.Server'
+        mainClass = 'bisq.daemon.BisqDaemon'
     }
 
     build.dependsOn installDist
