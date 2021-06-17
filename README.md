@@ -1,8 +1,8 @@
-# Bisq2 Demo
+# Bisq2 Prototype
 
 ## Introduction
 
-This repository demonstrates a proposed developer and node operator experience for Bisq 2.0.
+This repository demonstrates a high-level architecture vision for Bisq 2.0.
 
 ## Requirements
 
