@@ -3,16 +3,29 @@
  */
 package bisq.cli;
 
-import bisq.client.BisqNode;
+import bisq.api.client.BisqApi;
 
 public class BisqCli implements Runnable {
-    public static void main(String[] args) {
-        new BisqCli().run();
+    private final BisqApi bisqApi;
+    private final String command;
+
+    public BisqCli(String[] args) {
+        if (args.length != 1)
+            throw new IllegalArgumentException("usage: bisq-cli <command>");
+        this.bisqApi = new BisqApi("localhost", 9999);
+        this.command = args[0];
     }
 
     @Override
     public void run() {
-        BisqNode bisqNode = new BisqNode("localhost", 9999);
-        System.out.println("version: " + bisqNode.getVersion());
+        switch (command) {
+            case "getversion" -> System.out.println(bisqApi.getVersion());
+            case "getprice" -> System.out.println(bisqApi.getPrice());
+            default -> throw new UnsupportedOperationException("unsupported command: " + command);
+        }
+    }
+
+    public static void main(String[] args) {
+        new BisqCli(args).run();
     }
 }
