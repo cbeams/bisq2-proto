@@ -26,4 +26,4 @@ The server will listen on port 9999, accept a single connection, return the valu
 ## Connect to the server
 
     $ ./bisq-cli
-    42
+    version: 42

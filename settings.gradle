@@ -1,5 +1,6 @@
 rootProject.name = 'bisq2-prototype'
 include('client')
+include('cli')
 include('server')
 include('swagger')
 include('rx')
