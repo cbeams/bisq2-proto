@@ -128,27 +128,3 @@ configure(project(':api-client')) {
         useJUnitPlatform()
     }
 }
-
-configure(project(':rx')) {
-    apply plugin: 'application'
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        implementation "io.reactivex.rxjava3:rxjava:3.0.13"
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    }
-
-    application {
-        mainClass = 'bisq.HelloRx'
-    }
-
-    tasks.named('test') {
-        useJUnitPlatform()
-    }
-
-    build.dependsOn installDist
-}
