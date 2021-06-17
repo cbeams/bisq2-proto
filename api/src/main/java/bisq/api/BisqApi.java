@@ -1,4 +1,4 @@
-package bisq.api.client;
+package bisq.api;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -3,7 +3,7 @@
  */
 package bisq.cli;
 
-import bisq.api.client.BisqApi;
+import bisq.api.BisqApi;
 
 public class BisqCli implements Runnable {
     private final BisqApi bisqApi;
