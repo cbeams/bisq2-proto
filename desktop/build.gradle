@@ -14,7 +14,7 @@ javafx {
 }
 
 application {
-    mainClass = 'HelloFX'
+    mainClass = 'bisq.desktop.BisqDesktop'
 }
 
 dependencies {

@@ -1,3 +1,5 @@
+package bisq.desktop;
+
 import io.reactivex.rxjava3.core.Emitter;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.functions.Consumer;
@@ -13,7 +15,7 @@ import javafx.stage.Stage;
 
 import java.util.Random;
 
-public class HelloFX extends Application {
+public class BisqDesktop extends Application {
 
     @Override
     public void start(Stage stage) {
@@ -38,7 +40,6 @@ public class HelloFX extends Application {
         BisqClient bisqClient = new BisqClient();
         int price = bisqClient.getPrice();
         Observable<Integer> observablePrice = bisqClient.getObservablePrice();
-
 
         IntegerProperty number = new SimpleIntegerProperty(39233);
         Label label = new Label();
