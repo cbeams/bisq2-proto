@@ -8,60 +8,8 @@ buildscript {
     }
 }
 
-configure(project(':swagger')) {
-    apply plugin: 'org.hidetake.swagger.generator'
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        //swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'             // Swagger Codegen V2
-        //swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'  // or Swagger Codegen V3
-        swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'     // or OpenAPI Generator
-        swaggerUI 'org.webjars:swagger-ui:3.10.0'
-    }
-
-    swaggerSources {
-        petstore {
-            inputFile = file('petstore.yaml')
-            code {
-                language = 'spring'
-            }
-        }
-    }
-}
-
-configure(project(':desktop')) {
-    apply plugin: 'application'
-    apply plugin: 'org.openjfx.javafxplugin'
-
-    repositories {
-        mavenCentral()
-    }
-
-    javafx {
-        //version = '17-ea+11'
-        sdk = '/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/'
-        modules = ['javafx.controls']
-    }
-
-    application {
-        mainClass = 'bisq.desktop.BisqDesktop'
-    }
-
-    dependencies {
-        implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
-    }
-
-    startScripts {
-        defaultJvmOpts = [
-                '--module-path=/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/lib',
-                '--add-modules=javafx.controls'
-        ]
-    }
-
-    build.dependsOn installDist
+configure(project(':api-client')) {
+    apply plugin: 'java'
 }
 
 configure(project(':server')) {
@@ -96,6 +44,58 @@ configure(project(':cli')) {
     build.dependsOn installDist
 }
 
-configure(project(':api-client')) {
-    apply plugin: 'java'
+configure(project(':desktop')) {
+    apply plugin: 'application'
+    apply plugin: 'org.openjfx.javafxplugin'
+
+    repositories {
+        mavenCentral()
+    }
+
+    javafx {
+        //version = '17-ea+11'
+        sdk = '/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/'
+        modules = ['javafx.controls']
+    }
+
+    application {
+        mainClass = 'bisq.desktop.BisqDesktop'
+    }
+
+    dependencies {
+        implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
+    }
+
+    startScripts {
+        defaultJvmOpts = [
+                '--module-path=/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/lib',
+                '--add-modules=javafx.controls'
+        ]
+    }
+
+    build.dependsOn installDist
+}
+
+configure(project(':swagger')) {
+    apply plugin: 'org.hidetake.swagger.generator'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        //swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'             // Swagger Codegen V2
+        //swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'  // or Swagger Codegen V3
+        swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'     // or OpenAPI Generator
+        swaggerUI 'org.webjars:swagger-ui:3.10.0'
+    }
+
+    swaggerSources {
+        petstore {
+            inputFile = file('petstore.yaml')
+            code {
+                language = 'spring'
+            }
+        }
+    }
 }
