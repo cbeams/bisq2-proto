@@ -72,17 +72,11 @@ configure(project(':server')) {
     }
 
     dependencies {
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
         implementation 'com.sparkjava:spark-core:2.9.3'
     }
 
     application {
         mainClass = 'bisq.Server'
-    }
-
-    tasks.named('test') {
-        useJUnitPlatform()
     }
 
     build.dependsOn installDist
@@ -91,22 +85,12 @@ configure(project(':server')) {
 configure(project(':cli')) {
     apply plugin: 'application'
 
-    repositories {
-        mavenCentral()
-    }
-
     dependencies {
         implementation project(":api-client")
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     }
 
     application {
         mainClass = 'bisq.cli.BisqCli'
-    }
-
-    tasks.named('test') {
-        useJUnitPlatform()
     }
 
     build.dependsOn installDist
@@ -114,17 +98,4 @@ configure(project(':cli')) {
 
 configure(project(':api-client')) {
     apply plugin: 'java'
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    }
-
-    tasks.named('test') {
-        useJUnitPlatform()
-    }
 }
