@@ -1,0 +1,27 @@
+plugins {
+  id 'application'
+  id 'org.openjfx.javafxplugin' version '0.0.10'
+}
+
+repositories {
+    mavenCentral()
+}
+
+javafx {
+    //version = "17-ea+11"
+    sdk = "/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/"
+    modules = [ 'javafx.controls' ]
+}
+
+application {
+    mainClass = 'HelloFX'
+}
+
+startScripts {
+    defaultJvmOpts = [
+            "--module-path=/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/lib",
+            "--add-modules=javafx.controls"
+    ]
+}
+
+build.dependsOn installDist
