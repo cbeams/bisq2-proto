@@ -1,4 +1,4 @@
-package bisq;
+package bisq.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,12 +6,12 @@ import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.net.Socket;
 
-public class Client {
+public class BisqNode {
 
     private final String host;
     private final int port;
 
-    public Client(String host, int port) {
+    public BisqNode(String host, int port) {
         this.host = host;
         this.port = port;
     }

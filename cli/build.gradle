@@ -13,7 +13,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'bisq.Cli'
+    mainClass = 'bisq.cli.BisqCli'
 }
 
 tasks.named('test') {
