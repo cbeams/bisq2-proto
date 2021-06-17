@@ -1,15 +1,15 @@
 buildscript {
     repositories {
-        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath "gradle.plugin.org.hidetake:gradle-swagger-generator-plugin:2.18.2"
-        classpath "org.openjfx:javafx-plugin:0.0.10"
+        classpath 'gradle.plugin.org.hidetake:gradle-swagger-generator-plugin:2.18.2'
+        classpath 'org.openjfx:javafx-plugin:0.0.10'
     }
 }
 
 configure(project(':swagger')) {
-    apply plugin: "org.hidetake.swagger.generator"
+    apply plugin: 'org.hidetake.swagger.generator'
 
     repositories {
         mavenCentral()
@@ -41,8 +41,8 @@ configure(project(':desktop')) {
     }
 
     javafx {
-        //version = "17-ea+11"
-        sdk = "/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/"
+        //version = '17-ea+11'
+        sdk = '/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/'
         modules = ['javafx.controls']
     }
 
@@ -51,13 +51,13 @@ configure(project(':desktop')) {
     }
 
     dependencies {
-        implementation "io.reactivex.rxjava3:rxjava:3.0.13"
+        implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
     }
 
     startScripts {
         defaultJvmOpts = [
-                "--module-path=/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/lib",
-                "--add-modules=javafx.controls"
+                '--module-path=/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/lib',
+                '--add-modules=javafx.controls'
         ]
     }
 
@@ -86,7 +86,7 @@ configure(project(':cli')) {
     apply plugin: 'application'
 
     dependencies {
-        implementation project(":api-client")
+        implementation project(':api-client')
     }
 
     application {

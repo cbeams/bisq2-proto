@@ -1,6 +1,6 @@
 rootProject.name = 'bisq2-prototype'
-include('api-client')
-include('cli')
-include('server')
-include('swagger')
-include('desktop')
+include 'api-client'
+include 'cli'
+include 'server'
+include 'swagger'
+include 'desktop'
