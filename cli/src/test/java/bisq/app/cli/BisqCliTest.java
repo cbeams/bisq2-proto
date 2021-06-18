@@ -38,6 +38,14 @@ class BisqCliTest {
                 cli("getprice").getOutput());
     }
 
+    @Test
+    void bogus() {
+        assertEquals( """
+                unsupported command: bogus
+                """,
+                cli("bogus").getErrors());
+    }
+
     private TestConsole cli(String... args) {
         var console = new TestConsole();
         var cli = new BisqCli(args);

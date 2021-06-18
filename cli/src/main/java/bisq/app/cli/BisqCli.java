@@ -3,14 +3,13 @@
  */
 package bisq.app.cli;
 
-import bisq.api.client.ApiClient;
 import bisq.api.http.client.HttpApiClient;
 
 public class BisqCli implements Runnable {
 
     private Console console = new SystemConsole();
 
-    private final ApiClient client;
+    private final HttpApiClient client;
     private final String command;
 
     public BisqCli(String... args) {
@@ -25,7 +24,7 @@ public class BisqCli implements Runnable {
         switch (command) {
             case "getversion" -> console.outln(client.getVersion());
             case "getprice" -> console.outln(client.getPrice());
-            default -> throw new UnsupportedOperationException("unsupported command: " + command);
+            default -> console.errln("unsupported command: " + command);
         }
     }
 
