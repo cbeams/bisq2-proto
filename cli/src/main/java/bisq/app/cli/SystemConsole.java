@@ -2,7 +2,7 @@ package bisq.app.cli;
 
 import java.io.PrintStream;
 
-public class SystemConsole implements Console {
+class SystemConsole implements Console {
 
     private final PrintStream out = System.out;
     private final PrintStream err = System.err;

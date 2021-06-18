@@ -1,6 +1,6 @@
 package bisq.app.cli;
 
-public interface Console {
+interface Console {
 
     void outln(Object value);
 
