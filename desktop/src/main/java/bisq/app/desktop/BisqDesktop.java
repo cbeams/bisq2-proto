@@ -1,19 +1,18 @@
 package bisq.app.desktop;
 
+import bisq.api.http.client.HttpApiClient;
 import io.reactivex.rxjava3.core.Emitter;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.functions.Consumer;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.Random;
 
 public class BisqDesktop extends Application {
 
@@ -22,14 +21,16 @@ public class BisqDesktop extends Application {
 
         class BisqClient {
 
-            public int getPrice() {
-                return 0;
+            private final HttpApiClient httpApiClient;
+
+            public BisqClient() {
+                httpApiClient = new HttpApiClient("localhost", 9999);
             }
 
-            public Observable<Integer> getObservablePrice() {
-                Consumer<Emitter<Integer>> c = emitter -> {
+            public Observable<String> getObservablePrice() {
+                Consumer<Emitter<String>> c = emitter -> {
                     // this is where we would make the REST or WebSocket or gRPC API call.
-                    emitter.onNext(new Random().nextInt());
+                    emitter.onNext(httpApiClient.getPrice());
                     //
                     Thread.sleep(1000);
                 };
@@ -38,12 +39,11 @@ public class BisqDesktop extends Application {
         }
 
         BisqClient bisqClient = new BisqClient();
-        int price = bisqClient.getPrice();
-        Observable<Integer> observablePrice = bisqClient.getObservablePrice();
+        Observable<String> observablePrice = bisqClient.getObservablePrice();
 
-        IntegerProperty number = new SimpleIntegerProperty(39233);
+        StringProperty number = new SimpleStringProperty("0.00");
         Label label = new Label();
-        label.textProperty().bind(number.asString());
+        label.textProperty().bind(number);
         VBox box = new javafx.scene.layout.VBox(label);
         box.setAlignment(Pos.CENTER);
         Scene scene = new Scene(box, 640, 480);

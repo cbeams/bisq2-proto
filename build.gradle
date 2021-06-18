@@ -35,14 +35,14 @@ configure(project(':http-service')) {
 }
 
 configure(project(':http-client')) {
-    apply plugin: 'java'
+    apply plugin: 'java-library'
 
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        implementation project(':api')
+        api project(':api')
         implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     }
 }
@@ -75,7 +75,6 @@ configure(project(':cli')) {
     }
 
     dependencies {
-        implementation project(':api')
         implementation project(':http-client')
         testImplementation project(':daemon')
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
@@ -112,6 +111,7 @@ configure(project(':desktop')) {
     }
 
     dependencies {
+        implementation project(':http-client')
         implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
     }
 

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.*;
 import static bisq.app.cli.BisqCli.EXIT_FAILURE;
 import static bisq.app.cli.BisqCli.EXIT_SUCCESS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BisqCliTest {
 
@@ -42,9 +43,9 @@ class BisqCliTest {
     @Test
     void getprice() {
         runcli("getprice");
-        assertEquals("""
-                $42.00
-                """, console.output());
+        // price returns a random value between 0 and 100,000
+        String price = console.output().trim();
+        assertTrue(price.matches("^\\d+.00$"), "got: [" + price + "]");
     }
 
     @Test
