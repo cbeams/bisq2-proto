@@ -5,7 +5,10 @@ package bisq.app.cli;
 
 import bisq.api.http.client.HttpApiClient;
 
-public class BisqCli implements Runnable {
+public class BisqCli {
+
+    public static final int EXIT_SUCCESS = 0;
+    public static final int EXIT_FAILURE = 1;
 
     private Console console = new SystemConsole();
 
@@ -19,13 +22,16 @@ public class BisqCli implements Runnable {
         this.command = args[0];
     }
 
-    @Override
-    public void run() {
+    public int run() {
         switch (command) {
             case "getversion" -> console.outln(client.getVersion());
             case "getprice" -> console.outln(client.getPrice());
-            default -> console.errln("unsupported command: " + command);
+            default -> {
+                console.errln("unsupported command: " + command);
+                return EXIT_FAILURE;
+            }
         }
+        return EXIT_SUCCESS;
     }
 
     void setConsole(Console console) {
@@ -33,6 +39,6 @@ public class BisqCli implements Runnable {
     }
 
     public static void main(String[] args) {
-        new BisqCli(args).run();
+        System.exit(new BisqCli(args).run());
     }
 }

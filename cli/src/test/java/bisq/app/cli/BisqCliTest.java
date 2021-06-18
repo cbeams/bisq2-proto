@@ -5,11 +5,16 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static bisq.app.cli.BisqCli.EXIT_FAILURE;
+import static bisq.app.cli.BisqCli.EXIT_SUCCESS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BisqCliTest {
 
     BisqDaemon daemon;
+    TestConsole console = new TestConsole();
+    int expectedStatus = EXIT_SUCCESS;
+    int actualStatus = -1;
 
     @BeforeEach
     void startDaemon() {
@@ -19,38 +24,39 @@ class BisqCliTest {
 
     @AfterEach
     void stopDaemon() {
+        assertEquals(expectedStatus, actualStatus);
         daemon.stop();
     }
 
     @Test
     void getversion() {
-        assertEquals( """
+        runcli("getversion");
+        assertEquals("""
                 43
-                """,
-                cli("getversion").getOutput());
+                """, console.getOutput());
     }
 
     @Test
     void getprice() {
-        assertEquals( """
+        runcli("getprice");
+        assertEquals("""
                 43
-                """,
-                cli("getprice").getOutput());
+                """, console.getOutput());
     }
 
     @Test
     void bogus() {
-        assertEquals( """
-                unsupported command: bogus
-                """,
-                cli("bogus").getErrors());
+        runcli("bogus");
+        expectedStatus = EXIT_FAILURE;
+        assertEquals("""
+                        unsupported command: bogus
+                        """,
+                console.getErrors());
     }
 
-    private TestConsole cli(String... args) {
-        var console = new TestConsole();
+    private void runcli(String... args) {
         var cli = new BisqCli(args);
         cli.setConsole(console);
-        cli.run();
-        return console;
+        actualStatus = cli.run();
     }
 }
