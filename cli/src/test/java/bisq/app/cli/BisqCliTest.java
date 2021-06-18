@@ -33,7 +33,7 @@ class BisqCliTest {
         runcli("getversion");
         assertEquals("""
                 43
-                """, console.getOutput());
+                """, console.output());
     }
 
     @Test
@@ -41,7 +41,7 @@ class BisqCliTest {
         runcli("getprice");
         assertEquals("""
                 43
-                """, console.getOutput());
+                """, console.output());
     }
 
     @Test
@@ -51,7 +51,7 @@ class BisqCliTest {
         assertEquals("""
                         unsupported command: bogus
                         """,
-                console.getErrors());
+                console.errors());
     }
 
     private void runcli(String... args) {

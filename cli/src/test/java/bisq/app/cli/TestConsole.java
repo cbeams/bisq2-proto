@@ -20,11 +20,11 @@ class TestConsole implements Console {
         err.println(value);
     }
 
-    public String getOutput() {
+    public String output() {
         return output.toString();
     }
 
-    public String getErrors() {
+    public String errors() {
         return errors.toString();
     }
 }
