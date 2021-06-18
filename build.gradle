@@ -8,12 +8,14 @@ buildscript {
     }
 }
 
-configure(project(':api')) {
-    apply plugin: 'java-library'
-
+configure(subprojects) {
     repositories {
         mavenCentral()
     }
+}
+
+configure(project(':api')) {
+    apply plugin: 'java-library'
 
     dependencies {
         api 'io.reactivex.rxjava3:rxjava:3.0.13'
@@ -23,10 +25,6 @@ configure(project(':api')) {
 configure(project(':core')) {
     apply plugin: 'java'
 
-    repositories {
-        mavenCentral()
-    }
-
     dependencies {
         implementation project(':api')
     }
@@ -34,10 +32,6 @@ configure(project(':core')) {
 
 configure(project(':http-service')) {
     apply plugin: 'java'
-
-    repositories {
-        mavenCentral()
-    }
 
     dependencies {
         implementation project(':api')
@@ -49,10 +43,6 @@ configure(project(':http-service')) {
 configure(project(':http-client')) {
     apply plugin: 'java-library'
 
-    repositories {
-        mavenCentral()
-    }
-
     dependencies {
         api project(':api')
         implementation 'com.squareup.okhttp3:okhttp:4.9.1'
@@ -61,10 +51,6 @@ configure(project(':http-client')) {
 
 configure(project(':daemon')) {
     apply plugin: 'application'
-
-    repositories {
-        mavenCentral()
-    }
 
     dependencies {
         implementation project(':api')
@@ -81,10 +67,6 @@ configure(project(':daemon')) {
 
 configure(project(':cli')) {
     apply plugin: 'application'
-
-    repositories {
-        mavenCentral()
-    }
 
     dependencies {
         implementation project(':http-client')
@@ -107,10 +89,6 @@ configure(project(':cli')) {
 configure(project(':desktop')) {
     apply plugin: 'application'
     apply plugin: 'org.openjfx.javafxplugin'
-
-    repositories {
-        mavenCentral()
-    }
 
     javafx {
         //version = '17-ea+11'
@@ -138,10 +116,6 @@ configure(project(':desktop')) {
 
 configure(project(':swagger')) {
     apply plugin: 'org.hidetake.swagger.generator'
-
-    repositories {
-        mavenCentral()
-    }
 
     dependencies {
         //swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'             // Swagger Codegen V2
