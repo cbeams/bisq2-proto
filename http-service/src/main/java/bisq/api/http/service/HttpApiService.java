@@ -2,45 +2,28 @@ package bisq.api.http.service;
 
 import bisq.api.client.CoreApiClient;
 import bisq.api.service.ApiService;
-
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
+import spark.Spark;
 
 public class HttpApiService implements ApiService {
 
-    private CoreApiClient coreApiClient;
+    private CoreApiClient core;
     private final int port;
 
-    private ServerSocket socket;
-
-    public HttpApiService(CoreApiClient coreApiClient, int port) {
-        this.coreApiClient = coreApiClient;
+    public HttpApiService(CoreApiClient core, int port) {
+        this.core = core;
         this.port = port;
     }
 
     @Override
     public void run() {
-        try {
-            this.socket = new ServerSocket(port);
-            System.out.println("listening on port " + port);
-            Socket s = socket.accept();
-            OutputStream out = s.getOutputStream();
-            out.write(coreApiClient.getVersion().getBytes());
-            out.write('\n');
-            out.flush();
-            System.out.println("exiting");
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        Spark.port(port);
+        System.out.println("listening on port " + port);
+        Spark.get("/version", (req, res) -> core.getVersion());
+        Spark.get("/price", (req, res) -> core.getPrice());
     }
 
     @Override
     public void stop() {
-        try {
-            this.socket.close();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        Spark.stop();
     }
 }

@@ -23,17 +23,27 @@ configure(project(':core')) {
 configure(project(':http-service')) {
     apply plugin: 'java'
 
+    repositories {
+        mavenCentral()
+    }
+
     dependencies {
         implementation project(':api')
         implementation project(':core')
+        implementation 'com.sparkjava:spark-core:2.9.3'
     }
 }
 
 configure(project(':http-client')) {
     apply plugin: 'java'
 
+    repositories {
+        mavenCentral()
+    }
+
     dependencies {
         implementation project(':api')
+        implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     }
 }
 

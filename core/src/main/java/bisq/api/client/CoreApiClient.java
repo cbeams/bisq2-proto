@@ -4,7 +4,7 @@ public class CoreApiClient implements ApiClient {
 
     @Override
     public String getVersion() {
-        return "43";
+        return "0.0.1";
     }
 
     @Override

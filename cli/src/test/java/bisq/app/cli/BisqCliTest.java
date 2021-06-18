@@ -1,9 +1,7 @@
 package bisq.app.cli;
 
 import bisq.app.daemon.BisqDaemon;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static bisq.app.cli.BisqCli.EXIT_FAILURE;
 import static bisq.app.cli.BisqCli.EXIT_SUCCESS;
@@ -11,20 +9,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BisqCliTest {
 
-    BisqDaemon daemon;
+    static BisqDaemon daemon;
+
     TestConsole console = new TestConsole();
     int expectedStatus = EXIT_SUCCESS;
     int actualStatus = -1;
 
-    @BeforeEach
-    void startDaemon() {
+    @BeforeAll
+    static void startDaemon() {
         daemon = new BisqDaemon();
         new Thread(daemon).start();
     }
 
     @AfterEach
-    void stopDaemon() {
+    void checkExitStatus() {
         assertEquals(expectedStatus, actualStatus);
+    }
+
+    @AfterAll
+    static void stopDaemon() {
         daemon.stop();
     }
 
@@ -32,7 +35,7 @@ class BisqCliTest {
     void getversion() {
         runcli("getversion");
         assertEquals("""
-                43
+                0.0.1
                 """, console.output());
     }
 
@@ -40,7 +43,7 @@ class BisqCliTest {
     void getprice() {
         runcli("getprice");
         assertEquals("""
-                43
+                $42.00
                 """, console.output());
     }
 

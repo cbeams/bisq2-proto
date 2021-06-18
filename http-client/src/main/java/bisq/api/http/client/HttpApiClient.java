@@ -1,31 +1,31 @@
 package bisq.api.http.client;
 
 import bisq.api.client.ApiClient;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
-import java.net.Socket;
 
 public class HttpApiClient implements ApiClient {
 
-    private final String host;
-    private final int port;
+    private final OkHttpClient client = new OkHttpClient();
+
+    private final String baseUrl;
 
     public HttpApiClient(String host, int port) {
-        this.host = host;
-        this.port = port;
+        this.baseUrl = String.format("http://%s:%s", host, port);
     }
 
     @Override
     public String getVersion() {
-        try {
-            try (Socket client = new Socket(host, port);
-                 BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()))) {
-                String version = in.readLine();
-                return version;
-            }
+        Request request = new Request.Builder()
+                .url(baseUrl + "/version")
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -33,12 +33,12 @@ public class HttpApiClient implements ApiClient {
 
     @Override
     public String getPrice() {
-        try {
-            try (Socket client = new Socket(host, port);
-                 BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()))) {
-                String version = in.readLine();
-                return version;
-            }
+        Request request = new Request.Builder()
+                .url(baseUrl + "/price")
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
