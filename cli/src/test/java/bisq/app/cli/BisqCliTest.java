@@ -1,25 +1,48 @@
 package bisq.app.cli;
 
 import bisq.app.daemon.BisqDaemon;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BisqCliTest {
 
+    BisqDaemon daemon;
+
+    @BeforeEach
+    void startDaemon() {
+        daemon = new BisqDaemon();
+        new Thread(daemon).start();
+    }
+
+    @AfterEach
+    void stopDaemon() {
+        daemon.stop();
+    }
+
     @Test
-    void test() {
-        new Thread(new BisqDaemon()).start();
-        var out = new ByteArrayOutputStream();
-        var cli = new BisqCli("getversion");
-        cli.out = new PrintStream(out);
-        cli.run();
+    void getversion() {
         assertEquals( """
                 43
                 """,
-                out.toString());
+                cli("getversion").getOutput());
+    }
+
+    @Test
+    void getprice() {
+        assertEquals( """
+                43
+                """,
+                cli("getprice").getOutput());
+    }
+
+    private TestConsole cli(String... args) {
+        var console = new TestConsole();
+        var cli = new BisqCli(args);
+        cli.setConsole(console);
+        cli.run();
+        return console;
     }
 }

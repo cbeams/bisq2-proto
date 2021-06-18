@@ -6,14 +6,12 @@ package bisq.app.cli;
 import bisq.api.client.ApiClient;
 import bisq.api.http.client.HttpApiClient;
 
-import java.io.PrintStream;
-
 public class BisqCli implements Runnable {
+
+    private Console console = new SystemConsole();
 
     private final ApiClient client;
     private final String command;
-
-    PrintStream out = System.out;
 
     public BisqCli(String... args) {
         if (args.length != 1)
@@ -25,10 +23,14 @@ public class BisqCli implements Runnable {
     @Override
     public void run() {
         switch (command) {
-            case "getversion" -> out.println(client.getVersion());
-            case "getprice" -> out.println(client.getPrice());
+            case "getversion" -> console.outln(client.getVersion());
+            case "getprice" -> console.outln(client.getPrice());
             default -> throw new UnsupportedOperationException("unsupported command: " + command);
         }
+    }
+
+    void setConsole(Console console) {
+        this.console = console;
     }
 
     public static void main(String[] args) {

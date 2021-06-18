@@ -12,6 +12,8 @@ public class HttpApiService implements ApiService {
     private CoreApiClient coreApiClient;
     private final int port;
 
+    private ServerSocket socket;
+
     public HttpApiService(CoreApiClient coreApiClient, int port) {
         this.coreApiClient = coreApiClient;
         this.port = port;
@@ -20,7 +22,7 @@ public class HttpApiService implements ApiService {
     @Override
     public void run() {
         try {
-            ServerSocket socket = new ServerSocket(port);
+            this.socket = new ServerSocket(port);
             System.out.println("listening on port " + port);
             Socket s = socket.accept();
             OutputStream out = s.getOutputStream();
@@ -28,6 +30,15 @@ public class HttpApiService implements ApiService {
             out.write('\n');
             out.flush();
             System.out.println("exiting");
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    @Override
+    public void stop() {
+        try {
+            this.socket.close();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

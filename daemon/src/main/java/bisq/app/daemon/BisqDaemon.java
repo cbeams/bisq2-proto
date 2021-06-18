@@ -21,6 +21,10 @@ public class BisqDaemon implements Runnable {
         apiService.run();
     }
 
+    public void stop() {
+        apiService.stop();
+    }
+
     public static void main(String[] args) {
         new BisqDaemon().run();
     }

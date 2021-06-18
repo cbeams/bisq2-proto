@@ -33,6 +33,14 @@ public class HttpApiClient implements ApiClient {
 
     @Override
     public String getPrice() {
-        return "$42.00";
+        try {
+            try (Socket client = new Socket(host, port);
+                 BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()))) {
+                String version = in.readLine();
+                return version;
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }
