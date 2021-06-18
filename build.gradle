@@ -28,7 +28,7 @@ configure(project(':http-client')) {
     }
 }
 
-configure(project(':http-server')) {
+configure(project(':http-service')) {
     apply plugin: 'java'
 
     dependencies {
@@ -47,8 +47,7 @@ configure(project(':daemon')) {
     dependencies {
         implementation project(':api')
         implementation project(':core')
-        implementation project(':http-server')
-        implementation 'com.sparkjava:spark-core:2.9.3'
+        implementation project(':http-service')
     }
 
     application {

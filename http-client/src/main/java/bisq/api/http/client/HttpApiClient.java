@@ -1,6 +1,6 @@
 package bisq.api.http.client;
 
-import bisq.api.client.BisqApiClient;
+import bisq.api.client.ApiClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,12 +8,12 @@ import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.net.Socket;
 
-public class BisqHttpApiClient implements BisqApiClient {
+public class HttpApiClient implements ApiClient {
 
     private final String host;
     private final int port;
 
-    public BisqHttpApiClient(String host, int port) {
+    public HttpApiClient(String host, int port) {
         this.host = host;
         this.port = port;
     }

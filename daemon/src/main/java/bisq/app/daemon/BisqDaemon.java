@@ -1,14 +1,14 @@
 package bisq.app.daemon;
 
 import bisq.api.client.CoreApiClient;
-import bisq.api.http.server.BisqHttpApiServer;
-import bisq.api.server.BisqApiServer;
+import bisq.api.http.service.HttpApiService;
+import bisq.api.service.ApiService;
 
 public class BisqDaemon implements Runnable {
 
-    private BisqApiServer apiServer;
+    private ApiService apiServer;
 
-    public BisqDaemon(BisqApiServer apiServer) {
+    public BisqDaemon(ApiService apiServer) {
         this.apiServer = apiServer;
     }
 
@@ -18,6 +18,6 @@ public class BisqDaemon implements Runnable {
     }
 
     public static void main(String[] args) {
-        new BisqDaemon(new BisqHttpApiServer(new CoreApiClient(), 9999)).run();
+        new BisqDaemon(new HttpApiService(new CoreApiClient(), 9999)).run();
     }
 }

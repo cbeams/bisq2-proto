@@ -1,6 +1,6 @@
 package bisq.api.client;
 
-public interface BisqApiClient {
+public interface ApiClient {
 
     String getVersion();
 

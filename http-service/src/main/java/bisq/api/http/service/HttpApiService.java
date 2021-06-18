@@ -1,18 +1,18 @@
-package bisq.api.http.server;
+package bisq.api.http.service;
 
 import bisq.api.client.CoreApiClient;
-import bisq.api.server.BisqApiServer;
+import bisq.api.service.ApiService;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class BisqHttpApiServer implements BisqApiServer {
+public class HttpApiService implements ApiService {
 
     private CoreApiClient coreApiClient;
     private final int port;
 
-    public BisqHttpApiServer(CoreApiClient coreApiClient, int port) {
+    public HttpApiService(CoreApiClient coreApiClient, int port) {
         this.coreApiClient = coreApiClient;
         this.port = port;
     }

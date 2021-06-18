@@ -3,17 +3,18 @@
  */
 package bisq.app.cli;
 
-import bisq.api.client.BisqApiClient;
-import bisq.api.http.client.BisqHttpApiClient;
+import bisq.api.client.ApiClient;
+import bisq.api.http.client.HttpApiClient;
 
 public class BisqCli implements Runnable {
-    private final BisqApiClient client;
+
+    private final ApiClient client;
     private final String command;
 
     public BisqCli(String[] args) {
         if (args.length != 1)
             throw new IllegalArgumentException("usage: bisq-cli <command>");
-        this.client = new BisqHttpApiClient("localhost", 9999);
+        this.client = new HttpApiClient("localhost", 9999);
         this.command = args[0];
     }
 

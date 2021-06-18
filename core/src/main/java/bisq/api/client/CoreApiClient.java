@@ -1,6 +1,6 @@
 package bisq.api.client;
 
-public class CoreApiClient implements BisqApiClient {
+public class CoreApiClient implements ApiClient {
 
     @Override
     public String getVersion() {
