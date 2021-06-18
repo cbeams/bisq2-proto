@@ -9,11 +9,23 @@ buildscript {
 }
 
 configure(project(':api')) {
-    apply plugin: 'java'
+    apply plugin: 'java-library'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        api 'io.reactivex.rxjava3:rxjava:3.0.13'
+    }
 }
 
 configure(project(':core')) {
     apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+    }
 
     dependencies {
         implementation project(':api')
@@ -112,7 +124,6 @@ configure(project(':desktop')) {
 
     dependencies {
         implementation project(':http-client')
-        implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
     }
 
     startScripts {
