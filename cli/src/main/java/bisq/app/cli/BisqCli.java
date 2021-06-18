@@ -6,12 +6,16 @@ package bisq.app.cli;
 import bisq.api.client.ApiClient;
 import bisq.api.http.client.HttpApiClient;
 
+import java.io.PrintStream;
+
 public class BisqCli implements Runnable {
 
     private final ApiClient client;
     private final String command;
 
-    public BisqCli(String[] args) {
+    PrintStream out = System.out;
+
+    public BisqCli(String... args) {
         if (args.length != 1)
             throw new IllegalArgumentException("usage: bisq-cli <command>");
         this.client = new HttpApiClient("localhost", 9999);
@@ -21,8 +25,8 @@ public class BisqCli implements Runnable {
     @Override
     public void run() {
         switch (command) {
-            case "getversion" -> System.out.println(client.getVersion());
-            case "getprice" -> System.out.println(client.getPrice());
+            case "getversion" -> out.println(client.getVersion());
+            case "getprice" -> out.println(client.getPrice());
             default -> throw new UnsupportedOperationException("unsupported command: " + command);
         }
     }

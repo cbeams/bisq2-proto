@@ -20,20 +20,20 @@ configure(project(':core')) {
     }
 }
 
-configure(project(':http-client')) {
-    apply plugin: 'java'
-
-    dependencies {
-        implementation project(':api')
-    }
-}
-
 configure(project(':http-service')) {
     apply plugin: 'java'
 
     dependencies {
         implementation project(':api')
         implementation project(':core')
+    }
+}
+
+configure(project(':http-client')) {
+    apply plugin: 'java'
+
+    dependencies {
+        implementation project(':api')
     }
 }
 
@@ -60,13 +60,24 @@ configure(project(':daemon')) {
 configure(project(':cli')) {
     apply plugin: 'application'
 
+    repositories {
+        mavenCentral()
+    }
+
     dependencies {
         implementation project(':api')
         implementation project(':http-client')
+        testImplementation project(':daemon')
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     }
 
     application {
         mainClass = 'bisq.app.cli.BisqCli'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
     }
 
     build.dependsOn installDist

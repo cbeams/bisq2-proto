@@ -29,7 +29,7 @@ public class HttpApiService implements ApiService {
             out.flush();
             System.out.println("exiting");
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new UncheckedIOException(e);
         }
     }
 }

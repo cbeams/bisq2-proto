@@ -6,18 +6,22 @@ import bisq.api.service.ApiService;
 
 public class BisqDaemon implements Runnable {
 
-    private ApiService apiServer;
+    private ApiService apiService;
 
-    public BisqDaemon(ApiService apiServer) {
-        this.apiServer = apiServer;
+    public BisqDaemon() {
+        this(new HttpApiService(new CoreApiClient(), 9999));
+    }
+
+    public BisqDaemon(ApiService apiService) {
+        this.apiService = apiService;
     }
 
     @Override
     public void run() {
-        apiServer.run();
+        apiService.run();
     }
 
     public static void main(String[] args) {
-        new BisqDaemon(new HttpApiService(new CoreApiClient(), 9999)).run();
+        new BisqDaemon().run();
     }
 }
