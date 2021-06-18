@@ -1,4 +1,4 @@
-package bisq.daemon;
+package bisq.app.daemon;
 
 import bisq.api.client.CoreApiClient;
 import bisq.api.http.server.BisqHttpApiServer;

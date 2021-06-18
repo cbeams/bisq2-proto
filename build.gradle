@@ -52,7 +52,7 @@ configure(project(':daemon')) {
     }
 
     application {
-        mainClass = 'bisq.daemon.BisqDaemon'
+        mainClass = 'bisq.app.daemon.BisqDaemon'
     }
 
     build.dependsOn installDist
@@ -67,7 +67,7 @@ configure(project(':cli')) {
     }
 
     application {
-        mainClass = 'bisq.cli.BisqCli'
+        mainClass = 'bisq.app.cli.BisqCli'
     }
 
     build.dependsOn installDist
@@ -88,7 +88,7 @@ configure(project(':desktop')) {
     }
 
     application {
-        mainClass = 'bisq.desktop.BisqDesktop'
+        mainClass = 'bisq.app.desktop.BisqDesktop'
     }
 
     dependencies {

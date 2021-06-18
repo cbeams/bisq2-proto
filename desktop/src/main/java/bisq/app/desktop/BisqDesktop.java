@@ -1,4 +1,4 @@
-package bisq.desktop;
+package bisq.app.desktop;
 
 import io.reactivex.rxjava3.core.Emitter;
 import io.reactivex.rxjava3.core.Observable;
