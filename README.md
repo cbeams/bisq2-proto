@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository demonstrates a high-level architecture vision for Bisq 2.0.
+High-level architecture prototype for Bisq 2.0 (project codename Misq).
 
 ## Requirements
 
@@ -16,12 +16,12 @@ This repository demonstrates a high-level architecture vision for Bisq 2.0.
 
     $ ./gradlew build
 
-## Run the server
+## Run the daemon
 
     $ ./bisqd
     listening on port 2140
 
-## Connect to the server
+## Connect to the daemon
 
-    $ ./bisq-cli
-    version: 42
+    $ ./bisq getprice
+    39472
