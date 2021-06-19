@@ -12,7 +12,7 @@ import static spark.Spark.*;
 
 public class HttpApiService implements ApiService {
 
-    public static final int DEFAULT_PORT = 9999;
+    public static final int DEFAULT_PORT = 2140;
 
     private final Gson gson = new Gson();
     private final List<String> offers = new ArrayList<>();

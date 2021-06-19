@@ -19,7 +19,7 @@ This repository demonstrates a high-level architecture vision for Bisq 2.0.
 ## Run the server
 
     $ ./bisqd
-    listening on port 9999
+    listening on port 2140
 
 ## Connect to the server
 
