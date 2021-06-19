@@ -10,9 +10,16 @@ import java.io.UncheckedIOException;
 
 public class HttpApiClient implements ApiClient {
 
+    public static final String DEFAULT_HOST = "localhost";
+    public static final int DEFAULT_PORT = 9999;
+
     private final OkHttpClient client = new OkHttpClient();
 
     private final String baseUrl;
+
+    public HttpApiClient() {
+        this(DEFAULT_HOST, DEFAULT_PORT);
+    }
 
     public HttpApiClient(String host, int port) {
         this.baseUrl = String.format("http://%s:%s", host, port);

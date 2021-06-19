@@ -16,7 +16,7 @@ public class BisqDesktop extends Application {
     @Override
     public void start(Stage stage) {
 
-        var client = new ObservableHttpApiClient(new HttpApiClient("localhost", 9999));
+        var client = new ObservableHttpApiClient(new HttpApiClient());
         var price = client.getPriceObservable();
 
         var priceLabel = new Label();

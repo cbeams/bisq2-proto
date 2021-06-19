@@ -1,6 +1,5 @@
 package bisq.app.daemon;
 
-import bisq.api.client.CoreApiClient;
 import bisq.api.http.service.HttpApiService;
 import bisq.api.service.ApiService;
 
@@ -9,7 +8,7 @@ public class BisqDaemon implements Runnable {
     private ApiService apiService;
 
     public BisqDaemon() {
-        this(new HttpApiService(new CoreApiClient(), 9999));
+        this(new HttpApiService());
     }
 
     public BisqDaemon(ApiService apiService) {

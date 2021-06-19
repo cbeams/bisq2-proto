@@ -12,15 +12,17 @@ import static spark.Spark.*;
 
 public class HttpApiService implements ApiService {
 
+    public static final int DEFAULT_PORT = 9999;
+
     private final Gson gson = new Gson();
     private final List<String> offers = new ArrayList<>();
 
     private final CoreApiClient core;
     private final int port;
 
-    public HttpApiService(CoreApiClient core, int port) {
-        this.core = core;
-        this.port = port;
+    public HttpApiService() {
+        this.core = new CoreApiClient();
+        this.port = DEFAULT_PORT;
     }
 
     @Override
@@ -74,6 +76,6 @@ public class HttpApiService implements ApiService {
     }
 
     public static void main(String[] args) {
-        new HttpApiService(new CoreApiClient(), 9999).run();
+        new HttpApiService().run();
     }
 }

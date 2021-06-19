@@ -18,7 +18,7 @@ public class BisqCli {
     public BisqCli(String... args) {
         if (args.length != 1)
             throw new IllegalArgumentException("usage: bisq-cli <command>");
-        this.client = new HttpApiClient("localhost", 9999);
+        this.client = new HttpApiClient();
         this.command = args[0];
     }
 

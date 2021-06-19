@@ -21,8 +21,6 @@ This repository demonstrates a high-level architecture vision for Bisq 2.0.
     $ ./bisqd
     listening on port 9999
 
-The server will listen on port 9999, accept a single connection, return the value '42' and exit.
-
 ## Connect to the server
 
     $ ./bisq-cli
