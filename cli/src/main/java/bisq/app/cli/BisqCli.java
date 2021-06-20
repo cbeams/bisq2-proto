@@ -26,6 +26,7 @@ public class BisqCli {
         switch (command) {
             case "getversion" -> console.outln(client.getVersion());
             case "getprice" -> console.outln(client.getPrice());
+            case "offers" -> console.outln(client.getOffers());
             default -> {
                 console.errln("unsupported command: " + command);
                 return EXIT_FAILURE;
