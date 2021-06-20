@@ -16,17 +16,17 @@ public class BisqCli {
     private final String command;
 
     public BisqCli(String... args) {
-        if (args.length != 1)
-            throw new IllegalArgumentException("usage: bisq-cli <command>");
+        if (args.length < 1)
+            throw new IllegalArgumentException("usage: bisq <command> [<args>]");
         this.client = new HttpApiClient();
-        this.command = args[0];
+        this.command = String.join(" ", args);
     }
 
     public int run() {
         switch (command) {
             case "getversion" -> console.outln(client.getVersion());
             case "getprice" -> console.outln(client.getPrice());
-            case "offers" -> console.outln(client.getOffers());
+            case "offer list" -> console.outln(client.getOffers());
             default -> {
                 console.errln("unsupported command: " + command);
                 return EXIT_FAILURE;
