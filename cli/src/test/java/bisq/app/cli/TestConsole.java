@@ -20,6 +20,16 @@ class TestConsole implements Console {
         err.println(value);
     }
 
+    @Override
+    public PrintStream getOut() {
+        return out;
+    }
+
+    @Override
+    public PrintStream getErr() {
+        return err;
+    }
+
     public String output() {
         return output.toString();
     }

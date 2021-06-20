@@ -16,4 +16,14 @@ class SystemConsole implements Console {
     public void errln(Object value) {
         err.println(value);
     }
+
+    @Override
+    public PrintStream getOut() {
+        return out;
+    }
+
+    @Override
+    public PrintStream getErr() {
+        return err;
+    }
 }

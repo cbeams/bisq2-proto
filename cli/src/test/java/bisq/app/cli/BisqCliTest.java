@@ -3,8 +3,8 @@ package bisq.app.cli;
 import bisq.app.daemon.BisqDaemon;
 import org.junit.jupiter.api.*;
 
-import static bisq.app.cli.BisqCli.EXIT_FAILURE;
-import static bisq.app.cli.BisqCli.EXIT_SUCCESS;
+import static bisq.app.cli.BisqCli.EXIT_OK;
+import static bisq.app.cli.BisqCli.EXIT_USER_ERROR;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,7 +13,7 @@ class BisqCliTest {
     static BisqDaemon daemon;
 
     TestConsole console = new TestConsole();
-    int expectedStatus = EXIT_SUCCESS;
+    int expectedStatus = EXIT_OK;
     int actualStatus = -1;
 
     @BeforeAll
@@ -51,9 +51,14 @@ class BisqCliTest {
     @Test
     void bogus() {
         runcli("bogus");
-        expectedStatus = EXIT_FAILURE;
+        expectedStatus = EXIT_USER_ERROR;
         assertEquals("""
-                        unsupported command: bogus
+                        Unmatched argument at index 0: 'bogus'
+                        Usage: bisq [COMMAND]
+                        Commands:
+                          getversion
+                          getprice
+                          offer
                         """,
                 console.errors());
     }

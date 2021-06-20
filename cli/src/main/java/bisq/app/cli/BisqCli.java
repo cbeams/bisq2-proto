@@ -4,35 +4,37 @@
 package bisq.app.cli;
 
 import bisq.api.http.client.HttpApiClient;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+
+import java.io.PrintWriter;
+import java.util.concurrent.Callable;
 
 public class BisqCli {
 
-    public static final int EXIT_SUCCESS = 0;
-    public static final int EXIT_FAILURE = 1;
+    public static final int EXIT_OK = CommandLine.ExitCode.OK;
+    public static final int EXIT_APP_ERROR = CommandLine.ExitCode.SOFTWARE;
+    public static final int EXIT_USER_ERROR = CommandLine.ExitCode.USAGE;
 
     private Console console = new SystemConsole();
+    private final HttpApiClient bisqClient = new HttpApiClient();
 
-    private final HttpApiClient client;
-    private final String command;
+    private final String[] args;
 
     public BisqCli(String... args) {
-        if (args.length < 1)
-            throw new IllegalArgumentException("usage: bisq <command> [<args>]");
-        this.client = new HttpApiClient();
-        this.command = String.join(" ", args);
+        this.args = args;
     }
 
     public int run() {
-        switch (command) {
-            case "getversion" -> console.outln(client.getVersion());
-            case "getprice" -> console.outln(client.getPrice());
-            case "offer list" -> console.outln(client.getOffers());
-            default -> {
-                console.errln("unsupported command: " + command);
-                return EXIT_FAILURE;
-            }
-        }
-        return EXIT_SUCCESS;
+        Bisq bisq = new Bisq();
+        return new CommandLine(bisq)
+                .addSubcommand(bisq.getversion)
+                .addSubcommand(bisq.getprice)
+                .addSubcommand(new CommandLine(bisq.offer)
+                        .addSubcommand(bisq.offer.list))
+                .setOut(new PrintWriter(console.getOut()))
+                .setErr(new PrintWriter(console.getErr()))
+                .execute(args);
     }
 
     void setConsole(Console console) {
@@ -41,5 +43,46 @@ public class BisqCli {
 
     public static void main(String[] args) {
         System.exit(new BisqCli(args).run());
+    }
+
+    @Command(name = "bisq")
+    class Bisq {
+
+        final Offer offer = new Offer();
+        final GetVersion getversion = new GetVersion();
+        final GetPrice getprice = new GetPrice();
+
+        @Command(name = "getversion")
+        class GetVersion implements Callable<Integer> {
+            @Override
+            public Integer call() {
+                console.outln(bisqClient.getVersion());
+                return EXIT_OK;
+            }
+        }
+
+        @Command(name = "getprice")
+        class GetPrice implements Callable<Integer> {
+            @Override
+            public Integer call() {
+                console.outln(bisqClient.getPrice());
+                return EXIT_OK;
+            }
+        }
+
+        @Command(name = "offer")
+        class Offer {
+
+            final List list = new List();
+
+            @Command(name = "list")
+            class List implements Callable<Integer> {
+                @Override
+                public Integer call() {
+                    console.outln(bisqClient.getOffers());
+                    return EXIT_OK;
+                }
+            }
+        }
     }
 }

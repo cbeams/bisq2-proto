@@ -71,6 +71,7 @@ configure(project(':cli')) {
 
     dependencies {
         implementation project(':http-client')
+        implementation 'info.picocli:picocli:4.6.1'
         testImplementation project(':daemon')
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
