@@ -64,8 +64,8 @@ class BisqCliTest {
     }
 
     private void runcli(String... args) {
-        var cli = new BisqCli(args);
+        var cli = new BisqCli();
         cli.setConsole(console);
-        actualStatus = cli.run();
+        actualStatus = cli.run(args);
     }
 }

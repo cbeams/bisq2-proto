@@ -30,13 +30,7 @@ public class BisqCli {
                 .addSubcommand(new CommandLine(bisq.offer)
                         .addSubcommand(bisq.offer.list));
 
-    private final String[] args;
-
-    public BisqCli(String... args) {
-        this.args = args;
-    }
-
-    public int run() {
+    public int run(String... args) {
         return commandLine
                 .setOut(new PrintWriter(console.getOut()))
                 .setErr(new PrintWriter(console.getErr()))
@@ -48,7 +42,7 @@ public class BisqCli {
     }
 
     public static void main(String[] args) {
-        System.exit(new BisqCli(args).run());
+        System.exit(new BisqCli().run(args));
     }
 
 
@@ -62,7 +56,6 @@ public class BisqCli {
 
     @Command(name = Bisq.CMD_NAME)
     class Bisq {
-
         static final String CMD_NAME = "bisq";
 
         final Offer offer = new Offer();
