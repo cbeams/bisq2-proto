@@ -115,15 +115,13 @@ function currentPositionalIndex() {
 # on the command line and delegates to the appropriate function
 # to generate possible options and subcommands for the last specified subcommand.
 function _complete_bisq() {
-  local cmds0=(getversion)
-  local cmds1=(getprice)
-  local cmds2=(offer)
-  local cmds3=(offer list)
+  local cmds0=(getprice)
+  local cmds1=(offer)
+  local cmds2=(offer list)
 
-  if CompWordsContainsArray "${cmds3[@]}"; then _picocli_bisq_offer_list; return $?; fi
-  if CompWordsContainsArray "${cmds2[@]}"; then _picocli_bisq_offer; return $?; fi
-  if CompWordsContainsArray "${cmds1[@]}"; then _picocli_bisq_getprice; return $?; fi
-  if CompWordsContainsArray "${cmds0[@]}"; then _picocli_bisq_getversion; return $?; fi
+  if CompWordsContainsArray "${cmds2[@]}"; then _picocli_bisq_offer_list; return $?; fi
+  if CompWordsContainsArray "${cmds1[@]}"; then _picocli_bisq_offer; return $?; fi
+  if CompWordsContainsArray "${cmds0[@]}"; then _picocli_bisq_getprice; return $?; fi
 
   # No subcommands were specified; generate completions for the top-level command.
   _picocli_bisq; return $?;
@@ -134,24 +132,7 @@ function _picocli_bisq() {
   # Get completion data
   local curr_word=${COMP_WORDS[COMP_CWORD]}
 
-  local commands="getversion getprice offer"
-  local flag_opts=""
-  local arg_opts=""
-
-  if [[ "${curr_word}" == -* ]]; then
-    COMPREPLY=( $(compgen -W "${flag_opts} ${arg_opts}" -- "${curr_word}") )
-  else
-    local positionals=""
-    COMPREPLY=( $(compgen -W "${commands} ${positionals}" -- "${curr_word}") )
-  fi
-}
-
-# Generates completions for the options and subcommands of the `getversion` subcommand.
-function _picocli_bisq_getversion() {
-  # Get completion data
-  local curr_word=${COMP_WORDS[COMP_CWORD]}
-
-  local commands=""
+  local commands="getprice offer"
   local flag_opts=""
   local arg_opts=""
 

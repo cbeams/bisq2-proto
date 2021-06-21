@@ -33,14 +33,6 @@ class BisqCliTest {
     }
 
     @Test
-    void getversion() {
-        runcli("getversion");
-        assertEquals("""
-                0.0.1
-                """, console.output());
-    }
-
-    @Test
     void getprice() {
         runcli("getprice");
         // price returns a random value between 0 and 100,000
@@ -56,7 +48,6 @@ class BisqCliTest {
                         Unmatched argument at index 0: 'bogus'
                         Usage: bisq [COMMAND]
                         Commands:
-                          getversion
                           getprice
                           offer
                         """,

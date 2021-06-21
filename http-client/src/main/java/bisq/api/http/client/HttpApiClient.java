@@ -26,19 +26,6 @@ public class HttpApiClient implements ApiClient {
     }
 
     @Override
-    public String getVersion() {
-        Request request = new Request.Builder()
-                .url(baseUrl + "/version")
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
-    @Override
     public String getPrice() {
         Request request = new Request.Builder()
                 .url(baseUrl + "/price")

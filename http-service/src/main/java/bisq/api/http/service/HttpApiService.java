@@ -30,8 +30,6 @@ public class HttpApiService implements ApiService {
         Spark.port(port);
         System.out.println("listening on port " + port);
 
-        get("/version", (req, res) -> core.getVersion());
-
         get("/price", (req, res) -> core.getPrice());
 
         get("/offers", (req, res) -> {
