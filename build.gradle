@@ -3,7 +3,6 @@ buildscript {
         maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath 'gradle.plugin.org.hidetake:gradle-swagger-generator-plugin:2.18.2'
         classpath 'org.openjfx:javafx-plugin:0.0.10'
     }
 }
@@ -121,24 +120,4 @@ configure(project(':desktop')) {
     }
 
     build.dependsOn installDist
-}
-
-configure(project(':swagger')) {
-    apply plugin: 'org.hidetake.swagger.generator'
-
-    dependencies {
-        //swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'             // Swagger Codegen V2
-        //swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'  // or Swagger Codegen V3
-        swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'     // or OpenAPI Generator
-        swaggerUI 'org.webjars:swagger-ui:3.10.0'
-    }
-
-    swaggerSources {
-        petstore {
-            inputFile = file('petstore.yaml')
-            code {
-                language = 'spring'
-            }
-        }
-    }
 }
