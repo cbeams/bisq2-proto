@@ -85,7 +85,14 @@ configure(project(':cli')) {
         useJUnitPlatform()
     }
 
-    build.dependsOn installDist
+    // see https://picocli.info/autocomplete.html
+    task generateBashCompletion(type: JavaExec) {
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = 'bisq.app.cli.BisqCli$BashCompletionGenerator'
+        args new File(rootProject.rootDir, 'bisq-completion.bash')
+    }
+
+    build.dependsOn installDist, generateBashCompletion
 }
 
 configure(project(':desktop')) {

@@ -4,9 +4,12 @@
 package bisq.app.cli;
 
 import bisq.api.http.client.HttpApiClient;
+import picocli.AutoComplete;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.concurrent.Callable;
 
@@ -17,7 +20,15 @@ public class BisqCli {
     public static final int EXIT_USER_ERROR = CommandLine.ExitCode.USAGE;
 
     private Console console = new SystemConsole();
+
     private final HttpApiClient bisqClient = new HttpApiClient();
+    private final Bisq bisq = new Bisq();
+    private final CommandLine commandLine =
+            new CommandLine(bisq)
+                .addSubcommand(bisq.getversion)
+                .addSubcommand(bisq.getprice)
+                .addSubcommand(new CommandLine(bisq.offer)
+                        .addSubcommand(bisq.offer.list));
 
     private final String[] args;
 
@@ -26,12 +37,7 @@ public class BisqCli {
     }
 
     public int run() {
-        Bisq bisq = new Bisq();
-        return new CommandLine(bisq)
-                .addSubcommand(bisq.getversion)
-                .addSubcommand(bisq.getprice)
-                .addSubcommand(new CommandLine(bisq.offer)
-                        .addSubcommand(bisq.offer.list))
+        return commandLine
                 .setOut(new PrintWriter(console.getOut()))
                 .setErr(new PrintWriter(console.getErr()))
                 .execute(args);
@@ -45,8 +51,19 @@ public class BisqCli {
         System.exit(new BisqCli(args).run());
     }
 
-    @Command(name = "bisq")
+
+    // see :cli:generateBashCompletion in build.gradle
+    public static class BashCompletionGenerator {
+        public static void main(String[] args) throws IOException {
+            AutoComplete.bash(Bisq.CMD_NAME, new File(args[0]), null, new BisqCli().commandLine);
+        }
+    }
+
+
+    @Command(name = Bisq.CMD_NAME)
     class Bisq {
+
+        static final String CMD_NAME = "bisq";
 
         final Offer offer = new Offer();
         final GetVersion getversion = new GetVersion();
