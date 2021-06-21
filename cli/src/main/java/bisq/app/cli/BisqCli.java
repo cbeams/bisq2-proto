@@ -21,7 +21,7 @@ public class BisqCli {
 
     private Console console = new SystemConsole();
 
-    private final HttpApiClient bisqClient = new HttpApiClient();
+    private final HttpApiClient api = new HttpApiClient();
     private final Bisq bisq = new Bisq();
     private final CommandLine commandLine =
             new CommandLine(bisq)
@@ -66,7 +66,7 @@ public class BisqCli {
         class GetVersion implements Callable<Integer> {
             @Override
             public Integer call() {
-                console.outln(bisqClient.getVersion());
+                console.outln(api.getVersion());
                 return EXIT_OK;
             }
         }
@@ -75,21 +75,20 @@ public class BisqCli {
         class GetPrice implements Callable<Integer> {
             @Override
             public Integer call() {
-                console.outln(bisqClient.getPrice());
+                console.outln(api.getPrice());
                 return EXIT_OK;
             }
         }
 
         @Command(name = "offer")
         class Offer {
-
             final List list = new List();
 
             @Command(name = "list")
             class List implements Callable<Integer> {
                 @Override
                 public Integer call() {
-                    console.outln(bisqClient.getOffers());
+                    console.outln(api.getOffers());
                     return EXIT_OK;
                 }
             }
