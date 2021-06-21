@@ -40,7 +40,7 @@ public class HttpApiClient implements ApiClient {
 
     public String getOffers() {
         Request request = new Request.Builder()
-                .url(baseUrl + "/offers")
+                .url(baseUrl + "/offer")
                 .build();
 
         try (Response response = client.newCall(request).execute()) {

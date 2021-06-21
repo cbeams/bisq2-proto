@@ -32,34 +32,34 @@ public class HttpApiService implements ApiService {
 
         get("/price", (req, res) -> core.getPrice());
 
-        get("/offers", (req, res) -> {
+        get("/offer", (req, res) -> {
             res.type("application/json");
             return offers;
         }, gson::toJson);
 
-        get("/offers/:id", (req, res) -> {
+        get("/offer/:id", (req, res) -> {
             res.type("application/json");
             return offers.get(Integer.parseInt(req.params("id")) - 1);
         }, gson::toJson);
 
-        post("/offers", (req, res) -> {
+        post("/offer", (req, res) -> {
             var offer = gson.fromJson(req.body(), String.class);
             offers.add(offer);
             res.status(201);
-            res.header("Location", "/offers/" + (offers.lastIndexOf(offer) + 1));
+            res.header("Location", "/offer/" + (offers.lastIndexOf(offer) + 1));
 
             res.type("application/json");
             return gson.toJson(offer);
         });
 
-        delete("/offers", (req, res) -> {
+        delete("/offer", (req, res) -> {
             offers.clear();
             res.status(204);
             res.type("application/json");
             return "";
         });
 
-        delete("/offers/:id", (req, res) -> {
+        delete("/offer/:id", (req, res) -> {
             res.type("application/json");
             offers.remove(Integer.parseInt(req.params("id")) - 1);
             res.status(204);
