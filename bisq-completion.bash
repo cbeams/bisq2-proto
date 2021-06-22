@@ -115,7 +115,7 @@ function currentPositionalIndex() {
 # on the command line and delegates to the appropriate function
 # to generate possible options and subcommands for the last specified subcommand.
 function _complete_bisq() {
-  local cmds0=(getprice)
+  local cmds0=(price)
   local cmds1=(offer)
   local cmds2=(offer list)
   local cmds3=(offer view)
@@ -123,7 +123,7 @@ function _complete_bisq() {
   if CompWordsContainsArray "${cmds3[@]}"; then _picocli_bisq_offer_view; return $?; fi
   if CompWordsContainsArray "${cmds2[@]}"; then _picocli_bisq_offer_list; return $?; fi
   if CompWordsContainsArray "${cmds1[@]}"; then _picocli_bisq_offer; return $?; fi
-  if CompWordsContainsArray "${cmds0[@]}"; then _picocli_bisq_getprice; return $?; fi
+  if CompWordsContainsArray "${cmds0[@]}"; then _picocli_bisq_price; return $?; fi
 
   # No subcommands were specified; generate completions for the top-level command.
   _picocli_bisq; return $?;
@@ -134,7 +134,7 @@ function _picocli_bisq() {
   # Get completion data
   local curr_word=${COMP_WORDS[COMP_CWORD]}
 
-  local commands="getprice offer"
+  local commands="price offer"
   local flag_opts=""
   local arg_opts=""
 
@@ -146,8 +146,8 @@ function _picocli_bisq() {
   fi
 }
 
-# Generates completions for the options and subcommands of the `getprice` subcommand.
-function _picocli_bisq_getprice() {
+# Generates completions for the options and subcommands of the `price` subcommand.
+function _picocli_bisq_price() {
   # Get completion data
   local curr_word=${COMP_WORDS[COMP_CWORD]}
 

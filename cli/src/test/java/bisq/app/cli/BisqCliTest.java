@@ -33,8 +33,8 @@ class BisqCliTest {
     }
 
     @Test
-    void getprice() {
-        runcli("getprice");
+    void price() {
+        runcli("price");
         // price returns a random value between 0 and 100,000
         String price = console.output().trim();
         assertTrue(price.matches("^\\d+.00$"), "got: [" + price + "]");
@@ -48,7 +48,7 @@ class BisqCliTest {
                         Unmatched argument at index 0: 'bogus'
                         Usage: bisq [COMMAND]
                         Commands:
-                          getprice
+                          price
                           offer
                         """,
                 console.errors());

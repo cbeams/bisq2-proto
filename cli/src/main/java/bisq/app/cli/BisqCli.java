@@ -23,7 +23,7 @@ public class BisqCli {
     private final Bisq bisq = new Bisq();
     private final CommandLine commandLine =
             new CommandLine(bisq)
-                .addSubcommand(bisq.getprice)
+                .addSubcommand(bisq.price)
                 .addSubcommand(new CommandLine(bisq.offer)
                         .addSubcommand(bisq.offer.list)
                         .addSubcommand(bisq.offer.view)
@@ -58,10 +58,10 @@ public class BisqCli {
         static final String CMD_NAME = "bisq";
 
         final Offer offer = new Offer();
-        final GetPrice getprice = new GetPrice();
+        final Price price = new Price();
 
-        @Command(name = "getprice")
-        class GetPrice implements Callable<Integer> {
+        @Command(name = "price")
+        class Price implements Callable<Integer> {
             @Override
             public Integer call() {
                 console.outln(api.getPrice());
