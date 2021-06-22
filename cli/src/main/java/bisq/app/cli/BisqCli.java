@@ -6,9 +6,7 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class BisqCli {
 
@@ -57,6 +55,17 @@ public class BisqCli {
 
         @Command(name = "offer")
         class Offer {
+            @Command(name = "create")
+            public void create(
+                    @Parameters(
+                            paramLabel = "<json>",
+                            description = "Offer json or '-' to read from stdin") String json) throws IOException {
+
+                if ("-".equals(json))
+                    json = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                console.outln(api.addOffer(json));
+            }
+
             @Command(name = "list")
             public void list() {
                 console.outln(api.getOffers());

@@ -1,9 +1,7 @@
 package bisq.api.http.client;
 
 import bisq.api.client.ApiClient;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -53,6 +51,23 @@ public class HttpApiClient implements ApiClient {
     public String getOffer(int id) {
         Request request = new Request.Builder()
                 .url(baseUrl + "/offer/" + id)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    public String addOffer(String json) {
+
+        RequestBody body = RequestBody.create(
+                json, MediaType.parse("application/json"));
+
+        Request request = new Request.Builder()
+                .url(baseUrl + "/offer")
+                .post(body)
                 .build();
 
         try (Response response = client.newCall(request).execute()) {

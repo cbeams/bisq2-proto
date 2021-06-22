@@ -117,11 +117,13 @@ function currentPositionalIndex() {
 function _complete_bisq() {
   local cmds0=(price)
   local cmds1=(offer)
-  local cmds2=(offer list)
-  local cmds3=(offer view)
+  local cmds2=(offer create)
+  local cmds3=(offer list)
+  local cmds4=(offer view)
 
-  if CompWordsContainsArray "${cmds3[@]}"; then _picocli_bisq_offer_view; return $?; fi
-  if CompWordsContainsArray "${cmds2[@]}"; then _picocli_bisq_offer_list; return $?; fi
+  if CompWordsContainsArray "${cmds4[@]}"; then _picocli_bisq_offer_view; return $?; fi
+  if CompWordsContainsArray "${cmds3[@]}"; then _picocli_bisq_offer_list; return $?; fi
+  if CompWordsContainsArray "${cmds2[@]}"; then _picocli_bisq_offer_create; return $?; fi
   if CompWordsContainsArray "${cmds1[@]}"; then _picocli_bisq_offer; return $?; fi
   if CompWordsContainsArray "${cmds0[@]}"; then _picocli_bisq_price; return $?; fi
 
@@ -168,7 +170,24 @@ function _picocli_bisq_offer() {
   # Get completion data
   local curr_word=${COMP_WORDS[COMP_CWORD]}
 
-  local commands="list view"
+  local commands="create list view"
+  local flag_opts=""
+  local arg_opts=""
+
+  if [[ "${curr_word}" == -* ]]; then
+    COMPREPLY=( $(compgen -W "${flag_opts} ${arg_opts}" -- "${curr_word}") )
+  else
+    local positionals=""
+    COMPREPLY=( $(compgen -W "${commands} ${positionals}" -- "${curr_word}") )
+  fi
+}
+
+# Generates completions for the options and subcommands of the `create` subcommand.
+function _picocli_bisq_offer_create() {
+  # Get completion data
+  local curr_word=${COMP_WORDS[COMP_CWORD]}
+
+  local commands=""
   local flag_opts=""
   local arg_opts=""
 
