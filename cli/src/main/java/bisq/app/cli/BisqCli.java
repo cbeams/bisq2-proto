@@ -77,8 +77,17 @@ public class BisqCli {
             }
 
             @Command(name = "delete")
-            public void delete(@Parameters(paramLabel = "<id>") int id) {
-                api.deleteOffer(id);
+            public void delete(
+                    @Parameters(
+                            paramLabel = "<id>",
+                            description = "Offer id to delete or 'all' to delete all offers") String id) {
+                if ("all".equals(id)) {
+                    api.deleteAllOffers();
+                    console.outln("deleted all offers");
+                    return;
+                }
+
+                api.deleteOffer(Integer.parseInt(id));
                 console.outln("deleted offer " + id);
             }
         }

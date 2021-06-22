@@ -89,4 +89,17 @@ public class HttpApiClient implements ApiClient {
             throw new UncheckedIOException(e);
         }
     }
+
+    public void deleteAllOffers() {
+        Request request = new Request.Builder()
+                .url(baseUrl + "/offer")
+                .delete()
+                .build();
+
+        try {
+            client.newCall(request).execute();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
 }
