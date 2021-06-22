@@ -87,8 +87,8 @@ configure(project(':cli')) {
     // see https://picocli.info/autocomplete.html
     task generateBashCompletion(type: JavaExec) {
         classpath = sourceSets.main.runtimeClasspath
-        mainClass = 'bisq.app.cli.BisqCli$BashCompletionGenerator'
-        args new File(rootProject.rootDir, 'bisq-completion.bash')
+        mainClass = 'picocli.AutoComplete'
+        args 'bisq.app.cli.BisqCli$Bisq', '--force', '--completionScript=../bisq-completion.bash'
     }
 
     build.dependsOn installDist, generateBashCompletion
