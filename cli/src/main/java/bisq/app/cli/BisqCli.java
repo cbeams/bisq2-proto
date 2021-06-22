@@ -75,6 +75,12 @@ public class BisqCli {
             public void view(@Parameters(paramLabel = "<id>") int id) {
                 console.outln(api.getOffer(id));
             }
+
+            @Command(name = "delete")
+            public void delete(@Parameters(paramLabel = "<id>") int id) {
+                api.deleteOffer(id);
+                console.outln("deleted offer " + id);
+            }
         }
     }
 
