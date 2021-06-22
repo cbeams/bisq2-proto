@@ -24,10 +24,7 @@ public class BisqCli {
     private final CommandLine commandLine =
             new CommandLine(bisq)
                 .addSubcommand(bisq.price)
-                .addSubcommand(new CommandLine(bisq.offer)
-                        .addSubcommand(bisq.offer.list)
-                        .addSubcommand(bisq.offer.view)
-                );
+                .addSubcommand(bisq.offer);
 
     public int run(String... args) {
         return commandLine
@@ -54,6 +51,7 @@ public class BisqCli {
 
 
     @Command(name = Bisq.CMD_NAME)
+    @SuppressWarnings("unused") // to avoid warnings on @Command methods below
     class Bisq {
         static final String CMD_NAME = "bisq";
 
@@ -61,38 +59,24 @@ public class BisqCli {
         final Price price = new Price();
 
         @Command(name = "price")
-        class Price implements Callable<Integer> {
+        class Price implements Runnable {
             @Override
-            public Integer call() {
+            public void run() {
                 console.outln(api.getPrice());
-                return EXIT_OK;
             }
         }
 
         @Command(name = "offer")
         class Offer {
-            final List list = new List();
-            final View view = new View();
 
             @Command(name = "list")
-            class List implements Callable<Integer> {
-                @Override
-                public Integer call() {
-                    console.outln(api.getOffers());
-                    return EXIT_OK;
-                }
+            public void list() {
+                console.outln(api.getOffers());
             }
 
             @Command(name = "view")
-            class View implements Runnable {
-
-                @Parameters
-                int id;
-
-                @Override
-                public void run() {
-                    console.outln(api.getOffer(id));
-                }
+            public void view(@Parameters(paramLabel = "<id>") int id) {
+                console.outln(api.getOffer(id));
             }
         }
     }
