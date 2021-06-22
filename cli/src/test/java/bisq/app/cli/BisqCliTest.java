@@ -108,7 +108,8 @@ class BisqCliTest {
         assertEquals(EXIT_USER_ERROR, bisq("bogus"));
         assertEquals("""
                         Unmatched argument at index 0: 'bogus'
-                        Usage: bisq [COMMAND]
+                        Usage: bisq [--debug] [COMMAND]
+                              --debug   Print stack trace when execution errors occur
                         Commands:
                           price
                           offer

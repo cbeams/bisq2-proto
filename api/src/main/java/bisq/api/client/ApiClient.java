@@ -1,6 +1,8 @@
 package bisq.api.client;
 
+import java.io.IOException;
+
 public interface ApiClient {
 
-    String getPrice();
+    String getPrice() throws IOException;
 }

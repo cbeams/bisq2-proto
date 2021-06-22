@@ -139,7 +139,7 @@ function _picocli_bisq() {
   local curr_word=${COMP_WORDS[COMP_CWORD]}
 
   local commands="price offer"
-  local flag_opts=""
+  local flag_opts="--debug"
   local arg_opts=""
 
   if [[ "${curr_word}" == -* ]]; then

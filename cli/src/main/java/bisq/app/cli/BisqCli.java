@@ -3,9 +3,11 @@ package bisq.app.cli;
 import bisq.api.http.client.HttpApiClient;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.io.*;
+import java.util.concurrent.Callable;
 
 public class BisqCli {
 
@@ -23,6 +25,9 @@ public class BisqCli {
     static final String view = "view";
     static final String delete = "delete";
 
+    // option names
+    static final String debugOpt = "--debug";
+
     // non-final for testing console output
     static PrintStream out = System.out;
     static PrintStream err = System.err;
@@ -35,6 +40,13 @@ public class BisqCli {
         return new CommandLine(Bisq.class)
                 .setOut(new PrintWriter(out))
                 .setErr(new PrintWriter(err))
+                .setExecutionExceptionHandler((ex, commandLine, parseResult) -> {
+                    err.println("error: " + ex.getMessage());
+                    if (parseResult.hasMatchedOption(debugOpt)) {
+                        throw ex;
+                    }
+                    return EXIT_APP_ERROR;
+                })
                 .execute(args);
     }
 
@@ -49,11 +61,15 @@ public class BisqCli {
 
         private static final HttpApiClient api = new HttpApiClient();
 
+        @Option(names = debugOpt, description = "Print stack trace when execution errors occur")
+        boolean debug = false;
+
         @Command(name = price)
-        static class Price implements Runnable {
+        static class Price implements Callable<Integer> {
             @Override
-            public void run() {
+            public Integer call() throws IOException {
                 out.println(api.getPrice());
+                return EXIT_OK;
             }
         }
 
@@ -71,12 +87,12 @@ public class BisqCli {
             }
 
             @Command(name = list)
-            public void list() {
+            public void list() throws IOException {
                 out.println(api.getOffers());
             }
 
             @Command(name = view)
-            public void view(@Parameters(paramLabel = "<id>") int id) {
+            public void view(@Parameters(paramLabel = "<id>") int id) throws IOException {
                 out.println(api.getOffer(id));
             }
 
@@ -84,7 +100,9 @@ public class BisqCli {
             public void delete(
                     @Parameters(
                             paramLabel = "<id>",
-                            description = "Offer id to delete or 'all' to delete all offers") String id) {
+                            description = "Offer id to delete or 'all' to delete all offers") String id)
+                    throws IOException {
+
                 if ("all".equals(id)) {
                     api.deleteAllOffers();
                     out.println("deleted all offers");

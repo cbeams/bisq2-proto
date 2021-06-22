@@ -24,82 +24,42 @@ public class HttpApiClient implements ApiClient {
     }
 
     @Override
-    public String getPrice() {
-        Request request = new Request.Builder()
+    public String getPrice() throws IOException {
+        return client.newCall(new Request.Builder()
                 .url(baseUrl + "/price")
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+                .build()).execute().body().string();
     }
 
-    public String getOffers() {
-        Request request = new Request.Builder()
+    public String getOffers() throws IOException {
+        return client.newCall(new Request.Builder()
                 .url(baseUrl + "/offer")
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+                .build()).execute().body().string();
     }
 
-    public String getOffer(int id) {
-        Request request = new Request.Builder()
+    public String getOffer(int id) throws IOException {
+        return client.newCall(new Request.Builder()
                 .url(baseUrl + "/offer/" + id)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+                .build()).execute().body().string();
     }
 
-    public String addOffer(String json) {
-
-        RequestBody body = RequestBody.create(
-                json, MediaType.parse("application/json"));
-
-        Request request = new Request.Builder()
+    public String addOffer(String json) throws IOException {
+        return client.newCall(new Request.Builder()
                 .url(baseUrl + "/offer")
-                .post(body)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+                .post(RequestBody.create(json, MediaType.parse("application/json")))
+                .build()).execute().body().string();
     }
 
-    public void deleteOffer(int id) {
-        Request request = new Request.Builder()
+    public void deleteOffer(int id) throws IOException {
+        client.newCall(new Request.Builder()
                 .url(baseUrl + "/offer/" + id)
                 .delete()
-                .build();
-
-        try {
-            client.newCall(request).execute();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+                .build()).execute();
     }
 
-    public void deleteAllOffers() {
-        Request request = new Request.Builder()
+    public void deleteAllOffers() throws IOException {
+        client.newCall(new Request.Builder()
                 .url(baseUrl + "/offer")
                 .delete()
-                .build();
-
-        try {
-            client.newCall(request).execute();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+                .build()).execute();
     }
 }
