@@ -68,36 +68,36 @@ class BisqCliTest {
                         """,
                 stderr());
         reset();
-        assertEquals(EXIT_OK, bisq("offer", "list"));
+        assertEquals(EXIT_OK, bisq(offer, list));
         assertEquals("""
                 []
                 """, stdout());
-        assertEquals(EXIT_OK, bisq("offer", "create", "offerA"));
+        assertEquals(EXIT_OK, bisq(offer, create, "offerA"));
         reset();
-        assertEquals(EXIT_OK, bisq("offer", "view", "1"));
+        assertEquals(EXIT_OK, bisq(offer, view, "1"));
         assertEquals("""
                 "offerA"
                 """, stdout());
         reset();
-        assertEquals(EXIT_OK, bisq("offer", "create", "offerB"));
+        assertEquals(EXIT_OK, bisq(offer, create, "offerB"));
         reset();
-        assertEquals(EXIT_OK, bisq("offer", "create", "offerC"));
+        assertEquals(EXIT_OK, bisq(offer, create, "offerC"));
         reset();
-        assertEquals(EXIT_OK, bisq("offer", "list"));
+        assertEquals(EXIT_OK, bisq(offer, list));
         assertEquals("""
                 ["offerA","offerB","offerC"]
                 """, stdout());
         reset();
-        assertEquals(EXIT_OK, bisq("offer", "delete", "1"));
+        assertEquals(EXIT_OK, bisq(offer, delete, "1"));
         reset();
-        assertEquals(EXIT_OK, bisq("offer", "list"));
+        assertEquals(EXIT_OK, bisq(offer, list));
         assertEquals("""
                 ["offerB","offerC"]
                 """, stdout());
         reset();
-        assertEquals(EXIT_OK, bisq("offer", "delete", "all"));
+        assertEquals(EXIT_OK, bisq(offer, delete, "all"));
         reset();
-        assertEquals(EXIT_OK, bisq("offer", "list"));
+        assertEquals(EXIT_OK, bisq(offer, list));
         assertEquals("""
                 []
                 """, stdout());
