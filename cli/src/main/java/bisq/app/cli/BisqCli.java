@@ -17,10 +17,10 @@ public class BisqCli {
     static PrintStream err = System.err;
 
     public static void main(String[] args) {
-        System.exit(new BisqCli().run(args));
+        System.exit(execute(args));
     }
 
-    public int run(String... args) {
+    public static int execute(String... args) {
         return new CommandLine(Bisq.class)
                 .setOut(new PrintWriter(out))
                 .setErr(new PrintWriter(err))
