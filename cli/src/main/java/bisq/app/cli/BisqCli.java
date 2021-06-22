@@ -16,7 +16,8 @@ public class BisqCli {
     public static final int EXIT_APP_ERROR = CommandLine.ExitCode.SOFTWARE;
     public static final int EXIT_USER_ERROR = CommandLine.ExitCode.USAGE;
 
-    private Console console = new SystemConsole();
+    Console console = new SystemConsole();
+
     private final Bisq bisq = new Bisq();
 
     private final CommandLine commandLine =
@@ -24,27 +25,15 @@ public class BisqCli {
                     .addSubcommand(bisq.price)
                     .addSubcommand(bisq.offer);
 
+    public static void main(String[] args) {
+        System.exit(new BisqCli().run(args));
+    }
+
     public int run(String... args) {
         return commandLine
                 .setOut(new PrintWriter(console.getOut()))
                 .setErr(new PrintWriter(console.getErr()))
                 .execute(args);
-    }
-
-    void setConsole(Console console) {
-        this.console = console;
-    }
-
-    public static void main(String[] args) {
-        System.exit(new BisqCli().run(args));
-    }
-
-
-    // see :cli:generateBashCompletion in build.gradle
-    public static class BashCompletionGenerator {
-        public static void main(String[] args) throws IOException {
-            AutoComplete.bash(Bisq.CMD_NAME, new File(args[0]), null, new BisqCli().commandLine);
-        }
     }
 
 
@@ -77,6 +66,14 @@ public class BisqCli {
             public void view(@Parameters(paramLabel = "<id>") int id) {
                 console.outln(api.getOffer(id));
             }
+        }
+    }
+
+
+    // see :cli:generateBashCompletion in build.gradle
+    public static class BashCompletionGenerator {
+        public static void main(String[] args) throws IOException {
+            AutoComplete.bash(Bisq.CMD_NAME, new File(args[0]), null, new BisqCli().commandLine);
         }
     }
 }
