@@ -13,7 +13,8 @@ public class BisqCli {
     public static final int EXIT_APP_ERROR = CommandLine.ExitCode.SOFTWARE;
     public static final int EXIT_USER_ERROR = CommandLine.ExitCode.USAGE;
 
-    static Console console = new SystemConsole();
+    static PrintStream out = System.out;
+    static PrintStream err = System.err;
 
     public static void main(String[] args) {
         System.exit(new BisqCli().run(args));
@@ -21,8 +22,8 @@ public class BisqCli {
 
     public int run(String... args) {
         return new CommandLine(Bisq.class)
-                .setOut(new PrintWriter(console.getOut()))
-                .setErr(new PrintWriter(console.getErr()))
+                .setOut(new PrintWriter(out))
+                .setErr(new PrintWriter(err))
                 .execute(args);
     }
 
@@ -41,7 +42,7 @@ public class BisqCli {
         static class Price implements Runnable {
             @Override
             public void run() {
-                console.outln(api.getPrice());
+                out.println(api.getPrice());
             }
         }
 
@@ -55,17 +56,17 @@ public class BisqCli {
 
                 if ("-".equals(json))
                     json = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                console.outln(api.addOffer(json));
+                out.println(api.addOffer(json));
             }
 
             @Command(name = "list")
             public void list() {
-                console.outln(api.getOffers());
+                out.println(api.getOffers());
             }
 
             @Command(name = "view")
             public void view(@Parameters(paramLabel = "<id>") int id) {
-                console.outln(api.getOffer(id));
+                out.println(api.getOffer(id));
             }
 
             @Command(name = "delete")
@@ -75,12 +76,12 @@ public class BisqCli {
                             description = "Offer id to delete or 'all' to delete all offers") String id) {
                 if ("all".equals(id)) {
                     api.deleteAllOffers();
-                    console.outln("deleted all offers");
+                    out.println("deleted all offers");
                     return;
                 }
 
                 api.deleteOffer(Integer.parseInt(id));
-                console.outln("deleted offer " + id);
+                out.println("deleted offer " + id);
             }
         }
     }
