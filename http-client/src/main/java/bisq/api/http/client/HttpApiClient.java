@@ -49,4 +49,16 @@ public class HttpApiClient implements ApiClient {
             throw new UncheckedIOException(e);
         }
     }
+
+    public String getOffer(int id) {
+        Request request = new Request.Builder()
+                .url(baseUrl + "/offer/" + id)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
 }

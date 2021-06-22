@@ -4,6 +4,7 @@ import bisq.api.http.client.HttpApiClient;
 import picocli.AutoComplete;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +25,9 @@ public class BisqCli {
             new CommandLine(bisq)
                 .addSubcommand(bisq.getprice)
                 .addSubcommand(new CommandLine(bisq.offer)
-                        .addSubcommand(bisq.offer.list));
+                        .addSubcommand(bisq.offer.list)
+                        .addSubcommand(bisq.offer.view)
+                );
 
     public int run(String... args) {
         return commandLine
@@ -69,6 +72,7 @@ public class BisqCli {
         @Command(name = "offer")
         class Offer {
             final List list = new List();
+            final View view = new View();
 
             @Command(name = "list")
             class List implements Callable<Integer> {
@@ -76,6 +80,18 @@ public class BisqCli {
                 public Integer call() {
                     console.outln(api.getOffers());
                     return EXIT_OK;
+                }
+            }
+
+            @Command(name = "view")
+            class View implements Runnable {
+
+                @Parameters
+                int id;
+
+                @Override
+                public void run() {
+                    console.outln(api.getOffer(id));
                 }
             }
         }
