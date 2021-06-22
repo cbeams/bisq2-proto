@@ -9,7 +9,6 @@ import picocli.CommandLine.Parameters;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.concurrent.Callable;
 
 public class BisqCli {
 
@@ -18,13 +17,12 @@ public class BisqCli {
     public static final int EXIT_USER_ERROR = CommandLine.ExitCode.USAGE;
 
     private Console console = new SystemConsole();
-
-    private final HttpApiClient api = new HttpApiClient();
     private final Bisq bisq = new Bisq();
+
     private final CommandLine commandLine =
             new CommandLine(bisq)
-                .addSubcommand(bisq.price)
-                .addSubcommand(bisq.offer);
+                    .addSubcommand(bisq.price)
+                    .addSubcommand(bisq.offer);
 
     public int run(String... args) {
         return commandLine
@@ -55,8 +53,10 @@ public class BisqCli {
     class Bisq {
         static final String CMD_NAME = "bisq";
 
-        final Offer offer = new Offer();
+        final HttpApiClient api = new HttpApiClient();
+
         final Price price = new Price();
+        final Offer offer = new Offer();
 
         @Command(name = "price")
         class Price implements Runnable {
@@ -68,7 +68,6 @@ public class BisqCli {
 
         @Command(name = "offer")
         class Offer {
-
             @Command(name = "list")
             public void list() {
                 console.outln(api.getOffers());
