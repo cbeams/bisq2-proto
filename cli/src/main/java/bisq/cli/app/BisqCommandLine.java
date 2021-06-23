@@ -1,12 +1,12 @@
 package bisq.cli.app;
 
-import bisq.api.Bisq;
 import bisq.api.OfferBook;
-
+import bisq.api.client.BisqApiClient;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
+import picocli.CommandLine.ParentCommand;
 
 import java.io.*;
 import java.util.concurrent.Callable;
@@ -28,6 +28,7 @@ public class BisqCommandLine {
     static final String delete = "delete";
 
     // option names
+    static final String portOpt = "--port";
     static final String debugOpt = "--debug";
 
     // mutable for testing
@@ -39,7 +40,7 @@ public class BisqCommandLine {
     }
 
     public static int bisq(String... args) {
-        return new CommandLine(BisqCommand.class, new BisqCommandFactory())
+        return new CommandLine(BisqCommand.class)
                 .setOut(new PrintWriter(out))
                 .setErr(new PrintWriter(err))
                 .setExecutionExceptionHandler((ex, commandLine, parseResult) -> {
@@ -64,18 +65,18 @@ public class BisqCommandLine {
         @Option(names = debugOpt, description = "Print stack trace when execution errors occur")
         boolean debug = false;
 
+        @Option(names = portOpt, paramLabel = "<n>", description = "localhost rest api port to use")
+        int port = BisqApiClient.DEFAULT_PORT;
+
         @Command(name = price)
         static class PriceSubcommand implements Callable<Integer> {
 
-            private final Bisq bisq;
-
-            public PriceSubcommand(Bisq bisq) {
-                this.bisq = bisq;
-            }
+            @ParentCommand
+            private BisqCommand bisqCommand;
 
             @Override
             public Integer call() throws IOException {
-                out.println(bisq.getPrice());
+                out.println(new BisqApiClient(bisqCommand.port).getPrice());
                 return EXIT_OK;
             }
         }
@@ -83,10 +84,11 @@ public class BisqCommandLine {
         @Command(name = offer)
         static class OfferSubcommand {
 
-            private final OfferBook offerBook;
+            @ParentCommand
+            private BisqCommand bisqCommand;
 
-            public OfferSubcommand(OfferBook offerBook) {
-                this.offerBook = offerBook;
+            public OfferBook offerBook() {
+                return new BisqApiClient(bisqCommand.port).getOfferBook();
             }
 
             @Command(name = create)
@@ -97,17 +99,17 @@ public class BisqCommandLine {
 
                 if ("-".equals(json))
                     json = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                out.println(offerBook.create(json));
+                out.println(offerBook().create(json));
             }
 
             @Command(name = list)
             public void list() throws IOException {
-                out.println(offerBook.list());
+                out.println(offerBook().list());
             }
 
             @Command(name = view)
             public void view(@Parameters(paramLabel = "<id>") int id) throws IOException {
-                out.println(offerBook.view(id));
+                out.println(offerBook().view(id));
             }
 
             @Command(name = delete)
@@ -118,12 +120,12 @@ public class BisqCommandLine {
                     throws IOException {
 
                 if ("all".equals(id)) {
-                    offerBook.delete();
+                    offerBook().delete();
                     out.println("deleted all offers");
                     return;
                 }
 
-                offerBook.delete(Integer.parseInt(id));
+                offerBook().delete(Integer.parseInt(id));
                 out.println("deleted offer " + id);
             }
         }

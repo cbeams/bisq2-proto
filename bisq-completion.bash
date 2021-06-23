@@ -137,10 +137,19 @@ function _complete_bisq() {
 function _picocli_bisq() {
   # Get completion data
   local curr_word=${COMP_WORDS[COMP_CWORD]}
+  local prev_word=${COMP_WORDS[COMP_CWORD-1]}
 
   local commands="price offer"
   local flag_opts="--debug"
-  local arg_opts=""
+  local arg_opts="--port"
+
+  compopt +o default
+
+  case ${prev_word} in
+    --port)
+      return
+      ;;
+  esac
 
   if [[ "${curr_word}" == -* ]]; then
     COMPREPLY=( $(compgen -W "${flag_opts} ${arg_opts}" -- "${curr_word}") )

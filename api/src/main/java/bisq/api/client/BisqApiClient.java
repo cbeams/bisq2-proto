@@ -19,7 +19,11 @@ public class BisqApiClient implements Bisq {
     private final OfferBook offerBook;
 
     public BisqApiClient() {
-        this(DEFAULT_HOST, DEFAULT_PORT);
+        this(DEFAULT_PORT);
+    }
+
+    public BisqApiClient(int port) {
+        this(DEFAULT_HOST, port);
     }
 
     public BisqApiClient(String host, int port) {

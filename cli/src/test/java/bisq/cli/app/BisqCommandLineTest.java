@@ -1,25 +1,32 @@
 package bisq.cli.app;
 
 import bisq.core.app.BisqDaemon;
+import bisq.core.service.api.rest.RestApiService;
 import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static bisq.cli.app.BisqCommandLine.*;
+import static bisq.core.service.api.rest.RestApiService.RANDOM_PORT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BisqCommandLineTest {
 
     private static BisqDaemon daemon;
+    private static int restApiPort;
 
     private ByteArrayOutputStream output = new ByteArrayOutputStream();
     private ByteArrayOutputStream errors = new ByteArrayOutputStream();
 
     @BeforeAll
     static void beforeAll() {
-        daemon = BisqDaemon.newDaemon();
+        var restApiService = new RestApiService(RANDOM_PORT);
+        restApiPort = restApiService.getPort();
+        daemon = new BisqDaemon(restApiService);
         new Thread(daemon).start();
     }
 
@@ -107,13 +114,22 @@ class BisqCommandLineTest {
     void bogus() {
         assertEquals(EXIT_USER_ERROR, bisq("bogus"));
         assertEquals("""
-                        Unmatched argument at index 0: 'bogus'
-                        Usage: bisq [--debug] [COMMAND]
-                              --debug   Print stack trace when execution errors occur
+                        Unmatched argument at index 2: 'bogus'
+                        Usage: bisq [--debug] [--port=<n>] [COMMAND]
+                              --debug      Print stack trace when execution errors occur
+                              --port=<n>   localhost rest api port to use
                         Commands:
                           price
                           offer
                         """,
                 stderr());
+    }
+
+    private static int bisq(String... args) {
+        var newArgs = new ArrayList<String>();
+        newArgs.add("--debug");
+        newArgs.add("--port=" + restApiPort);
+        newArgs.addAll(Arrays.asList(args));
+        return BisqCommandLine.bisq(newArgs.toArray(new String[]{}));
     }
 }

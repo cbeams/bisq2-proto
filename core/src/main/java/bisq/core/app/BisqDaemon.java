@@ -15,12 +15,8 @@ public class BisqDaemon implements Runnable {
     }
 
     public static int bisqd(String... args) {
-        newDaemon().run();
+        new BisqDaemon(new RestApiService()).run();
         return 0;
-    }
-
-    public static BisqDaemon newDaemon() {
-        return new BisqDaemon(new RestApiService());
     }
 
     public void run() {

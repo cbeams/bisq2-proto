@@ -65,8 +65,7 @@ configure(project(':cli')) {
         mainClass = 'picocli.AutoComplete'
         args 'bisq.cli.app.BisqCommandLine$BisqCommand',
                 '--force',
-                '--completionScript=../bisq-completion.bash',
-                '--factory=bisq.cli.app.BisqCommandFactory'
+                '--completionScript=../bisq-completion.bash'
     }
 
     build.dependsOn installDist, generateBashCompletion
