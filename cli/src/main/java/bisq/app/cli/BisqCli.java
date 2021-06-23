@@ -37,7 +37,7 @@ public class BisqCli {
     }
 
     public static int bisq(String... args) {
-        return new CommandLine(Bisq.class)
+        return new CommandLine(Bisq.class, new BisqCommandFactory())
                 .setOut(new PrintWriter(out))
                 .setErr(new PrintWriter(err))
                 .setExecutionExceptionHandler((ex, commandLine, parseResult) -> {
@@ -59,13 +59,18 @@ public class BisqCli {
     @SuppressWarnings("unused") // to avoid warnings on @Command methods below
     static class Bisq {
 
-        private static final HttpApiClient api = new HttpApiClient();
-
         @Option(names = debugOpt, description = "Print stack trace when execution errors occur")
         boolean debug = false;
 
         @Command(name = price)
         static class Price implements Callable<Integer> {
+
+            private final HttpApiClient api;
+
+            public Price(HttpApiClient api) {
+                this.api = api;
+            }
+
             @Override
             public Integer call() throws IOException {
                 out.println(api.getPrice());
@@ -75,6 +80,13 @@ public class BisqCli {
 
         @Command(name = offer)
         static class Offer {
+
+            private final HttpApiClient api;
+
+            public Offer(HttpApiClient api) {
+                this.api = api;
+            }
+
             @Command(name = create)
             public void create(
                     @Parameters(
