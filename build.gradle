@@ -51,7 +51,7 @@ configure(project(':cli')) {
     }
 
     application {
-        mainClass = 'bisq.app.cli.BisqCommandLine'
+        mainClass = 'bisq.cli.app.BisqCommandLine'
         applicationName = 'bisq'
     }
 
@@ -63,10 +63,10 @@ configure(project(':cli')) {
     task generateBashCompletion(type: JavaExec) {
         classpath = sourceSets.main.runtimeClasspath
         mainClass = 'picocli.AutoComplete'
-        args 'bisq.app.cli.BisqCommandLine$BisqCommand',
+        args 'bisq.cli.app.BisqCommandLine$BisqCommand',
                 '--force',
                 '--completionScript=../bisq-completion.bash',
-                '--factory=bisq.app.cli.BisqCommandFactory'
+                '--factory=bisq.cli.app.BisqCommandFactory'
     }
 
     build.dependsOn installDist, generateBashCompletion
@@ -83,7 +83,7 @@ configure(project(':fx')) {
     }
 
     application {
-        mainClass = 'bisq.app.fx.BisqFX'
+        mainClass = 'bisq.fx.app.BisqFX'
         applicationName = 'bisqfx'
     }
 

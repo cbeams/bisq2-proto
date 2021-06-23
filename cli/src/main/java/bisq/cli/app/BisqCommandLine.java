@@ -1,4 +1,4 @@
-package bisq.app.cli;
+package bisq.cli.app;
 
 import bisq.api.BisqClient;
 import bisq.api.OfferBook;

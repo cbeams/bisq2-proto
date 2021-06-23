@@ -1,4 +1,4 @@
-package bisq.app.cli;
+package bisq.cli.app;
 
 import bisq.core.app.BisqDaemon;
 import org.junit.jupiter.api.*;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static bisq.app.cli.BisqCommandLine.*;
+import static bisq.cli.app.BisqCommandLine.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

@@ -1,4 +1,4 @@
-package bisq.app.fx;
+package bisq.fx.app;
 
 import bisq.client.http.HttpBisqClient;
 import bisq.api.rx.RxBisqClient;
