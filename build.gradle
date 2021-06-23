@@ -22,22 +22,20 @@ configure(project(':api')) {
 }
 
 configure(project(':core')) {
-    apply plugin: 'java'
+    apply plugin: 'application'
 
     dependencies {
         implementation project(':api')
-    }
-}
-
-configure(project(':http-service')) {
-    apply plugin: 'java'
-
-    dependencies {
-        implementation project(':api')
-        implementation project(':core')
         implementation 'com.sparkjava:spark-core:2.9.3'
         implementation 'com.google.code.gson:gson:2.8.7'
     }
+
+    application {
+        mainClass = 'bisq.core.app.BisqDaemon'
+        applicationName = 'bisqd'
+    }
+
+    build.dependsOn installDist
 }
 
 configure(project(':http-client')) {
@@ -49,35 +47,20 @@ configure(project(':http-client')) {
     }
 }
 
-configure(project(':daemon')) {
-    apply plugin: 'application'
-
-    dependencies {
-        implementation project(':api')
-        implementation project(':core')
-        implementation project(':http-service')
-    }
-
-    application {
-        mainClass = 'bisq.app.daemon.BisqDaemon'
-    }
-
-    build.dependsOn installDist
-}
-
 configure(project(':cli')) {
     apply plugin: 'application'
 
     dependencies {
         implementation project(':http-client')
         implementation 'info.picocli:picocli:4.6.1'
-        testImplementation project(':daemon')
+        testImplementation project(':core')
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     }
 
     application {
         mainClass = 'bisq.app.cli.BisqCommandLine'
+        applicationName = 'bisq'
     }
 
     tasks.named('test') {

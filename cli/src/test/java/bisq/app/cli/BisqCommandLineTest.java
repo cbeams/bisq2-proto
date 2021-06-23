@@ -1,6 +1,6 @@
 package bisq.app.cli;
 
-import bisq.app.daemon.BisqDaemon;
+import bisq.core.app.BisqDaemon;
 import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayOutputStream;
@@ -19,7 +19,7 @@ class BisqCommandLineTest {
 
     @BeforeAll
     static void beforeAll() {
-        daemon = new BisqDaemon();
+        daemon = BisqDaemon.newDaemon();
         new Thread(daemon).start();
     }
 
