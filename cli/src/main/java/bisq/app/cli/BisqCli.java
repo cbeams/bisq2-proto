@@ -97,17 +97,17 @@ public class BisqCli {
 
                 if ("-".equals(json))
                     json = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                out.println(offerApi.addOffer(json));
+                out.println(offerApi.create(json));
             }
 
             @Command(name = list)
             public void list() throws IOException {
-                out.println(offerApi.getOffers());
+                out.println(offerApi.list());
             }
 
             @Command(name = view)
             public void view(@Parameters(paramLabel = "<id>") int id) throws IOException {
-                out.println(offerApi.getOffer(id));
+                out.println(offerApi.view(id));
             }
 
             @Command(name = delete)
@@ -118,12 +118,12 @@ public class BisqCli {
                     throws IOException {
 
                 if ("all".equals(id)) {
-                    offerApi.deleteAllOffers();
+                    offerApi.delete();
                     out.println("deleted all offers");
                     return;
                 }
 
-                offerApi.deleteOffer(Integer.parseInt(id));
+                offerApi.delete(Integer.parseInt(id));
                 out.println("deleted offer " + id);
             }
         }

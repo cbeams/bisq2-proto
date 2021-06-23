@@ -4,13 +4,13 @@ import java.io.IOException;
 
 public interface OfferApi {
 
-    String getOffers() throws IOException;
+    String list() throws IOException;
 
-    String getOffer(int id) throws IOException;
+    String view(int id) throws IOException;
 
-    String addOffer(String json) throws IOException;
+    String create(String json) throws IOException;
 
-    void deleteOffer(int id) throws IOException;
+    void delete(int id) throws IOException;
 
-    void deleteAllOffers() throws IOException;
+    void delete() throws IOException;
 }

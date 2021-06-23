@@ -19,21 +19,21 @@ public class HttpOfferApi implements OfferApi {
     }
 
     @Override
-    public String getOffers() throws IOException {
+    public String list() throws IOException {
         return httpClient.newCall(new Request.Builder()
                 .url(offerUrl)
                 .build()).execute().body().string();
     }
 
     @Override
-    public String getOffer(int id) throws IOException {
+    public String view(int id) throws IOException {
         return httpClient.newCall(new Request.Builder()
                 .url(offerUrl + "/" + id)
                 .build()).execute().body().string();
     }
 
     @Override
-    public String addOffer(String json) throws IOException {
+    public String create(String json) throws IOException {
         return httpClient.newCall(new Request.Builder()
                 .url(offerUrl)
                 .post(RequestBody.create(json, MediaType.parse("application/json")))
@@ -41,7 +41,7 @@ public class HttpOfferApi implements OfferApi {
     }
 
     @Override
-    public void deleteOffer(int id) throws IOException {
+    public void delete(int id) throws IOException {
         httpClient.newCall(new Request.Builder()
                 .url(offerUrl + "/" + id)
                 .delete()
@@ -49,7 +49,7 @@ public class HttpOfferApi implements OfferApi {
     }
 
     @Override
-    public void deleteAllOffers() throws IOException {
+    public void delete() throws IOException {
         httpClient.newCall(new Request.Builder()
                 .url(offerUrl)
                 .delete()
