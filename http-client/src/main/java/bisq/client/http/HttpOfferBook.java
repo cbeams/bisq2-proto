@@ -1,6 +1,6 @@
-package bisq.api.http.client;
+package bisq.client.http;
 
-import bisq.api.client.OfferApi;
+import bisq.api.OfferBook;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -8,12 +8,12 @@ import okhttp3.RequestBody;
 
 import java.io.IOException;
 
-public class HttpOfferApi implements OfferApi {
+public class HttpOfferBook implements OfferBook {
 
-    private OkHttpClient httpClient;
-    private String offerUrl;
+    private final OkHttpClient httpClient;
+    private final String offerUrl;
 
-    public HttpOfferApi(OkHttpClient httpClient, String baseUrl) {
+    public HttpOfferBook(OkHttpClient httpClient, String baseUrl) {
         this.httpClient = httpClient;
         this.offerUrl = baseUrl + "/offer";
     }

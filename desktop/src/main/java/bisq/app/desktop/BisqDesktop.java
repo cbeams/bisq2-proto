@@ -1,7 +1,7 @@
 package bisq.app.desktop;
 
-import bisq.api.http.client.HttpApiClient;
-import bisq.api.http.client.ObservableHttpApiClient;
+import bisq.client.http.HttpBisqClient;
+import bisq.api.rx.RxBisqClient;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -16,8 +16,8 @@ public class BisqDesktop extends Application {
     @Override
     public void start(Stage stage) {
 
-        var client = new ObservableHttpApiClient(new HttpApiClient());
-        var price = client.getPriceObservable();
+        var bisqClient = new RxBisqClient(new HttpBisqClient());
+        var price = bisqClient.getPriceObservable();
 
         var priceLabel = new Label();
         var priceProperty = new SimpleStringProperty();

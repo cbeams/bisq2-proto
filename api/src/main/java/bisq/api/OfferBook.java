@@ -1,8 +1,8 @@
-package bisq.api.client;
+package bisq.api;
 
 import java.io.IOException;
 
-public interface OfferApi {
+public interface OfferBook {
 
     String list() throws IOException;
 

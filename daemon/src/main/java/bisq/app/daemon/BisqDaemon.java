@@ -5,7 +5,7 @@ import bisq.api.service.ApiService;
 
 public class BisqDaemon implements Runnable {
 
-    private ApiService apiService;
+    private final ApiService apiService;
 
     public BisqDaemon() {
         this(new HttpApiService());

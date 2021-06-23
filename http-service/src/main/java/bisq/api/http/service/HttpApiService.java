@@ -1,6 +1,6 @@
 package bisq.api.http.service;
 
-import bisq.api.client.CoreApiClient;
+import bisq.api.client.CoreBisqClient;
 import bisq.api.service.ApiService;
 import com.google.gson.Gson;
 import spark.Spark;
@@ -17,11 +17,11 @@ public class HttpApiService implements ApiService {
     private final Gson gson = new Gson();
     private final List<String> offers = new ArrayList<>();
 
-    private final CoreApiClient core;
+    private final CoreBisqClient core;
     private final int port;
 
     public HttpApiService() {
-        this.core = new CoreApiClient();
+        this.core = new CoreBisqClient();
         this.port = DEFAULT_PORT;
     }
 

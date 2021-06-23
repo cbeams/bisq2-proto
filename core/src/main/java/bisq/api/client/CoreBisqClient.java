@@ -1,10 +1,13 @@
 package bisq.api.client;
 
+import bisq.api.BisqClient;
+import bisq.api.OfferBook;
+
 import java.util.Random;
 
 import static java.lang.String.format;
 
-public class CoreApiClient implements ApiClient {
+public class CoreBisqClient implements BisqClient {
 
     @Override
     public String getPrice() {
@@ -12,7 +15,7 @@ public class CoreApiClient implements ApiClient {
     }
 
     @Override
-    public OfferApi getOfferApi() {
+    public OfferBook getOfferBook() {
         throw new UnsupportedOperationException();
     }
 }

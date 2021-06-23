@@ -6,11 +6,11 @@ import org.junit.jupiter.api.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static bisq.app.cli.BisqCli.*;
+import static bisq.app.cli.BisqCommandLine.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class BisqCliTest {
+class BisqCommandLineTest {
 
     private static BisqDaemon daemon;
 
@@ -26,16 +26,16 @@ class BisqCliTest {
     @AfterAll
     static void afterAll() {
         daemon.stop();
-        BisqCli.out = System.out;
-        BisqCli.err = System.err;
+        BisqCommandLine.out = System.out;
+        BisqCommandLine.err = System.err;
     }
 
     @BeforeEach
     void reset() {
         output = new ByteArrayOutputStream();
         errors = new ByteArrayOutputStream();
-        BisqCli.out = new PrintStream(output);
-        BisqCli.err = new PrintStream(errors);
+        BisqCommandLine.out = new PrintStream(output);
+        BisqCommandLine.err = new PrintStream(errors);
     }
 
     private String stdout() {

@@ -77,7 +77,7 @@ configure(project(':cli')) {
     }
 
     application {
-        mainClass = 'bisq.app.cli.BisqCli'
+        mainClass = 'bisq.app.cli.BisqCommandLine'
     }
 
     tasks.named('test') {
@@ -88,7 +88,7 @@ configure(project(':cli')) {
     task generateBashCompletion(type: JavaExec) {
         classpath = sourceSets.main.runtimeClasspath
         mainClass = 'picocli.AutoComplete'
-        args 'bisq.app.cli.BisqCli$Bisq',
+        args 'bisq.app.cli.BisqCommandLine$BisqCommand',
                 '--force',
                 '--completionScript=../bisq-completion.bash',
                 '--factory=bisq.app.cli.BisqCommandFactory'
