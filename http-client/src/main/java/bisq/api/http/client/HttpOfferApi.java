@@ -10,31 +10,31 @@ import java.io.IOException;
 
 public class HttpOfferApi implements OfferApi {
 
-    private OkHttpClient client;
+    private OkHttpClient httpClient;
     private String offerUrl;
 
-    public HttpOfferApi(OkHttpClient client, String baseUrl) {
-        this.client = client;
+    public HttpOfferApi(OkHttpClient httpClient, String baseUrl) {
+        this.httpClient = httpClient;
         this.offerUrl = baseUrl + "/offer";
     }
 
     @Override
     public String getOffers() throws IOException {
-        return client.newCall(new Request.Builder()
+        return httpClient.newCall(new Request.Builder()
                 .url(offerUrl)
                 .build()).execute().body().string();
     }
 
     @Override
     public String getOffer(int id) throws IOException {
-        return client.newCall(new Request.Builder()
+        return httpClient.newCall(new Request.Builder()
                 .url(offerUrl + "/" + id)
                 .build()).execute().body().string();
     }
 
     @Override
     public String addOffer(String json) throws IOException {
-        return client.newCall(new Request.Builder()
+        return httpClient.newCall(new Request.Builder()
                 .url(offerUrl)
                 .post(RequestBody.create(json, MediaType.parse("application/json")))
                 .build()).execute().body().string();
@@ -42,7 +42,7 @@ public class HttpOfferApi implements OfferApi {
 
     @Override
     public void deleteOffer(int id) throws IOException {
-        client.newCall(new Request.Builder()
+        httpClient.newCall(new Request.Builder()
                 .url(offerUrl + "/" + id)
                 .delete()
                 .build()).execute();
@@ -50,7 +50,7 @@ public class HttpOfferApi implements OfferApi {
 
     @Override
     public void deleteAllOffers() throws IOException {
-        client.newCall(new Request.Builder()
+        httpClient.newCall(new Request.Builder()
                 .url(offerUrl)
                 .delete()
                 .build()).execute();
