@@ -28,7 +28,7 @@ public class BisqCli {
     // option names
     static final String debugOpt = "--debug";
 
-    // non-final for testing console output
+    // mutable for testing
     static PrintStream out = System.out;
     static PrintStream err = System.err;
 
