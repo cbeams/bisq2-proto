@@ -30,6 +30,8 @@ public class HttpApiService implements ApiService {
         Spark.port(port);
         System.out.println("listening on port " + port);
 
+        exception(Exception.class, (ex, req, res) -> ex.printStackTrace(System.err));
+
         get("/price", (req, res) -> core.getPrice());
 
         get("/offer", (req, res) -> {
