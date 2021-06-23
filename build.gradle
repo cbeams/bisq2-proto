@@ -72,7 +72,7 @@ configure(project(':cli')) {
     build.dependsOn installDist, generateBashCompletion
 }
 
-configure(project(':desktop')) {
+configure(project(':fx')) {
     apply plugin: 'application'
     apply plugin: 'org.openjfx.javafxplugin'
 
@@ -83,7 +83,8 @@ configure(project(':desktop')) {
     }
 
     application {
-        mainClass = 'bisq.app.desktop.BisqDesktop'
+        mainClass = 'bisq.app.fx.BisqFX'
+        applicationName = 'bisqfx'
     }
 
     dependencies {

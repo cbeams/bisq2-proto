@@ -1,4 +1,4 @@
-package bisq.app.desktop;
+package bisq.app.fx;
 
 import bisq.client.http.HttpBisqClient;
 import bisq.api.rx.RxBisqClient;
@@ -11,7 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class BisqDesktop extends Application {
+public class BisqFX extends Application {
 
     @Override
     public void start(Stage stage) {
