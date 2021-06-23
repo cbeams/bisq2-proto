@@ -16,7 +16,9 @@ High-level architecture prototype for Bisq 2.0 (project codename Misq).
 
     $ ./gradlew build
 
-Scripts such as `bisq` and `bisqd` in the project root directory will now work. For invocation convenience, update your path to include the current directory
+Scripts such as `bisq` and `bisqd` in the project root directory will now work.
+
+For invocation convenience, update your path to include the current directory
 
     $ export PATH=$PATH:$PWD
 
@@ -35,3 +37,7 @@ Scripts such as `bisq` and `bisqd` in the project root directory will now work. 
 ## Run the cli
 
     $ bisq <subcommand>
+
+## Run the desktop
+
+    $ bisqfx
