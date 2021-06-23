@@ -18,6 +18,7 @@ configure(project(':api')) {
 
     dependencies {
         api 'io.reactivex.rxjava3:rxjava:3.0.13'
+        implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     }
 }
 
@@ -38,20 +39,11 @@ configure(project(':core')) {
     build.dependsOn installDist
 }
 
-configure(project(':http-client')) {
-    apply plugin: 'java-library'
-
-    dependencies {
-        api project(':api')
-        implementation 'com.squareup.okhttp3:okhttp:4.9.1'
-    }
-}
-
 configure(project(':cli')) {
     apply plugin: 'application'
 
     dependencies {
-        implementation project(':http-client')
+        implementation project(':api')
         implementation 'info.picocli:picocli:4.6.1'
         testImplementation project(':core')
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
@@ -95,7 +87,7 @@ configure(project(':desktop')) {
     }
 
     dependencies {
-        implementation project(':http-client')
+        implementation project(':api')
     }
 
     startScripts {
