@@ -1,6 +1,8 @@
-package bisq.core.http;
+package bisq.core.service.api.rest;
 
-import bisq.core.CoreBisqClient;
+import bisq.api.Bisq;
+import bisq.core.BisqCore;
+
 import com.google.gson.Gson;
 import spark.Spark;
 
@@ -9,18 +11,18 @@ import java.util.List;
 
 import static spark.Spark.*;
 
-public class HttpApiService {
+public class RestApiService {
 
     public static final int DEFAULT_PORT = 2140;
 
     private final Gson gson = new Gson();
     private final List<String> offers = new ArrayList<>();
 
-    private final CoreBisqClient bisqClient;
+    private final Bisq bisq;
     private final int port;
 
-    public HttpApiService() {
-        this.bisqClient = new CoreBisqClient();
+    public RestApiService() {
+        this.bisq = new BisqCore();
         this.port = DEFAULT_PORT;
     }
 
@@ -30,7 +32,7 @@ public class HttpApiService {
 
         exception(Exception.class, (ex, req, res) -> ex.printStackTrace(System.err));
 
-        get("/price", (req, res) -> bisqClient.getPrice());
+        get("/price", (req, res) -> bisq.getPrice());
 
         get("/offer", (req, res) -> {
             res.type("application/json");

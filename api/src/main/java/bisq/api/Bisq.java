@@ -2,7 +2,7 @@ package bisq.api;
 
 import java.io.IOException;
 
-public interface BisqClient {
+public interface Bisq {
 
     String getPrice() throws IOException;
 

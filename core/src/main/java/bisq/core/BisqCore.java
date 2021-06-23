@@ -1,13 +1,13 @@
 package bisq.core;
 
-import bisq.api.BisqClient;
+import bisq.api.Bisq;
 import bisq.api.OfferBook;
 
 import java.util.Random;
 
 import static java.lang.String.format;
 
-public class CoreBisqClient implements BisqClient {
+public class BisqCore implements Bisq {
 
     @Override
     public String getPrice() {

@@ -1,6 +1,6 @@
 package bisq.cli.app;
 
-import bisq.api.BisqClient;
+import bisq.api.Bisq;
 import bisq.api.OfferBook;
 
 import picocli.CommandLine;
@@ -67,15 +67,15 @@ public class BisqCommandLine {
         @Command(name = price)
         static class PriceSubcommand implements Callable<Integer> {
 
-            private final BisqClient bisqClient;
+            private final Bisq bisq;
 
-            public PriceSubcommand(BisqClient bisqClient) {
-                this.bisqClient = bisqClient;
+            public PriceSubcommand(Bisq bisq) {
+                this.bisq = bisq;
             }
 
             @Override
             public Integer call() throws IOException {
-                out.println(bisqClient.getPrice());
+                out.println(bisq.getPrice());
                 return EXIT_OK;
             }
         }

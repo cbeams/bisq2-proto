@@ -1,6 +1,7 @@
-package bisq.client.http;
+package bisq.api.client;
 
 import bisq.api.OfferBook;
+
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -8,34 +9,34 @@ import okhttp3.RequestBody;
 
 import java.io.IOException;
 
-public class HttpOfferBook implements OfferBook {
+public class OfferBookApiClient implements OfferBook {
 
     private final OkHttpClient httpClient;
-    private final String offerUrl;
+    private final String offerApiUrl;
 
-    public HttpOfferBook(OkHttpClient httpClient, String baseUrl) {
+    public OfferBookApiClient(OkHttpClient httpClient, String baseUrl) {
         this.httpClient = httpClient;
-        this.offerUrl = baseUrl + "/offer";
+        this.offerApiUrl = baseUrl + "/offer";
     }
 
     @Override
     public String list() throws IOException {
         return httpClient.newCall(new Request.Builder()
-                .url(offerUrl)
+                .url(offerApiUrl)
                 .build()).execute().body().string();
     }
 
     @Override
     public String view(int id) throws IOException {
         return httpClient.newCall(new Request.Builder()
-                .url(offerUrl + "/" + id)
+                .url(offerApiUrl + "/" + id)
                 .build()).execute().body().string();
     }
 
     @Override
     public String create(String json) throws IOException {
         return httpClient.newCall(new Request.Builder()
-                .url(offerUrl)
+                .url(offerApiUrl)
                 .post(RequestBody.create(json, MediaType.parse("application/json")))
                 .build()).execute().body().string();
     }
@@ -43,7 +44,7 @@ public class HttpOfferBook implements OfferBook {
     @Override
     public void delete(int id) throws IOException {
         httpClient.newCall(new Request.Builder()
-                .url(offerUrl + "/" + id)
+                .url(offerApiUrl + "/" + id)
                 .delete()
                 .build()).execute();
     }
@@ -51,7 +52,7 @@ public class HttpOfferBook implements OfferBook {
     @Override
     public void delete() throws IOException {
         httpClient.newCall(new Request.Builder()
-                .url(offerUrl)
+                .url(offerApiUrl)
                 .delete()
                 .build()).execute();
     }

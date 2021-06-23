@@ -1,7 +1,7 @@
 package bisq.fx.app;
 
-import bisq.client.http.HttpBisqClient;
-import bisq.api.rx.RxBisqClient;
+import bisq.api.client.BisqApiClient;
+import bisq.api.rx.RxBisq;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -16,7 +16,7 @@ public class BisqFX extends Application {
     @Override
     public void start(Stage stage) {
 
-        var bisqClient = new RxBisqClient(new HttpBisqClient());
+        var bisqClient = new RxBisq(new BisqApiClient());
         var price = bisqClient.getPriceObservable();
 
         var priceLabel = new Label();

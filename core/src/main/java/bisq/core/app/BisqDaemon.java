@@ -1,13 +1,13 @@
 package bisq.core.app;
 
-import bisq.core.http.HttpApiService;
+import bisq.core.service.api.rest.RestApiService;
 
 public class BisqDaemon implements Runnable {
 
-    private final HttpApiService httpApiService;
+    private final RestApiService restApiService;
 
-    public BisqDaemon(HttpApiService httpApiService) {
-        this.httpApiService = httpApiService;
+    public BisqDaemon(RestApiService restApiService) {
+        this.restApiService = restApiService;
     }
 
     public static void main(String[] args) {
@@ -20,14 +20,14 @@ public class BisqDaemon implements Runnable {
     }
 
     public static BisqDaemon newDaemon() {
-        return new BisqDaemon(new HttpApiService());
+        return new BisqDaemon(new RestApiService());
     }
 
     public void run() {
-        httpApiService.start();
+        restApiService.start();
     }
 
     public void stop() {
-        httpApiService.stop();
+        restApiService.stop();
     }
 }

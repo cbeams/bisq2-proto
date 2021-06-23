@@ -1,22 +1,22 @@
 package bisq.api.rx;
 
-import bisq.api.BisqClient;
+import bisq.api.Bisq;
 
 import io.reactivex.rxjava3.core.Emitter;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.functions.Consumer;
 
-public class RxBisqClient {
+public class RxBisq {
 
-    private final BisqClient bisqClient;
+    private final Bisq bisq;
 
-    public RxBisqClient(BisqClient bisqClient) {
-        this.bisqClient = bisqClient;
+    public RxBisq(Bisq bisq) {
+        this.bisq = bisq;
     }
 
     public Observable<String> getPriceObservable() {
         Consumer<Emitter<String>> c = emitter -> {
-            emitter.onNext(bisqClient.getPrice());
+            emitter.onNext(bisq.getPrice());
             Thread.sleep(1000);
         };
         return Observable.generate(c);
