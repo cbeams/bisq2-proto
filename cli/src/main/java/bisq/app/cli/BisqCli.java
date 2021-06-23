@@ -1,6 +1,7 @@
 package bisq.app.cli;
 
-import bisq.api.http.client.HttpApiClient;
+import bisq.api.client.ApiClient;
+
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -65,9 +66,9 @@ public class BisqCli {
         @Command(name = price)
         static class Price implements Callable<Integer> {
 
-            private final HttpApiClient api;
+            private final ApiClient api;
 
-            public Price(HttpApiClient api) {
+            public Price(ApiClient api) {
                 this.api = api;
             }
 
@@ -81,9 +82,9 @@ public class BisqCli {
         @Command(name = offer)
         static class Offer {
 
-            private final HttpApiClient api;
+            private final ApiClient api;
 
-            public Offer(HttpApiClient api) {
+            public Offer(ApiClient api) {
                 this.api = api;
             }
 

@@ -4,7 +4,6 @@ import bisq.api.client.ApiClient;
 import okhttp3.*;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
 
 public class HttpApiClient implements ApiClient {
 
@@ -30,18 +29,21 @@ public class HttpApiClient implements ApiClient {
                 .build()).execute().body().string();
     }
 
+    @Override
     public String getOffers() throws IOException {
         return client.newCall(new Request.Builder()
                 .url(baseUrl + "/offer")
                 .build()).execute().body().string();
     }
 
+    @Override
     public String getOffer(int id) throws IOException {
         return client.newCall(new Request.Builder()
                 .url(baseUrl + "/offer/" + id)
                 .build()).execute().body().string();
     }
 
+    @Override
     public String addOffer(String json) throws IOException {
         return client.newCall(new Request.Builder()
                 .url(baseUrl + "/offer")
@@ -49,6 +51,7 @@ public class HttpApiClient implements ApiClient {
                 .build()).execute().body().string();
     }
 
+    @Override
     public void deleteOffer(int id) throws IOException {
         client.newCall(new Request.Builder()
                 .url(baseUrl + "/offer/" + id)
@@ -56,6 +59,7 @@ public class HttpApiClient implements ApiClient {
                 .build()).execute();
     }
 
+    @Override
     public void deleteAllOffers() throws IOException {
         client.newCall(new Request.Builder()
                 .url(baseUrl + "/offer")

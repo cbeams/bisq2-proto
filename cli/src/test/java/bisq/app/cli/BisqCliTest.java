@@ -48,7 +48,7 @@ class BisqCliTest {
 
     @Test
     void price() {
-        assertEquals(EXIT_OK, bisq("price"));
+        assertEquals(EXIT_OK, bisq("price"), stderr());
         // price returns a random value between 0 and 100,000
         String price = stdout().trim();
         assertTrue(price.matches("^\\d+.00$"), "got: [" + price + "]");
@@ -56,7 +56,7 @@ class BisqCliTest {
 
     @Test
     void offer() {
-        assertEquals(EXIT_USER_ERROR, bisq("offer"));
+        assertEquals(EXIT_USER_ERROR, bisq("offer"), stderr());
         assertEquals("""
                         Missing required subcommand
                         Usage: bisq offer [COMMAND]
@@ -72,32 +72,32 @@ class BisqCliTest {
         assertEquals("""
                 []
                 """, stdout());
-        assertEquals(EXIT_OK, bisq(offer, create, "offerA"));
+        assertEquals(EXIT_OK, bisq(offer, create, "offerA"), stderr());
         reset();
-        assertEquals(EXIT_OK, bisq(offer, view, "1"));
+        assertEquals(EXIT_OK, bisq(offer, view, "1"), stderr());
         assertEquals("""
                 "offerA"
                 """, stdout());
         reset();
-        assertEquals(EXIT_OK, bisq(offer, create, "offerB"));
+        assertEquals(EXIT_OK, bisq(offer, create, "offerB"), stderr());
         reset();
-        assertEquals(EXIT_OK, bisq(offer, create, "offerC"));
+        assertEquals(EXIT_OK, bisq(offer, create, "offerC"), stderr());
         reset();
-        assertEquals(EXIT_OK, bisq(offer, list));
+        assertEquals(EXIT_OK, bisq(offer, list), stderr());
         assertEquals("""
                 ["offerA","offerB","offerC"]
                 """, stdout());
         reset();
-        assertEquals(EXIT_OK, bisq(offer, delete, "1"));
+        assertEquals(EXIT_OK, bisq(offer, delete, "1"), stderr());
         reset();
-        assertEquals(EXIT_OK, bisq(offer, list));
+        assertEquals(EXIT_OK, bisq(offer, list), stderr());
         assertEquals("""
                 ["offerB","offerC"]
                 """, stdout());
         reset();
-        assertEquals(EXIT_OK, bisq(offer, delete, "all"));
+        assertEquals(EXIT_OK, bisq(offer, delete, "all"), stderr());
         reset();
-        assertEquals(EXIT_OK, bisq(offer, list));
+        assertEquals(EXIT_OK, bisq(offer, list), stderr());
         assertEquals("""
                 []
                 """, stdout());
