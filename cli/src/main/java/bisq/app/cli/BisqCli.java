@@ -1,6 +1,7 @@
 package bisq.app.cli;
 
 import bisq.api.client.ApiClient;
+import bisq.api.client.OfferApi;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -82,10 +83,10 @@ public class BisqCli {
         @Command(name = offer)
         static class Offer {
 
-            private final ApiClient api;
+            private final OfferApi offerApi;
 
-            public Offer(ApiClient api) {
-                this.api = api;
+            public Offer(OfferApi offerApi) {
+                this.offerApi = offerApi;
             }
 
             @Command(name = create)
@@ -96,17 +97,17 @@ public class BisqCli {
 
                 if ("-".equals(json))
                     json = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                out.println(api.addOffer(json));
+                out.println(offerApi.addOffer(json));
             }
 
             @Command(name = list)
             public void list() throws IOException {
-                out.println(api.getOffers());
+                out.println(offerApi.getOffers());
             }
 
             @Command(name = view)
             public void view(@Parameters(paramLabel = "<id>") int id) throws IOException {
-                out.println(api.getOffer(id));
+                out.println(offerApi.getOffer(id));
             }
 
             @Command(name = delete)
@@ -117,12 +118,12 @@ public class BisqCli {
                     throws IOException {
 
                 if ("all".equals(id)) {
-                    api.deleteAllOffers();
+                    offerApi.deleteAllOffers();
                     out.println("deleted all offers");
                     return;
                 }
 
-                api.deleteOffer(Integer.parseInt(id));
+                offerApi.deleteOffer(Integer.parseInt(id));
                 out.println("deleted offer " + id);
             }
         }
