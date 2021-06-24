@@ -1,4 +1,4 @@
-rootProject.name = 'bisq2-prototype'
+rootProject.name = 'bisq2'
 include 'api'
 include 'core'
 include 'cli'
