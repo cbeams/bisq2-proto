@@ -7,9 +7,19 @@ buildscript {
     }
 }
 
+def requiredJavaVersion = 16
+
 configure(subprojects) {
+    apply plugin: 'java-base'
+
     repositories {
         mavenCentral()
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(requiredJavaVersion)
+        }
     }
 }
 
@@ -66,6 +76,9 @@ configure(project(':cli')) {
         args 'bisq.cli.app.BisqCommandLine$BisqCommand',
                 '--force',
                 '--completionScript=../bisq-completion.bash'
+        javaLauncher = javaToolchains.launcherFor {
+            languageVersion = JavaLanguageVersion.of(requiredJavaVersion)
+        }
     }
 
     build.dependsOn installDist, generateBashCompletion
