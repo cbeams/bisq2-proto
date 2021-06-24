@@ -8,6 +8,7 @@ buildscript {
 }
 
 def requiredJavaVersion = 16
+def javafxSdkProperty = 'bisq.javafx.sdk'
 
 configure(subprojects) {
     apply plugin: 'java-base'
@@ -89,8 +90,10 @@ configure(project(':fx')) {
     apply plugin: 'org.openjfx.javafxplugin'
 
     javafx {
-        //version = '17-ea+11'
-        sdk = '/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/'
+        if (project.hasProperty(javafxSdkProperty))
+            sdk = project.getProperty(javafxSdkProperty)
+        else
+            version = '16'
         modules = ['javafx.controls']
     }
 
@@ -104,10 +107,9 @@ configure(project(':fx')) {
     }
 
     startScripts {
-        defaultJvmOpts = [
-                '--module-path=/Users/cbeams/lab/javafx-sdk/javafx-sdk-17/lib',
-                '--add-modules=javafx.controls'
-        ]
+        defaultJvmOpts = [ '--add-modules=javafx.controls' ]
+        if (project.hasProperty(javafxSdkProperty))
+            defaultJvmOpts += "--module-path=${project.getProperty(javafxSdkProperty)}/lib"
     }
 
     build.dependsOn installDist
