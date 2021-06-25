@@ -1,45 +1,27 @@
 package bisq.api.client;
 
 import bisq.api.Bisq;
-import bisq.api.OfferBook;
-
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 
-import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class BisqApiClient implements Bisq {
 
     public static final String DEFAULT_HOST = "localhost";
     public static final int DEFAULT_PORT = 2140;
 
-    private final OkHttpClient httpClient = new OkHttpClient();
+    private final OkHttpClient httpClient = new OkHttpClient.Builder()
+            .pingInterval(10, TimeUnit.SECONDS) // to keep any websocket connections alive
+            .build();
 
-    private final String restApiBaseUrl;
-    private final OfferBook offerBook;
-
-    public BisqApiClient() {
-        this(DEFAULT_PORT);
-    }
-
-    public BisqApiClient(int port) {
-        this(DEFAULT_HOST, port);
-    }
+    private final OfferBookApiClient offerBook;
 
     public BisqApiClient(String host, int port) {
-        this.restApiBaseUrl = String.format("http://%s:%s", host, port);
-        this.offerBook = new OfferBookApiClient(httpClient, restApiBaseUrl);
+        this.offerBook = new OfferBookApiClient(httpClient, host, port);
     }
 
     @Override
-    public String getPrice() throws IOException {
-        return httpClient.newCall(new Request.Builder()
-                .url(restApiBaseUrl + "/price")
-                .build()).execute().body().string();
-    }
-
-    @Override
-    public OfferBook getOfferBook() {
+    public OfferBookApiClient getOfferBook() {
         return offerBook;
     }
 }

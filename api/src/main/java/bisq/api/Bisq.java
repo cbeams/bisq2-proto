@@ -1,10 +1,8 @@
 package bisq.api;
 
-import java.io.IOException;
+import bisq.api.offer.OfferBook;
 
 public interface Bisq {
-
-    String getPrice() throws IOException;
 
     OfferBook getOfferBook();
 }

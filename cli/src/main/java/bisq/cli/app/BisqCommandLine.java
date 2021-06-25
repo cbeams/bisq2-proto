@@ -1,15 +1,21 @@
 package bisq.cli.app;
 
-import bisq.api.OfferBook;
 import bisq.api.client.BisqApiClient;
+import bisq.api.offer.OfferBook;
+
+import com.google.gson.Gson;
+
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 import picocli.CommandLine.ParentCommand;
 
-import java.io.*;
-import java.util.concurrent.Callable;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 
 public class BisqCommandLine {
 
@@ -20,7 +26,6 @@ public class BisqCommandLine {
 
     // command and subcommand names
     static final String bisq = "bisq";
-    static final String price = "price";
     static final String offer = "offer";
     static final String create = "create";
     static final String list = "list";
@@ -28,6 +33,7 @@ public class BisqCommandLine {
     static final String delete = "delete";
 
     // option names
+    static final String hostOpt = "--host";
     static final String portOpt = "--port";
     static final String debugOpt = "--debug";
 
@@ -56,7 +62,6 @@ public class BisqCommandLine {
 
     @Command(name = bisq,
             subcommands = {
-                    BisqCommand.PriceSubcommand.class,
                     BisqCommand.OfferSubcommand.class
             })
     @SuppressWarnings("unused") // to avoid warnings on @Command methods below
@@ -65,21 +70,11 @@ public class BisqCommandLine {
         @Option(names = debugOpt, description = "Print stack trace when execution errors occur")
         boolean debug = false;
 
-        @Option(names = portOpt, paramLabel = "<n>", description = "localhost rest api port to use")
+        @Option(names = hostOpt, paramLabel = "<host>", description = "api host")
+        String host = BisqApiClient.DEFAULT_HOST;
+
+        @Option(names = portOpt, paramLabel = "<n>", description = "api port")
         int port = BisqApiClient.DEFAULT_PORT;
-
-        @Command(name = price)
-        static class PriceSubcommand implements Callable<Integer> {
-
-            @ParentCommand
-            private BisqCommand bisqCommand;
-
-            @Override
-            public Integer call() throws IOException {
-                out.println(new BisqApiClient(bisqCommand.port).getPrice());
-                return EXIT_OK;
-            }
-        }
 
         @Command(name = offer)
         static class OfferSubcommand {
@@ -87,8 +82,10 @@ public class BisqCommandLine {
             @ParentCommand
             private BisqCommand bisqCommand;
 
+            private final Gson gson = new Gson();
+
             public OfferBook offerBook() {
-                return new BisqApiClient(bisqCommand.port).getOfferBook();
+                return new BisqApiClient(bisqCommand.host, bisqCommand.port).getOfferBook();
             }
 
             @Command(name = create)
@@ -99,17 +96,18 @@ public class BisqCommandLine {
 
                 if ("-".equals(json))
                     json = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                out.println(offerBook().create(json));
+
+                out.println(offerBook().save(gson.fromJson(json, String.class)));
             }
 
             @Command(name = list)
             public void list() throws IOException {
-                out.println(offerBook().list());
+                out.println(offerBook().findAll());
             }
 
             @Command(name = view)
             public void view(@Parameters(paramLabel = "<id>") int id) throws IOException {
-                out.println(offerBook().view(id));
+                out.println(offerBook().findById(id));
             }
 
             @Command(name = delete)
@@ -120,7 +118,7 @@ public class BisqCommandLine {
                     throws IOException {
 
                 if ("all".equals(id)) {
-                    offerBook().delete();
+                    offerBook().deleteAll();
                     out.println("deleted all offers");
                     return;
                 }

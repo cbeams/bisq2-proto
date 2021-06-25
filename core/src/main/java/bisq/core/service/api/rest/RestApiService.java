@@ -1,42 +1,42 @@
 package bisq.core.service.api.rest;
 
-import bisq.api.Bisq;
+import bisq.api.offer.OfferBook;
 import bisq.core.BisqCore;
+import bisq.util.event.Event;
+import bisq.util.event.EventListener;
 
 import com.google.gson.Gson;
+
 import spark.Spark;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.Socket;
 
 import static spark.Spark.*;
 
-public class RestApiService {
+public class RestApiService implements EventListener<String> {
 
+    public static final String DEFAULT_HOST = "localhost";
     public static final int DEFAULT_PORT = 2140;
     public static final int RANDOM_PORT = 0;
 
     private final Gson gson = new Gson();
-    private final List<String> offers = new ArrayList<>();
+    private final OfferEventsWebSocket offerEventsWebSocket = new OfferEventsWebSocket();
 
-    private final Bisq bisq;
+    private final OfferBook offerBook;
     private final int port;
-
-    /**
-     * Create a new {@link RestApiService} that will bind to port {@value DEFAULT_PORT}.
-     */
-    public RestApiService() {
-        this(DEFAULT_PORT);
-    }
 
     /**
      * @param port the port to bind to, or a random available port if set to {@value #RANDOM_PORT}.
      */
-    public RestApiService(int port) {
-        this.bisq = new BisqCore();
+    public RestApiService(BisqCore bisq, int port) {
+        this.offerBook = bisq.getOfferBook();
+
+        this.offerBook.addEventListener(this);
 
         if (port == RANDOM_PORT) {
             try (ServerSocket random = new ServerSocket(RANDOM_PORT)) {
@@ -44,8 +44,7 @@ public class RestApiService {
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
-        }
-        else {
+        } else {
             this.port = port;
         }
     }
@@ -56,42 +55,47 @@ public class RestApiService {
 
         exception(Exception.class, (ex, req, res) -> ex.printStackTrace(System.err));
 
-        get("/price", (req, res) -> bisq.getPrice());
+        webSocket("/offerevents", offerEventsWebSocket);
+        init();
 
         get("/offer", (req, res) -> {
             res.type("application/json");
-            return offers;
+            return offerBook.findAll();
         }, gson::toJson);
 
         get("/offer/:id", (req, res) -> {
             res.type("application/json");
-            return offers.get(Integer.parseInt(req.params("id")) - 1);
+            return offerBook.findById(Integer.parseInt(req.params("id")) - 1);
         }, gson::toJson);
 
         post("/offer", (req, res) -> {
             var offer = gson.fromJson(req.body(), String.class);
-            offers.add(offer);
+            offerBook.save(offer);
             res.status(201);
-            res.header("Location", "/offer/" + (offers.lastIndexOf(offer) + 1));
+            //res.header("Location", "/offer/" + (offerBook.lastIndexOf(offer) + 1));
 
             res.type("application/json");
             return gson.toJson(offer);
         });
 
         delete("/offer", (req, res) -> {
-            offers.clear();
+            offerBook.deleteAll();
             res.status(204);
             res.type("application/json");
             return "";
         });
 
         delete("/offer/:id", (req, res) -> {
-            res.type("application/json");
-            offers.remove(Integer.parseInt(req.params("id")) - 1);
+            offerBook.delete(Integer.parseInt(req.params("id")) - 1);
             res.status(204);
             res.type("application/json");
             return "";
         }, gson::toJson);
+    }
+
+    @Override
+    public void onEvent(Event<String> event) {
+        offerEventsWebSocket.broadcast(event);
     }
 
     public void stop() {
@@ -100,5 +104,15 @@ public class RestApiService {
 
     public int getPort() {
         return this.port;
+    }
+
+    public static boolean isRunningLocally(int port) {
+        try (Socket socket = new Socket()) {
+            var address = new InetSocketAddress(InetAddress.getLoopbackAddress(), port);
+            socket.connect(address, 40);
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
     }
 }

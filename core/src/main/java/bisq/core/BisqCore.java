@@ -1,21 +1,15 @@
 package bisq.core;
 
 import bisq.api.Bisq;
-import bisq.api.OfferBook;
-
-import java.util.Random;
-
-import static java.lang.String.format;
+import bisq.api.offer.OfferBook;
+import bisq.core.offer.CoreOfferBook;
 
 public class BisqCore implements Bisq {
 
-    @Override
-    public String getPrice() {
-        return format("%d.00", new Random().nextInt(100_000));
-    }
+    private final OfferBook offerBook = new CoreOfferBook();
 
     @Override
     public OfferBook getOfferBook() {
-        throw new UnsupportedOperationException();
+        return offerBook;
     }
 }

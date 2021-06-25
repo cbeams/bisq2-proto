@@ -1,8 +1,12 @@
 package bisq.cli.app;
 
+import bisq.core.BisqCore;
 import bisq.core.app.BisqDaemon;
 import bisq.core.service.api.rest.RestApiService;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -12,7 +16,6 @@ import java.util.Arrays;
 import static bisq.cli.app.BisqCommandLine.*;
 import static bisq.core.service.api.rest.RestApiService.RANDOM_PORT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BisqCommandLineTest {
 
@@ -24,7 +27,7 @@ class BisqCommandLineTest {
 
     @BeforeAll
     static void beforeAll() {
-        var restApiService = new RestApiService(RANDOM_PORT);
+        var restApiService = new RestApiService(new BisqCore(), RANDOM_PORT);
         restApiPort = restApiService.getPort();
         daemon = new BisqDaemon(restApiService);
         new Thread(daemon).start();
@@ -54,14 +57,6 @@ class BisqCommandLineTest {
     }
 
     @Test
-    void price() {
-        assertEquals(EXIT_OK, bisq("price"), stderr());
-        // price returns a random value between 0 and 100,000
-        String price = stdout().trim();
-        assertTrue(price.matches("^\\d+.00$"), "got: [" + price + "]");
-    }
-
-    @Test
     void offer() {
         assertEquals(EXIT_USER_ERROR, bisq("offer"), stderr());
         assertEquals("""
@@ -83,7 +78,7 @@ class BisqCommandLineTest {
         reset();
         assertEquals(EXIT_OK, bisq(offer, view, "1"), stderr());
         assertEquals("""
-                "offerA"
+                offerA
                 """, stdout());
         reset();
         assertEquals(EXIT_OK, bisq(offer, create, "offerB"), stderr());
@@ -92,14 +87,14 @@ class BisqCommandLineTest {
         reset();
         assertEquals(EXIT_OK, bisq(offer, list), stderr());
         assertEquals("""
-                ["offerA","offerB","offerC"]
+                [offerA, offerB, offerC]
                 """, stdout());
         reset();
         assertEquals(EXIT_OK, bisq(offer, delete, "1"), stderr());
         reset();
         assertEquals(EXIT_OK, bisq(offer, list), stderr());
         assertEquals("""
-                ["offerB","offerC"]
+                [offerB, offerC]
                 """, stdout());
         reset();
         assertEquals(EXIT_OK, bisq(offer, delete, "all"), stderr());
@@ -115,11 +110,11 @@ class BisqCommandLineTest {
         assertEquals(EXIT_USER_ERROR, bisq("bogus"));
         assertEquals("""
                         Unmatched argument at index 2: 'bogus'
-                        Usage: bisq [--debug] [--port=<n>] [COMMAND]
-                              --debug      Print stack trace when execution errors occur
-                              --port=<n>   localhost rest api port to use
+                        Usage: bisq [--debug] [--host=<host>] [--port=<n>] [COMMAND]
+                              --debug         Print stack trace when execution errors occur
+                              --host=<host>   api host
+                              --port=<n>      api port
                         Commands:
-                          price
                           offer
                         """,
                 stderr());

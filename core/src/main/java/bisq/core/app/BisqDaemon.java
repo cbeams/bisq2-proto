@@ -1,5 +1,6 @@
 package bisq.core.app;
 
+import bisq.core.BisqCore;
 import bisq.core.service.api.rest.RestApiService;
 
 public class BisqDaemon implements Runnable {
@@ -15,7 +16,7 @@ public class BisqDaemon implements Runnable {
     }
 
     public static int bisqd(String... args) {
-        new BisqDaemon(new RestApiService()).run();
+        new BisqDaemon(new RestApiService(new BisqCore(), RestApiService.DEFAULT_PORT)).run();
         return 0;
     }
 
