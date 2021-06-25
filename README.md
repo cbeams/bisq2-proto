@@ -81,7 +81,7 @@ Notes:
  - These bash completion scripts are also compatible with `zsh`.
  - The goal will be to automatically install these commands, their completion scripts and manpages using system-specific package manegers such as `brew`, `apt`, etc. so that everything "just works".
 
-### Troubleshooting tab completion errors
+### Tab completion errors
 
 If you see `compopt: command not found` errors when attempting tab completion, it is because your `$SHELL` is pointing to a too-old version of bash. See [these instructions](https://github.com/Homebrew/homebrew-core/issues/18679#issuecomment-385442300) for how to fix the problem.
 
@@ -102,3 +102,9 @@ If Gradle auto-provisions JDK 16 for you, you will need to know where it is in o
 You will see the path to your Gradle-provisioned JDK 16 and you can then set your `JAVA_HOME` accordingly:
 
     export JAVA_HOME=/path/to/jdk16/Home
+
+### Running BisqFX from within IDEA
+
+Edit the run configuration and add the following VM arguments:
+
+    --add-modules=javafx.controls --module-path=/path/to/javafx-sdk
