@@ -2,7 +2,10 @@ package bisq.cli.app;
 
 import bisq.api.client.BisqApiClient;
 import bisq.api.offer.OfferBook;
+import bisq.app.BisqApp;
+
 import com.google.gson.Gson;
+
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -15,7 +18,9 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 
-public class BisqCommandLine {
+import static java.lang.String.format;
+
+public class BisqCommandLine implements BisqApp {
 
     // exit statuses
     static final int EXIT_OK = CommandLine.ExitCode.OK;
@@ -60,11 +65,17 @@ public class BisqCommandLine {
 
 
     @Command(name = bisq,
+            versionProvider = VersionProvider.class,
             subcommands = {
                     BisqCommand.OfferSubcommand.class
             })
     @SuppressWarnings("unused") // to avoid warnings on @Command methods below
     static class BisqCommand {
+
+        @Option(names = { "-v", "--version" },
+                versionHelp = true,
+                description = "Print version information and exit")
+        boolean versionRequested;
 
         @Option(names = debugOpt, description = "Print stack trace when execution errors occur")
         boolean debug = false;
@@ -125,6 +136,16 @@ public class BisqCommandLine {
                 offerBook().delete(Integer.parseInt(id));
                 out.println("deleted offer " + id);
             }
+        }
+    }
+
+
+    static class VersionProvider implements CommandLine.IVersionProvider {
+        @Override
+        public String[] getVersion() {
+            return new String[] {
+                    format("%s version %s", BisqApp.APP_INFO.getName(), BisqApp.APP_INFO.getVersion())
+            };
         }
     }
 }

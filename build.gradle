@@ -4,6 +4,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.openjfx:javafx-plugin:0.0.10'
+        classpath "com.palantir.gradle.gitversion:gradle-git-version:0.12.3"
     }
 }
 
@@ -12,6 +13,7 @@ def javafxSdkProperty = 'bisq.javafx.sdk'
 
 configure(subprojects) {
     apply plugin: 'java'
+    apply plugin: "com.palantir.git-version"
 
     repositories {
         mavenCentral()
@@ -61,6 +63,10 @@ configure(project(':daemon')) {
         applicationName = 'bisqd'
     }
 
+    processResources {
+        expand(name: applicationName, version: gitVersion())
+    }
+
     build.dependsOn installDist
 }
 
@@ -97,6 +103,10 @@ configure(project(':cli')) {
         }
     }
 
+    processResources {
+        expand(name: "bisq cli", version: gitVersion())
+    }
+
     build.dependsOn installDist, generateBashCompletion
 }
 
@@ -125,6 +135,10 @@ configure(project(':fx')) {
         defaultJvmOpts = [ '--add-modules=javafx.controls' ]
         if (project.hasProperty(javafxSdkProperty))
             defaultJvmOpts += "--module-path=${project.getProperty(javafxSdkProperty)}/lib"
+    }
+
+    processResources {
+        expand(name: applicationName, version: gitVersion())
     }
 
     build.dependsOn installDist

@@ -1,6 +1,7 @@
 package bisq.fx.app;
 
 import bisq.api.client.BisqApiClient;
+import bisq.app.BisqApp;
 import bisq.core.BisqCore;
 import bisq.core.node.BisqNode;
 import bisq.core.service.api.rest.RestApiService;
@@ -18,12 +19,14 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class BisqFX extends Application {
+public class BisqFX extends Application implements BisqApp {
 
-    public static final Logger log = LoggerFactory.getLogger(RestApiService.class);
+    public static final Logger log = LoggerFactory.getLogger(BisqFX.class);
 
     @Override
     public void start(Stage stage) {
+
+        log.info("{} version {}", APP_INFO.getName(), APP_INFO.getVersion());
 
         String host = RestApiService.DEFAULT_HOST;
         int port = RestApiService.DEFAULT_PORT;

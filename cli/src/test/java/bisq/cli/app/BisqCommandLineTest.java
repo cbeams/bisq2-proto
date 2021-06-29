@@ -1,5 +1,6 @@
 package bisq.cli.app;
 
+import bisq.app.BisqApp;
 import bisq.core.BisqCore;
 import bisq.core.node.BisqNode;
 import bisq.core.service.api.rest.RestApiService;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 import static bisq.cli.app.BisqCommandLine.*;
 import static bisq.core.service.api.rest.RestApiService.RANDOM_PORT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class BisqCommandLineTest {
 
@@ -54,6 +56,18 @@ class BisqCommandLineTest {
 
     private String stderr() {
         return errors.toString();
+    }
+
+    @Test
+    void whenVersionOptionIsProvided_thenPrintVersionAndExit() {
+        assertEquals(EXIT_OK, bisq("-v"), stderr());
+        var name = BisqApp.APP_INFO.getName();
+        var version = BisqApp.APP_INFO.getVersion();
+        assertFalse(name.contains("${") || version.contains("${"), "resources were not processed");
+        assertEquals(String.format("""
+                %s version %s
+                """,
+                name, version), stdout());
     }
 
     @Test
@@ -110,10 +124,11 @@ class BisqCommandLineTest {
         assertEquals(EXIT_USER_ERROR, bisq("bogus"));
         assertEquals("""
                         Unmatched argument at index 2: 'bogus'
-                        Usage: bisq [--debug] [--host=<host>] [--port=<n>] [COMMAND]
+                        Usage: bisq [-v] [--debug] [--host=<host>] [--port=<n>] [COMMAND]
                               --debug         Print stack trace when execution errors occur
                               --host=<host>   api host
                               --port=<n>      api port
+                          -v, --version       Print version information and exit
                         Commands:
                           offer
                         """,

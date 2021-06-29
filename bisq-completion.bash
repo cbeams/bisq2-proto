@@ -138,7 +138,7 @@ function _picocli_bisq() {
   local prev_word=${COMP_WORDS[COMP_CWORD-1]}
 
   local commands="offer"
-  local flag_opts="--debug"
+  local flag_opts="-v --version --debug"
   local arg_opts="--host --port"
 
   compopt +o default
