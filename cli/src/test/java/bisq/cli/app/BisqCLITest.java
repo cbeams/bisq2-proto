@@ -124,10 +124,11 @@ class BisqCLITest {
         assertEquals(EXIT_USER_ERROR, bisq("bogus"));
         assertEquals("""
                         Unmatched argument at index 2: 'bogus'
-                        Usage: bisq [-v] [--debug] [--host=<host>] [--port=<n>] [COMMAND]
+                        Usage: bisq [-v] [--debug] [--node=<host>] [--port=<n>] [COMMAND]
                               --debug         Print stack trace when execution errors occur
-                              --host=<host>   api host
-                              --port=<n>      api port
+                              --node=<host>   Specify hostname of the target Bisq node
+                              --port=<n>      Specify API port of the target Bisq node
+                                                Default: 2140
                           -v, --version       Print version information and exit
                         Commands:
                           offer

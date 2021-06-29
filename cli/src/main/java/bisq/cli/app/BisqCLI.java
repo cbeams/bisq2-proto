@@ -19,6 +19,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 
 import static java.lang.String.format;
+import static picocli.CommandLine.Help.Visibility.ALWAYS;
 
 public class BisqCLI implements BisqApp {
 
@@ -36,7 +37,7 @@ public class BisqCLI implements BisqApp {
     static final String delete = "delete";
 
     // option names
-    static final String hostOpt = "--host";
+    static final String nodeOpt = "--node";
     static final String portOpt = "--port";
     static final String debugOpt = "--debug";
 
@@ -77,13 +78,17 @@ public class BisqCLI implements BisqApp {
                 description = "Print version information and exit")
         boolean versionRequested;
 
-        @Option(names = debugOpt, description = "Print stack trace when execution errors occur")
+        @Option(names = debugOpt,
+                description = "Print stack trace when execution errors occur")
         boolean debug = false;
 
-        @Option(names = hostOpt, paramLabel = "<host>", description = "api host")
+        @Option(names = nodeOpt, paramLabel = "<host>",
+                description = "Specify hostname of the target Bisq node")
         String host = BisqApiClient.DEFAULT_HOST;
 
-        @Option(names = portOpt, paramLabel = "<n>", description = "api port")
+        @Option(names = portOpt, paramLabel = "<n>",
+                description = "Specify API port of the target Bisq node",
+                showDefaultValue = ALWAYS)
         int port = BisqApiClient.DEFAULT_PORT;
 
         @Command(name = offer)

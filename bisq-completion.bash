@@ -139,12 +139,12 @@ function _picocli_bisq() {
 
   local commands="offer"
   local flag_opts="-v --version --debug"
-  local arg_opts="--host --port"
+  local arg_opts="--node --port"
 
   compopt +o default
 
   case ${prev_word} in
-    --host)
+    --node)
       return
       ;;
     --port)
