@@ -12,11 +12,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class BisqFX extends Application {
+
+    public static final Logger log = LoggerFactory.getLogger(RestApiService.class);
 
     @Override
     public void start(Stage stage) {
@@ -24,7 +28,7 @@ public class BisqFX extends Application {
         String host = RestApiService.DEFAULT_HOST;
         int port = RestApiService.DEFAULT_PORT;
         if (!RestApiService.isRunningLocally(port)) {
-            System.out.printf("No api service detected on port %d. Starting own.\n", port);
+            log.info("No api service detected on port {}. Starting own.", port);
             new BisqDaemon(new RestApiService(new BisqCore(), port)).run();
         }
 

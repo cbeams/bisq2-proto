@@ -15,6 +15,8 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -25,6 +27,8 @@ import java.util.List;
 import static java.lang.String.format;
 
 public class OfferBookApiClient implements OfferBook {
+
+    private static final Logger log = LoggerFactory.getLogger(OfferBookApiClient.class);
 
     private final OkHttpClient httpClient;
     private final String restApiUrl;
@@ -57,6 +61,7 @@ public class OfferBookApiClient implements OfferBook {
     @Override
     public String save(String offer) throws IOException {
         var json = gson.toJson(offer);
+        log.debug("requesting to save offer {}", json);
         var savedJson = httpClient.newCall(new Request.Builder()
                 .url(restApiUrl)
                 .post(RequestBody.create(json, MediaType.parse("application/json")))
@@ -82,13 +87,14 @@ public class OfferBookApiClient implements OfferBook {
 
     @Override
     public void addEventListener(EventListener<String> eventListener) {
-        // avoid WebSocket connection until there is at least one listener
+        // avoid establishing WebSocket connection until there is at least one listener
         if (eventListeners.isEmpty())
-            initEventWebSocket();
+            subscribeToOfferEvents();
         eventListeners.add(eventListener);
     }
 
-    private void initEventWebSocket() {
+    private void subscribeToOfferEvents() {
+        log.info("subscribing to offer events at {}", eventWsUrl);
         Request request = new Request.Builder()
                 .url(eventWsUrl)
                 .build();
@@ -96,6 +102,7 @@ public class OfferBookApiClient implements OfferBook {
         httpClient.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onMessage(@NotNull WebSocket webSocket, @NotNull String eventJson) {
+                log.debug("receiving offer event {}", eventJson);
                 Event<String> event = gson.fromJson(eventJson, eventType);
                 eventListeners.forEach(eventListener -> eventListener.onEvent(event));
             }

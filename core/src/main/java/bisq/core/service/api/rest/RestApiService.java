@@ -7,6 +7,8 @@ import bisq.util.event.EventListener;
 
 import com.google.gson.Gson;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Spark;
 
 import java.io.IOException;
@@ -19,6 +21,8 @@ import java.net.Socket;
 import static spark.Spark.*;
 
 public class RestApiService implements EventListener<String> {
+
+    public static final Logger log = LoggerFactory.getLogger(RestApiService.class);
 
     public static final String DEFAULT_HOST = "localhost";
     public static final int DEFAULT_PORT = 2140;
@@ -50,13 +54,14 @@ public class RestApiService implements EventListener<String> {
     }
 
     public void start() {
+        log.info("starting REST api service on port {}", port);
         Spark.port(port);
-        System.out.println("listening on port " + port);
 
-        exception(Exception.class, (ex, req, res) -> ex.printStackTrace(System.err));
-
+        log.info("starting /offerevents WebSocket api service on port {}", port);
         webSocket("/offerevents", offerEventsWebSocket);
         init();
+
+        exception(Exception.class, (ex, req, res) -> ex.printStackTrace(System.err));
 
         get("/offer", (req, res) -> {
             res.type("application/json");
@@ -95,7 +100,7 @@ public class RestApiService implements EventListener<String> {
 
     @Override
     public void onEvent(Event<String> event) {
-        offerEventsWebSocket.broadcast(event);
+        offerEventsWebSocket.send(event);
     }
 
     public void stop() {

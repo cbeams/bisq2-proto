@@ -3,6 +3,8 @@ package bisq.core.offer;
 import bisq.api.offer.OfferBook;
 import bisq.util.event.Event;
 import bisq.util.event.EventListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,8 @@ import static bisq.util.event.Event.Type.CREATION;
 import static bisq.util.event.Event.Type.DELETION;
 
 public class CoreOfferBook implements OfferBook {
+
+    private static final Logger log = LoggerFactory.getLogger(CoreOfferBook.class);
 
     private final List<String> offers = new ArrayList<>();
     private final List<EventListener<String>> eventListeners = new ArrayList<>();
@@ -32,9 +36,10 @@ public class CoreOfferBook implements OfferBook {
 
     @Override
     public String save(String offer) {
-            offers.add(offer);
-            notifyListeners(new Event<>(offer, CREATION));
-            return offer;
+        log.debug("saving offer {}", offer);
+        offers.add(offer);
+        notifyListeners(new Event<>(offer, CREATION));
+        return offer;
     }
 
     @Override

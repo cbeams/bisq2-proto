@@ -2,9 +2,7 @@ package bisq.cli.app;
 
 import bisq.api.client.BisqApiClient;
 import bisq.api.offer.OfferBook;
-
 import com.google.gson.Gson;
-
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -46,6 +44,7 @@ public class BisqCommandLine {
     }
 
     public static int bisq(String... args) {
+
         return new CommandLine(BisqCommand.class)
                 .setOut(new PrintWriter(out))
                 .setErr(new PrintWriter(err))

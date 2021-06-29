@@ -11,10 +11,16 @@ def requiredJavaVersion = 16
 def javafxSdkProperty = 'bisq.javafx.sdk'
 
 configure(subprojects) {
-    apply plugin: 'java-base'
+    apply plugin: 'java'
 
     repositories {
         mavenCentral()
+    }
+
+    dependencies {
+        implementation 'org.slf4j:slf4j-api:1.7.31'
+        implementation 'ch.qos.logback:logback-core:1.2.3'
+        implementation 'ch.qos.logback:logback-classic:1.2.3'
     }
 
     java {

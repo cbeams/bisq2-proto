@@ -9,6 +9,8 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -18,6 +20,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @WebSocket
 @SuppressWarnings("unused") // for @OnWebSocket* annotated methods
 public class OfferEventsWebSocket {
+
+    private static final Logger log = LoggerFactory.getLogger(OfferEventsWebSocket.class);
 
     private final Queue<Session> sessions = new ConcurrentLinkedQueue<>();
     private final Gson gson = new Gson();
@@ -37,11 +41,12 @@ public class OfferEventsWebSocket {
         session.getRemote().sendString(message); // and send it back
     }
 
-    public void broadcast(Event<String> event) {
-        String message = gson.toJson(event);
+    public void send(Event<String> event) {
+        String eventJson = gson.toJson(event);
+        log.debug("sending offer event {}", eventJson);
         sessions.forEach(s -> {
             try {
-                s.getRemote().sendString(message);
+                s.getRemote().sendString(eventJson);
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
