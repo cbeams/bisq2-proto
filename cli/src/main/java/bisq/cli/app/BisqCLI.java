@@ -20,7 +20,7 @@ import java.io.PrintWriter;
 
 import static java.lang.String.format;
 
-public class BisqCommandLine implements BisqApp {
+public class BisqCLI implements BisqApp {
 
     // exit statuses
     static final int EXIT_OK = CommandLine.ExitCode.OK;

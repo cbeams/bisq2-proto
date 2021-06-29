@@ -14,12 +14,12 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static bisq.cli.app.BisqCommandLine.*;
+import static bisq.cli.app.BisqCLI.*;
 import static bisq.core.service.api.rest.RestApiService.RANDOM_PORT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-class BisqCommandLineTest {
+class BisqCLITest {
 
     private static BisqNode node;
     private static int restApiPort;
@@ -38,16 +38,16 @@ class BisqCommandLineTest {
     @AfterAll
     static void afterAll() {
         node.stop();
-        BisqCommandLine.out = System.out;
-        BisqCommandLine.err = System.err;
+        BisqCLI.out = System.out;
+        BisqCLI.err = System.err;
     }
 
     @BeforeEach
     void reset() {
         output = new ByteArrayOutputStream();
         errors = new ByteArrayOutputStream();
-        BisqCommandLine.out = new PrintStream(output);
-        BisqCommandLine.err = new PrintStream(errors);
+        BisqCLI.out = new PrintStream(output);
+        BisqCLI.err = new PrintStream(errors);
     }
 
     private String stdout() {
@@ -140,6 +140,6 @@ class BisqCommandLineTest {
         newArgs.add("--debug");
         newArgs.add("--port=" + restApiPort);
         newArgs.addAll(Arrays.asList(args));
-        return BisqCommandLine.bisq(newArgs.toArray(new String[]{}));
+        return BisqCLI.bisq(newArgs.toArray(new String[]{}));
     }
 }
