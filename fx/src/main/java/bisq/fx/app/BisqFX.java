@@ -2,7 +2,7 @@ package bisq.fx.app;
 
 import bisq.api.client.BisqApiClient;
 import bisq.core.BisqCore;
-import bisq.core.app.BisqDaemon;
+import bisq.core.node.BisqNode;
 import bisq.core.service.api.rest.RestApiService;
 import bisq.fx.offer.ObservableOfferBook;
 
@@ -29,7 +29,7 @@ public class BisqFX extends Application {
         int port = RestApiService.DEFAULT_PORT;
         if (!RestApiService.isRunningLocally(port)) {
             log.info("No api service detected on port {}. Starting own.", port);
-            new BisqDaemon(new RestApiService(new BisqCore(), port)).run();
+            new BisqNode(new RestApiService(new BisqCore(), port)).run();
         }
 
         var bisq = new BisqApiClient(host, port);

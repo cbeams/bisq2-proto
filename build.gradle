@@ -40,16 +40,24 @@ configure(project(':api')) {
 }
 
 configure(project(':core')) {
-    apply plugin: 'application'
+    apply plugin: 'java-library'
 
     dependencies {
-        implementation project(':api')
+        api project(':api')
         implementation 'com.sparkjava:spark-core:2.9.3'
         implementation 'com.google.code.gson:gson:2.8.7'
     }
+}
+
+configure(project(':daemon')) {
+    apply plugin: 'application'
+
+    dependencies {
+        implementation project(':core')
+    }
 
     application {
-        mainClass = 'bisq.core.app.BisqDaemon'
+        mainClass = 'bisq.daemon.app.BisqDaemon'
         applicationName = 'bisqd'
     }
 
@@ -110,7 +118,6 @@ configure(project(':fx')) {
     }
 
     dependencies {
-        implementation project(':api')
         implementation project(':core')
     }
 

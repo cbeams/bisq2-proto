@@ -1,7 +1,7 @@
 package bisq.cli.app;
 
 import bisq.core.BisqCore;
-import bisq.core.app.BisqDaemon;
+import bisq.core.node.BisqNode;
 import bisq.core.service.api.rest.RestApiService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BisqCommandLineTest {
 
-    private static BisqDaemon daemon;
+    private static BisqNode node;
     private static int restApiPort;
 
     private ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -29,13 +29,13 @@ class BisqCommandLineTest {
     static void beforeAll() {
         var restApiService = new RestApiService(new BisqCore(), RANDOM_PORT);
         restApiPort = restApiService.getPort();
-        daemon = new BisqDaemon(restApiService);
-        new Thread(daemon).start();
+        node = new BisqNode(restApiService);
+        new Thread(node).start();
     }
 
     @AfterAll
     static void afterAll() {
-        daemon.stop();
+        node.stop();
         BisqCommandLine.out = System.out;
         BisqCommandLine.err = System.err;
     }
