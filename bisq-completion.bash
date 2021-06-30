@@ -115,17 +115,21 @@ function currentPositionalIndex() {
 # on the command line and delegates to the appropriate function
 # to generate possible options and subcommands for the last specified subcommand.
 function _complete_bisq() {
-  local cmds0=(offer)
-  local cmds1=(offer create)
-  local cmds2=(offer delete)
-  local cmds3=(offer list)
-  local cmds4=(offer view)
+  local cmds0=(node)
+  local cmds1=(offer)
+  local cmds2=(node list)
+  local cmds3=(offer create)
+  local cmds4=(offer delete)
+  local cmds5=(offer list)
+  local cmds6=(offer view)
 
-  if CompWordsContainsArray "${cmds4[@]}"; then _picocli_bisq_offer_view; return $?; fi
-  if CompWordsContainsArray "${cmds3[@]}"; then _picocli_bisq_offer_list; return $?; fi
-  if CompWordsContainsArray "${cmds2[@]}"; then _picocli_bisq_offer_delete; return $?; fi
-  if CompWordsContainsArray "${cmds1[@]}"; then _picocli_bisq_offer_create; return $?; fi
-  if CompWordsContainsArray "${cmds0[@]}"; then _picocli_bisq_offer; return $?; fi
+  if CompWordsContainsArray "${cmds6[@]}"; then _picocli_bisq_offer_view; return $?; fi
+  if CompWordsContainsArray "${cmds5[@]}"; then _picocli_bisq_offer_list; return $?; fi
+  if CompWordsContainsArray "${cmds4[@]}"; then _picocli_bisq_offer_delete; return $?; fi
+  if CompWordsContainsArray "${cmds3[@]}"; then _picocli_bisq_offer_create; return $?; fi
+  if CompWordsContainsArray "${cmds2[@]}"; then _picocli_bisq_node_list; return $?; fi
+  if CompWordsContainsArray "${cmds1[@]}"; then _picocli_bisq_offer; return $?; fi
+  if CompWordsContainsArray "${cmds0[@]}"; then _picocli_bisq_node; return $?; fi
 
   # No subcommands were specified; generate completions for the top-level command.
   _picocli_bisq; return $?;
@@ -137,9 +141,9 @@ function _picocli_bisq() {
   local curr_word=${COMP_WORDS[COMP_CWORD]}
   local prev_word=${COMP_WORDS[COMP_CWORD-1]}
 
-  local commands="offer"
-  local flag_opts="-v --version --debug"
-  local arg_opts="--node --port"
+  local commands="node offer"
+  local flag_opts="-v --version -h --help --debug"
+  local arg_opts="--node --conf"
 
   compopt +o default
 
@@ -147,10 +151,29 @@ function _picocli_bisq() {
     --node)
       return
       ;;
-    --port)
-      return
+    --conf)
+      compopt -o filenames
+      COMPREPLY=( $( compgen -f -- "${curr_word}" ) ) # files
+      return $?
       ;;
   esac
+
+  if [[ "${curr_word}" == -* ]]; then
+    COMPREPLY=( $(compgen -W "${flag_opts} ${arg_opts}" -- "${curr_word}") )
+  else
+    local positionals=""
+    COMPREPLY=( $(compgen -W "${commands} ${positionals}" -- "${curr_word}") )
+  fi
+}
+
+# Generates completions for the options and subcommands of the `node` subcommand.
+function _picocli_bisq_node() {
+  # Get completion data
+  local curr_word=${COMP_WORDS[COMP_CWORD]}
+
+  local commands="list"
+  local flag_opts=""
+  local arg_opts=""
 
   if [[ "${curr_word}" == -* ]]; then
     COMPREPLY=( $(compgen -W "${flag_opts} ${arg_opts}" -- "${curr_word}") )
@@ -166,6 +189,23 @@ function _picocli_bisq_offer() {
   local curr_word=${COMP_WORDS[COMP_CWORD]}
 
   local commands="create delete list view"
+  local flag_opts=""
+  local arg_opts=""
+
+  if [[ "${curr_word}" == -* ]]; then
+    COMPREPLY=( $(compgen -W "${flag_opts} ${arg_opts}" -- "${curr_word}") )
+  else
+    local positionals=""
+    COMPREPLY=( $(compgen -W "${commands} ${positionals}" -- "${curr_word}") )
+  fi
+}
+
+# Generates completions for the options and subcommands of the `list` subcommand.
+function _picocli_bisq_node_list() {
+  # Get completion data
+  local curr_word=${COMP_WORDS[COMP_CWORD]}
+
+  local commands=""
   local flag_opts=""
   local arg_opts=""
 

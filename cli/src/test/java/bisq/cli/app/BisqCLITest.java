@@ -4,6 +4,7 @@ import bisq.app.BisqApp;
 import bisq.core.BisqCore;
 import bisq.core.node.BisqNode;
 import bisq.core.service.api.rest.RestApiService;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,9 +16,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static bisq.cli.app.BisqCLI.*;
+import static bisq.cli.app.BisqCommand.*;
+import static bisq.cli.app.OfferSubcommand.*;
 import static bisq.core.service.api.rest.RestApiService.RANDOM_PORT;
+import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static com.google.common.truth.Truth.*;
 
 class BisqCLITest {
 
@@ -38,16 +43,16 @@ class BisqCLITest {
     @AfterAll
     static void afterAll() {
         node.stop();
-        BisqCLI.out = System.out;
-        BisqCLI.err = System.err;
+        BisqConsole.out = System.out;
+        BisqConsole.err = System.err;
     }
 
     @BeforeEach
     void reset() {
         output = new ByteArrayOutputStream();
         errors = new ByteArrayOutputStream();
-        BisqCLI.out = new PrintStream(output);
-        BisqCLI.err = new PrintStream(errors);
+        BisqConsole.out = new PrintStream(output);
+        BisqConsole.err = new PrintStream(errors);
     }
 
     private String stdout() {
@@ -64,14 +69,14 @@ class BisqCLITest {
         var name = BisqApp.APP_INFO.getName();
         var version = BisqApp.APP_INFO.getVersion();
         assertFalse(name.contains("${") || version.contains("${"), "resources were not processed");
-        assertEquals(String.format("""
+        assertEquals(format("""
                 %s version %s
                 """,
                 name, version), stdout());
     }
 
     @Test
-    void offer() {
+    void exerciseOfferCrudSubcommands() {
         assertEquals(EXIT_USER_ERROR, bisq("offer"), stderr());
         assertEquals("""
                         Missing required subcommand
@@ -120,26 +125,26 @@ class BisqCLITest {
     }
 
     @Test
-    void bogus() {
+    void whenHelpOptionIsProvided_thenPrintUsage() {
+        assertThat(usageText()).startsWith("Usage: ");
+    }
+
+    @Test
+    void whenUnknownSubcommandIsProvided_thenReportErrorAndPrintUsage() {
         assertEquals(EXIT_USER_ERROR, bisq("bogus"));
-        assertEquals("""
-                        Unmatched argument at index 2: 'bogus'
-                        Usage: bisq [-v] [--debug] [--node=<host>] [--port=<n>] [COMMAND]
-                              --debug         Print stack trace when execution errors occur
-                              --node=<host>   Specify hostname of the target Bisq node
-                              --port=<n>      Specify API port of the target Bisq node
-                                                Default: 2140
-                          -v, --version       Print version information and exit
-                        Commands:
-                          offer
-                        """,
-                stderr());
+        assertThat(stderr()).containsMatch("Unmatched argument .* 'bogus'");
+        assertThat(stderr()).endsWith(usageText());
+    }
+
+    private String usageText() {
+        bisq(helpOpt);
+        return stdout();
     }
 
     private static int bisq(String... args) {
         var newArgs = new ArrayList<String>();
-        newArgs.add("--debug");
-        newArgs.add("--port=" + restApiPort);
+        newArgs.add(debugOpt);
+        newArgs.add(format("%s=localhost:%d", nodeOpt, restApiPort));
         newArgs.addAll(Arrays.asList(args));
         return BisqCLI.bisq(newArgs.toArray(new String[]{}));
     }

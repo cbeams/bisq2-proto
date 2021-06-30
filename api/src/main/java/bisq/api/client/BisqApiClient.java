@@ -7,9 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 public class BisqApiClient implements Bisq {
 
-    public static final String DEFAULT_HOST = "localhost";
-    public static final int DEFAULT_PORT = 2140;
-
     private final OkHttpClient httpClient = new OkHttpClient.Builder()
             .pingInterval(10, TimeUnit.SECONDS) // to keep any websocket connections alive
             .build();

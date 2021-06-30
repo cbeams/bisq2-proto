@@ -23,6 +23,9 @@ configure(subprojects) {
         implementation 'org.slf4j:slf4j-api:1.7.31'
         implementation 'ch.qos.logback:logback-core:1.2.3'
         implementation 'ch.qos.logback:logback-classic:1.2.3'
+        testImplementation "com.google.truth:truth:1.1.3"
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     }
 
     java {
@@ -38,6 +41,10 @@ configure(project(':api')) {
     dependencies {
         implementation 'com.squareup.okhttp3:okhttp:4.9.1'
         implementation 'com.google.code.gson:gson:2.8.7'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
     }
 }
 
@@ -78,8 +85,6 @@ configure(project(':cli')) {
         implementation 'info.picocli:picocli:4.6.1'
         implementation 'com.google.code.gson:gson:2.8.7'
         testImplementation project(':core')
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     }
 
     application {
@@ -95,7 +100,7 @@ configure(project(':cli')) {
     task generateBashCompletion(type: JavaExec) {
         classpath = sourceSets.main.runtimeClasspath
         mainClass = 'picocli.AutoComplete'
-        args 'bisq.cli.app.BisqCLI$BisqCommand',
+        args 'bisq.cli.app.BisqCommand',
                 '--force',
                 '--completionScript=../bisq-completion.bash'
         javaLauncher = javaToolchains.launcherFor {
