@@ -29,6 +29,7 @@ import static picocli.CommandLine.Help.Visibility.ALWAYS;
 @Command(name = bisq,
         versionProvider = VersionProvider.class,
         subcommands = {
+                HelpCommand.class,
                 NodeSubcommand.class,
                 OfferSubcommand.class
         })
@@ -132,7 +133,6 @@ class BisqCommand implements InitializableCommand {
     private static Path defaultConfFilePath() {
         return Path.of(System.getProperty("user.home"), ".bisq", "config");
     }
-
 
     static class VersionProvider implements CommandLine.IVersionProvider {
         @Override
