@@ -41,7 +41,7 @@ class BisqCommand implements InitializableCommand {
     static final String appSectionType = "app";
 
     static final String versionOpt = "--version";
-    @Option(names = {"-v", versionOpt},
+    @Option(names = {"-V", versionOpt},
             versionHelp = true,
             description = "Print version information and exit")
     boolean versionRequested;
@@ -51,6 +51,11 @@ class BisqCommand implements InitializableCommand {
             usageHelp = true,
             description = "Print this usage help")
     boolean helpRequested;
+
+    static final String verboseOpt = "--verbose";
+    @Option(names = {"-v", verboseOpt},
+            description = "Enable verbose mode to diagnose problems")
+    boolean verbose = false;
 
     static final String stacktraceOpt = "--stacktrace";
     @Option(names = {"-s", stacktraceOpt},

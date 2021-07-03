@@ -65,7 +65,7 @@ class BisqCLITest {
 
     @Test
     void whenVersionOptionIsProvided_thenPrintVersionAndExit() {
-        assertEquals(EXIT_OK, bisq("-v"), stderr());
+        assertEquals(EXIT_OK, bisq("-V"), stderr());
         var name = BisqApp.APP_INFO.getName();
         var version = BisqApp.APP_INFO.getVersion();
         assertFalse(name.contains("${") || version.contains("${"), "resources were not processed");

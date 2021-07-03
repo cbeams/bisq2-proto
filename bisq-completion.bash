@@ -142,7 +142,7 @@ function _picocli_bisq() {
   local prev_word=${COMP_WORDS[COMP_CWORD-1]}
 
   local commands="node offer"
-  local flag_opts="-v --version -h --help -s --stacktrace"
+  local flag_opts="-V --version -h --help -v --verbose -s --stacktrace"
   local arg_opts="--node --conf"
 
   compopt +o default
