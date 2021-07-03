@@ -143,15 +143,15 @@ function _picocli_bisq() {
 
   local commands="node offer"
   local flag_opts="-V --version -h --help -v --verbose -s --stacktrace"
-  local arg_opts="--node --conf"
+  local arg_opts="-n --node -c --conf"
 
   compopt +o default
 
   case ${prev_word} in
-    --node)
+    -n|--node)
       return
       ;;
-    --conf)
+    -c|--conf)
       compopt -o filenames
       COMPREPLY=( $( compgen -f -- "${curr_word}" ) ) # files
       return $?

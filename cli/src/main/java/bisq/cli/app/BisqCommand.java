@@ -63,13 +63,15 @@ class BisqCommand implements InitializableCommand {
     boolean stacktrace = false;
 
     static final String nodeOpt = "--node";
-    @Option(names = nodeOpt, paramLabel = "<spec>",
+    @Option(names = {"-n", nodeOpt},
+            paramLabel = "<node>",
             description = "Nicename or host[:port] address of the Bisq node to use",
             showDefaultValue = ALWAYS)
     String nodeSpec = Node.DEFAULT_NICE_NAME;
 
     final String confOpt = "--conf";
-    @Option(names = confOpt, paramLabel = "<file>",
+    @Option(names = {"-c", confOpt},
+            paramLabel = "<conf>",
             description = "Path to config file",
             showDefaultValue = ALWAYS)
     File confFile = defaultConfFilePath().toFile();
