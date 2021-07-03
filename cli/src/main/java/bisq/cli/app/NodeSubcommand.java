@@ -10,12 +10,22 @@ import static bisq.cli.app.BisqConsole.out;
 
 @Command(name = "node")
 @SuppressWarnings("unused")
-class NodeSubcommand {
+class NodeSubcommand implements Runnable {
 
     @ParentCommand
     private BisqCommand bisq;
 
-    @Command(name = OfferSubcommand.list)
+    /**
+     * Ensure that running `bisq node` produces the same results as explicitly running
+     * `bisq node list`. This is similar to the way `git branch` and `git branch --list`
+     * work.
+     */
+    @Override
+    public void run() {
+        list();
+    }
+
+    @Command(name = "list")
     public void list() {
         List<String> allNiceNames = Node.findAllNiceNamesIn(bisq.conf);
         var selectedNiceName = bisq.node.niceName();
@@ -24,13 +34,15 @@ class NodeSubcommand {
         allNiceNames.stream()
                 .sorted()
                 .forEach(niceName -> {
-                            var selected = niceName.equals(selectedNiceName);
-                            out.printf("%s %s%s%s\n",
-                                    selected ? "*" : " ",
-                                    selected ? "\033[32m" : "",
-                                    niceName,
-                                    selected ? "\033[0m" : ""
-                            );
-                        });
+                    // mark up selected node with a asterisk and ansi green color similar
+                    // to the way `git branch` does for the current branch
+                    var selected = niceName.equals(selectedNiceName);
+                    out.printf("%s %s%s%s\n",
+                            selected ? "*" : " ",
+                            selected ? "\033[32m" : "",
+                            niceName,
+                            selected ? "\033[0m" : ""
+                    );
+                });
     }
 }
