@@ -27,7 +27,7 @@ public class BisqCLI implements BisqApp {
                 .setExecutionStrategy(new InitializeAndRunLast())
                 .setExecutionExceptionHandler((ex, commandLine, parseResult) -> {
                     err.println("error: " + ex.getMessage());
-                    if (parseResult.hasMatchedOption(BisqCommand.debugOpt)) {
+                    if (parseResult.hasMatchedOption(BisqCommand.stacktraceOpt)) {
                         throw ex;
                     }
                     return EXIT_APP_ERROR;

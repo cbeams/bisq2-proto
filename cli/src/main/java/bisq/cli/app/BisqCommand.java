@@ -52,10 +52,10 @@ class BisqCommand implements InitializableCommand {
             description = "Print this usage help")
     boolean helpRequested;
 
-    static final String debugOpt = "--debug";
-    @Option(names = debugOpt,
+    static final String stacktraceOpt = "--stacktrace";
+    @Option(names = {"-s", stacktraceOpt},
             description = "Print stack trace when execution errors occur")
-    boolean debug = false;
+    boolean stacktrace = false;
 
     static final String nodeOpt = "--node";
     @Option(names = nodeOpt, paramLabel = "<spec>",
@@ -89,7 +89,7 @@ class BisqCommand implements InitializableCommand {
         var cliParseResult = spec.commandLine().getParseResult();
         var confOptions = conf.getOptions(appSectionType, bisq);
 
-        debug = selectOptionValue(cliParseResult, confOptions, debugOpt, debug, Boolean::parseBoolean);
+        stacktrace = selectOptionValue(cliParseResult, confOptions, stacktraceOpt, stacktrace, Boolean::parseBoolean);
         nodeSpec = selectOptionValue(cliParseResult, confOptions, nodeOpt, nodeSpec, s -> s);
 
         node = Node.extractFrom(nodeSpec, conf);

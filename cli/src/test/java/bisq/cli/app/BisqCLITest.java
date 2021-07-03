@@ -143,7 +143,7 @@ class BisqCLITest {
 
     private static int bisq(String... args) {
         var newArgs = new ArrayList<String>();
-        newArgs.add(debugOpt);
+        newArgs.add(stacktraceOpt);
         newArgs.add(format("%s=localhost:%d", nodeOpt, restApiPort));
         newArgs.addAll(Arrays.asList(args));
         return BisqCLI.bisq(newArgs.toArray(new String[]{}));
