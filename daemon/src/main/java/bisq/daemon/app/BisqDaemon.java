@@ -17,7 +17,7 @@ public class BisqDaemon implements BisqApp {
     }
 
     public static int bisqd(String... args) {
-        log.info("{} version {}", APP_INFO.getName(), APP_INFO.getVersion());
+        log.info(BisqApp.nameAndVerison());
         new BisqNode(new RestApiService(new BisqCore(), RestApiService.DEFAULT_PORT)).run();
         return 0;
     }

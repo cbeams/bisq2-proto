@@ -1,4 +1,4 @@
-package bisq.cli.app;
+package bisq.app;
 
 import picocli.CommandLine;
 
@@ -6,7 +6,7 @@ import java.io.PrintStream;
 
 import static picocli.CommandLine.Help.Ansi.Style.*;
 
-class BisqConsole {
+public class BisqConsole {
 
     public static PrintStream out = System.out;
     public static PrintStream err = System.err;

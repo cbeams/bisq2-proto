@@ -1,4 +1,4 @@
-package bisq.cli.util;
+package bisq.app.picocli;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import picocli.CommandLine;
 import picocli.CommandLine.ExecutionException;
 import picocli.CommandLine.ParameterException;
 
-import static bisq.cli.util.CommandLineUtils.stripOptionPrefix;
+import static bisq.app.picocli.CommandLineUtils.stripOptionPrefix;
 
 public class InitializeAndRunLast implements CommandLine.IExecutionStrategy {
 

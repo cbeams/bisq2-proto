@@ -39,6 +39,7 @@ configure(project(':api')) {
     apply plugin: 'java-library'
 
     dependencies {
+        api 'info.picocli:picocli:4.6.1'
         implementation 'com.squareup.okhttp3:okhttp:4.9.1'
         implementation 'com.google.code.gson:gson:2.8.7'
     }
@@ -82,7 +83,6 @@ configure(project(':cli')) {
 
     dependencies {
         implementation project(':api')
-        implementation 'info.picocli:picocli:4.6.1'
         implementation 'com.google.code.gson:gson:2.8.7'
         testImplementation project(':core')
     }
@@ -128,7 +128,7 @@ configure(project(':fx')) {
     }
 
     application {
-        mainClass = 'bisq.fx.app.BisqFX'
+        mainClass = 'bisq.fx.app.BisqFXMain'
         applicationName = 'bisqfx'
     }
 
@@ -142,9 +142,21 @@ configure(project(':fx')) {
             defaultJvmOpts += "--module-path=${project.getProperty(javafxSdkProperty)}/lib"
     }
 
+    // see https://picocli.info/autocomplete.html
+    task generateBashCompletion(type: JavaExec) {
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = 'picocli.AutoComplete'
+        args 'bisq.fx.app.BisqFXCommand',
+            '--force',
+            '--completionScript=../bisqfx-completion.bash'
+        javaLauncher = javaToolchains.launcherFor {
+            languageVersion = JavaLanguageVersion.of(requiredJavaVersion)
+        }
+    }
+
     processResources {
         expand(name: applicationName, version: gitVersion())
     }
 
-    build.dependsOn installDist
+    build.dependsOn installDist, generateBashCompletion
 }

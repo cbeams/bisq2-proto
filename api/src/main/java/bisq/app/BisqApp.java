@@ -1,5 +1,7 @@
 package bisq.app;
 
+import picocli.CommandLine;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -10,6 +12,7 @@ import static java.lang.String.format;
 /**
  * Marker interface used to identify Bisq applications runnable via a main method. The
  * {@link #APP_INFO} field provides application name and version information.
+ *
  * @see Info
  */
 public interface BisqApp {
@@ -60,6 +63,17 @@ public interface BisqApp {
 
         public String getVersion() {
             return version;
+        }
+    }
+
+    static String nameAndVerison() {
+        return format("%s version %s", APP_INFO.getName(), APP_INFO.getVersion());
+    }
+
+    class VersionProvider implements CommandLine.IVersionProvider {
+        @Override
+        public String[] getVersion() {
+            return new String[]{nameAndVerison()};
         }
     }
 }

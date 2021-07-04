@@ -8,6 +8,7 @@ import bisq.core.service.api.rest.RestApiService;
 import bisq.fx.offer.ObservableOfferBook;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,27 +20,29 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.String.format;
+
 public class BisqFX extends Application implements BisqApp {
 
     public static final Logger log = LoggerFactory.getLogger(BisqFX.class);
 
+    static BisqFXCommand bisqfx;
+
     @Override
     public void start(Stage stage) {
 
-        log.info("{} version {}", APP_INFO.getName(), APP_INFO.getVersion());
+        stage.setTitle(format("Bisq (%s)", bisqfx.node));
 
-        String host = RestApiService.DEFAULT_HOST;
-        int port = RestApiService.DEFAULT_PORT;
         final BisqNode bisqNode;
-        if (!RestApiService.isRunningLocally(port)) {
-            log.info("No api service detected on port {}. Starting own.", port);
-            bisqNode = new BisqNode(new RestApiService(new BisqCore(), port));
+        if (bisqfx.host.equals("localhost") && !RestApiService.isRunningLocally(bisqfx.port)) {
+            log.info("No api service detected on port {}. Starting own.", bisqfx.port);
+            bisqNode = new BisqNode(new RestApiService(new BisqCore(), bisqfx.port));
             bisqNode.run();
         } else {
             bisqNode = null;
         }
 
-        var bisq = new BisqApiClient(host, port);
+        var bisq = new BisqApiClient(bisqfx.host, bisqfx.port);
         var offerBook = bisq.getOfferBook();
         var observableOfferBook = new ObservableOfferBook(offerBook);
         var offerList = observableOfferBook.list();
@@ -51,7 +54,7 @@ public class BisqFX extends Application implements BisqApp {
 
         var box = new javafx.scene.layout.VBox(offerListView);
         box.setAlignment(Pos.CENTER);
-        var scene = new Scene(box, 640, 480);
+        var scene = new Scene(box, 320, 240);
 
         stage.setScene(scene);
         stage.show();
@@ -68,7 +71,12 @@ public class BisqFX extends Application implements BisqApp {
         });
     }
 
-    public static void main(String[] args) {
+    public static void launchAppplication(BisqFXCommand command) {
+        bisqfx = command;
         launch();
+    }
+
+    public static void main(String[] args) {
+        throw new UnsupportedOperationException(format("Run %s instead", BisqFXMain.class.getName()));
     }
 }

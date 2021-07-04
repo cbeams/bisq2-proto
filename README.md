@@ -43,9 +43,13 @@ When complete, the `bisq`, `bisqd` and `bisqfx` commands in the project root dir
 Bash completion scripts are automatically generated for `bisq*` commands. Use them as follows:
 
     $ source ./bisq-completion.bash
+    $ source ./bisqfx-completion.bash
 
     $ bisq <tab><tab>
     [ ... list of available subcommands ...]
+
+    $ bisqfx -<tab>
+    [ ... list of available options ...]
 
 Notes:
 
@@ -61,7 +65,7 @@ Notes:
 
     $ bisq <subcommand>
 
-### Run the desktop
+### Run the gui
 
     $ bisqfx
 
@@ -74,10 +78,12 @@ For the best user / dev experience, add the following to your `~/.bash_profile`:
 
     export BISQ_HOME=/path/to/this/repo
     export PATH=$PATH:$BISQ_HOME
-    source $BISQ_HOME/bisq*-completion.bash
+    source $BISQ_HOME/bisq-completion.bash
+    source $BISQ_HOME/bisqfx-completion.bash
 
 Notes:
 
+ - Do not attempt to `source bisq*.bash`. Bash's `source` can accept only one file at a time.
  - These bash completion scripts are also compatible with `zsh`.
  - The goal will be to automatically install these commands, their completion scripts and manpages using system-specific package manegers such as `brew`, `apt`, etc. so that everything "just works".
 

@@ -1,4 +1,4 @@
-package bisq.cli.util;
+package bisq.app.picocli;
 
 import picocli.CommandLine;
 

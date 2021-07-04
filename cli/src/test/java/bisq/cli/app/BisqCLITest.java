@@ -1,6 +1,7 @@
 package bisq.cli.app;
 
 import bisq.app.BisqApp;
+import bisq.app.BisqConsole;
 import bisq.core.BisqCore;
 import bisq.core.node.BisqNode;
 import bisq.core.service.api.rest.RestApiService;

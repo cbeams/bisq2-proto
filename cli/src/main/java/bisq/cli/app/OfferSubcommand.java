@@ -2,7 +2,7 @@ package bisq.cli.app;
 
 import bisq.api.client.BisqApiClient;
 import bisq.api.offer.OfferBook;
-import bisq.cli.util.InitializableCommand;
+import bisq.app.picocli.InitializableCommand;
 
 import com.google.gson.Gson;
 
@@ -14,7 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static bisq.cli.app.BisqConsole.out;
+import static bisq.app.BisqConsole.out;
 import static bisq.cli.app.OfferSubcommand.*;
 
 @Command(name = offer)

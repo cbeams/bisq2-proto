@@ -2,14 +2,14 @@ package bisq.cli.app;
 
 import bisq.api.conf.Config;
 import bisq.app.BisqApp;
+import bisq.app.picocli.CommonOptions;
 import bisq.cli.conf.Node;
-import bisq.cli.util.CommandLineUtils;
-import bisq.cli.util.InitializableCommand;
+import bisq.app.picocli.CommandLineUtils;
+import bisq.app.picocli.InitializableCommand;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
@@ -21,13 +21,12 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.function.Function;
 
-import static bisq.cli.app.BisqCommand.VersionProvider;
 import static bisq.cli.app.BisqCommand.bisq;
 import static java.lang.String.format;
 import static picocli.CommandLine.Help.Visibility.ALWAYS;
 
 @Command(name = bisq,
-        versionProvider = VersionProvider.class,
+        versionProvider = BisqApp.VersionProvider.class,
         subcommands = {
                 HelpCommand.class,
                 NodeSubcommand.class,
@@ -53,8 +52,7 @@ class BisqCommand implements InitializableCommand {
             description = "Print this usage help")
     boolean helpRequested;
 
-    static final String verboseOpt = "--verbose";
-    @Option(names = {"-v", verboseOpt},
+    @Option(names = {"-v", CommonOptions.verboseOpt},
             description = "Enable verbose mode to diagnose problems")
     boolean verbose = false;
 
@@ -134,12 +132,4 @@ class BisqCommand implements InitializableCommand {
         return Path.of(System.getProperty("user.home"), ".bisq", "config");
     }
 
-    static class VersionProvider implements CommandLine.IVersionProvider {
-        @Override
-        public String[] getVersion() {
-            return new String[]{
-                    format("%s version %s", BisqApp.APP_INFO.getName(), BisqApp.APP_INFO.getVersion())
-            };
-        }
-    }
 }

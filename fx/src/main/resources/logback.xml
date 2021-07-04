@@ -11,5 +11,5 @@
         <appender-ref ref="CONSOLE"/>
     </root>
 
-    <logger name="bisq" level="DEBUG"/>
+    <logger name="bisq" level="INFO"/>
 </configuration>

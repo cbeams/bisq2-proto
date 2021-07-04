@@ -24,7 +24,6 @@ public class RestApiService implements EventListener<String> {
 
     public static final Logger log = LoggerFactory.getLogger(RestApiService.class);
 
-    public static final String DEFAULT_HOST = "localhost";
     public static final int DEFAULT_PORT = 2140;
     public static final int RANDOM_PORT = 0;
 

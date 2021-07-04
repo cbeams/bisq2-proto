@@ -6,7 +6,7 @@ import picocli.CommandLine.ParentCommand;
 
 import java.util.List;
 
-import static bisq.cli.app.BisqConsole.out;
+import static bisq.app.BisqConsole.out;
 
 @Command(name = "node")
 @SuppressWarnings("unused")

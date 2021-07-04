@@ -1,5 +1,7 @@
 package bisq.cli.app;
 
+import bisq.app.BisqConsole;
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Spec;

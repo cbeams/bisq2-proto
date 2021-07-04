@@ -1,4 +1,4 @@
-package bisq.cli.util;
+package bisq.app.picocli;
 
 public interface InitializableCommand {
     void init();
