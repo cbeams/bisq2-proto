@@ -30,9 +30,13 @@ public class BisqFX extends Application implements BisqApp {
 
         String host = RestApiService.DEFAULT_HOST;
         int port = RestApiService.DEFAULT_PORT;
+        final BisqNode bisqNode;
         if (!RestApiService.isRunningLocally(port)) {
             log.info("No api service detected on port {}. Starting own.", port);
-            new BisqNode(new RestApiService(new BisqCore(), port)).run();
+            bisqNode = new BisqNode(new RestApiService(new BisqCore(), port));
+            bisqNode.run();
+        } else {
+            bisqNode = null;
         }
 
         var bisq = new BisqApiClient(host, port);
@@ -53,7 +57,15 @@ public class BisqFX extends Application implements BisqApp {
         stage.show();
 
         // do a full REST API refresh of the offer book every so often in case a WebSocket API event was missed
-        Executors.newSingleThreadScheduledExecutor().schedule(observableOfferBook::load, 15, TimeUnit.SECONDS);
+        var executor = Executors.newSingleThreadScheduledExecutor();
+        executor.scheduleWithFixedDelay(observableOfferBook::load, 15, 15, TimeUnit.SECONDS);
+
+        stage.setOnCloseRequest(windowEvent -> {
+            bisq.close();
+            if (bisqNode != null)
+                bisqNode.stop();
+            executor.shutdownNow();
+        });
     }
 
     public static void main(String[] args) {

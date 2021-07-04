@@ -26,7 +26,7 @@ import java.util.List;
 
 import static java.lang.String.format;
 
-public class OfferBookApiClient implements OfferBook {
+public class OfferBookApiClient implements AutoCloseable, OfferBook {
 
     private static final Logger log = LoggerFactory.getLogger(OfferBookApiClient.class);
 
@@ -35,6 +35,8 @@ public class OfferBookApiClient implements OfferBook {
     private final String eventWsUrl;
     private final List<EventListener<String>> eventListeners = new ArrayList<>();
     private final Gson gson = new Gson();
+
+    private WebSocket eventWebSocket;
 
     public OfferBookApiClient(OkHttpClient httpClient, String host, int port) {
         this.httpClient = httpClient;
@@ -99,7 +101,8 @@ public class OfferBookApiClient implements OfferBook {
                 .url(eventWsUrl)
                 .build();
         Type eventType = new TypeToken<Event<String>>() {}.getType();
-        httpClient.newWebSocket(request, new WebSocketListener() {
+        this.eventWebSocket = httpClient.newWebSocket(request, new WebSocketListener() {
+
             @Override
             public void onMessage(@NotNull WebSocket webSocket, @NotNull String eventJson) {
                 log.debug("receiving offer event {}", eventJson);
@@ -107,5 +110,14 @@ public class OfferBookApiClient implements OfferBook {
                 eventListeners.forEach(eventListener -> eventListener.onEvent(event));
             }
         });
+    }
+
+    @Override
+    public void close() {
+        if (eventWebSocket == null)
+            return;
+
+        log.debug("unsubscribing from offer events at {}", eventWsUrl);
+        eventWebSocket.close(1000, "user requested closure");
     }
 }

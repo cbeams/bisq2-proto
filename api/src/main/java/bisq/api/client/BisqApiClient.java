@@ -5,7 +5,7 @@ import okhttp3.OkHttpClient;
 
 import java.util.concurrent.TimeUnit;
 
-public class BisqApiClient implements Bisq {
+public class BisqApiClient implements AutoCloseable, Bisq {
 
     private final OkHttpClient httpClient = new OkHttpClient.Builder()
             .pingInterval(10, TimeUnit.SECONDS) // to keep any websocket connections alive
@@ -20,5 +20,11 @@ public class BisqApiClient implements Bisq {
     @Override
     public OfferBookApiClient getOfferBook() {
         return offerBook;
+    }
+
+    @Override
+    public void close() {
+        offerBook.close();
+        httpClient.dispatcher().executorService().shutdown();
     }
 }
