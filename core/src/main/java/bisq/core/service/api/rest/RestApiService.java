@@ -76,11 +76,11 @@ public class RestApiService implements EventListener<String> {
         }, gson::toJson);
 
         post("/offer", (req, res) -> {
-            log.debug("handling request to creating offer {}", req.body());
+            log.debug("handling request to create offer {}", req.body());
             var offer = gson.fromJson(req.body(), String.class);
             offerBook.save(offer);
             res.status(201);
-            //res.header("Location", "/offer/" + (offerBook.lastIndexOf(offer) + 1));
+            res.header("Location", "/offer/" + (offerBook.findAll().indexOf(offer) + 1));
 
             res.type("application/json");
             return gson.toJson(offer);
