@@ -28,11 +28,13 @@ public class OfferEventsWebSocket {
 
     @OnWebSocketConnect
     public void connected(Session session) {
+        log.debug("opened offer event connection with {}", session.getRemoteAddress());
         sessions.add(session);
     }
 
     @OnWebSocketClose
     public void closed(Session session, int statusCode, String reason) {
+        log.debug("closed offer event connection with {}", session.getRemoteAddress());
         sessions.remove(session);
     }
 

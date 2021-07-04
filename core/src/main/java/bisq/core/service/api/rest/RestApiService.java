@@ -64,16 +64,20 @@ public class RestApiService implements EventListener<String> {
         exception(Exception.class, (ex, req, res) -> ex.printStackTrace(System.err));
 
         get("/offer", (req, res) -> {
+            log.debug("handling request to view all offers");
             res.type("application/json");
             return offerBook.findAll();
         }, gson::toJson);
 
         get("/offer/:id", (req, res) -> {
+            var id = Integer.parseInt(req.params("id")) - 1;
+            log.debug("handling request to view offer {}", id);
             res.type("application/json");
-            return offerBook.findById(Integer.parseInt(req.params("id")) - 1);
+            return offerBook.findById(id);
         }, gson::toJson);
 
         post("/offer", (req, res) -> {
+            log.debug("handling request to creating offer {}", req.body());
             var offer = gson.fromJson(req.body(), String.class);
             offerBook.save(offer);
             res.status(201);
@@ -84,6 +88,7 @@ public class RestApiService implements EventListener<String> {
         });
 
         delete("/offer", (req, res) -> {
+            log.debug("handling request to delete all offers");
             offerBook.deleteAll();
             res.status(204);
             res.type("application/json");
@@ -91,7 +96,9 @@ public class RestApiService implements EventListener<String> {
         });
 
         delete("/offer/:id", (req, res) -> {
-            offerBook.delete(Integer.parseInt(req.params("id")) - 1);
+            var id = Integer.parseInt(req.params("id")) - 1;
+            log.debug("handling request to delete offer {}", id);
+            offerBook.delete(id);
             res.status(204);
             res.type("application/json");
             return "";

@@ -14,8 +14,6 @@ import static bisq.util.event.Event.Type.DELETION;
 
 public class CoreOfferBook implements OfferBook {
 
-    private static final Logger log = LoggerFactory.getLogger(CoreOfferBook.class);
-
     private final List<String> offers = new ArrayList<>();
     private final List<EventListener<String>> eventListeners = new ArrayList<>();
 
@@ -36,7 +34,6 @@ public class CoreOfferBook implements OfferBook {
 
     @Override
     public String save(String offer) {
-        log.debug("saving offer {}", offer);
         offers.add(offer);
         notifyListeners(new Event<>(offer, CREATION));
         return offer;

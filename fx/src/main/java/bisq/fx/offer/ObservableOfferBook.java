@@ -7,11 +7,15 @@ import bisq.util.event.EventListener;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
 
 public class ObservableOfferBook implements EventListener<String> {
+
+    private static final Logger log = LoggerFactory.getLogger(ObservableOfferBook.class);
 
     private final OfferBook offerBook;
     private final ObservableList<String> observableOffers = FXCollections.observableArrayList();
@@ -40,7 +44,7 @@ public class ObservableOfferBook implements EventListener<String> {
             List<String> offers = offerBook.findAll();
             Platform.runLater(() -> this.observableOffers.setAll(offers));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.debug(e.getMessage());
         }
     }
 }

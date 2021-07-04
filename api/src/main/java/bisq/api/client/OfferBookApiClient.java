@@ -11,10 +11,13 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +49,7 @@ public class OfferBookApiClient implements AutoCloseable, OfferBook {
 
     @Override
     public List<String> findAll() throws IOException {
+        log.debug("sending request to view all offers");
         var json = httpClient.newCall(new Request.Builder()
                 .url(restApiUrl)
                 .build()).execute().body().string();
@@ -54,6 +58,7 @@ public class OfferBookApiClient implements AutoCloseable, OfferBook {
 
     @Override
     public String findById(int id) throws IOException {
+        log.debug("sending request to view offer {}", id);
         var json = httpClient.newCall(new Request.Builder()
                 .url(restApiUrl + "/" + id)
                 .build()).execute().body().string();
@@ -63,7 +68,7 @@ public class OfferBookApiClient implements AutoCloseable, OfferBook {
     @Override
     public String save(String offer) throws IOException {
         var json = gson.toJson(offer);
-        log.debug("requesting to save offer {}", json);
+        log.debug("sending request to create offer {}", json);
         var savedJson = httpClient.newCall(new Request.Builder()
                 .url(restApiUrl)
                 .post(RequestBody.create(json, MediaType.parse("application/json")))
@@ -73,6 +78,7 @@ public class OfferBookApiClient implements AutoCloseable, OfferBook {
 
     @Override
     public void delete(int id) throws IOException {
+        log.debug("sending request to delete offer {}", id);
         httpClient.newCall(new Request.Builder()
                 .url(restApiUrl + "/" + id)
                 .delete()
@@ -81,6 +87,7 @@ public class OfferBookApiClient implements AutoCloseable, OfferBook {
 
     @Override
     public void deleteAll() throws IOException {
+        log.debug("sending request to delete all offers");
         httpClient.newCall(new Request.Builder()
                 .url(restApiUrl)
                 .delete()
@@ -108,6 +115,11 @@ public class OfferBookApiClient implements AutoCloseable, OfferBook {
                 log.debug("receiving offer event {}", eventJson);
                 Event<String> event = gson.fromJson(eventJson, eventType);
                 eventListeners.forEach(eventListener -> eventListener.onEvent(event));
+            }
+
+            @Override
+            public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, @Nullable Response response) {
+                log.debug("connection to offer events at {} failed (no retry logic yet...)", eventWsUrl);
             }
         });
     }
