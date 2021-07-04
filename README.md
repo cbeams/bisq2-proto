@@ -107,4 +107,4 @@ You will see the path to your Gradle-provisioned JDK 16 and you can then set you
 
 Edit the run configuration and add the following VM arguments:
 
-    --add-modules=javafx.controls --module-path=/path/to/javafx-sdk
+    --add-modules=javafx.controls --module-path=/path/to/javafx-sdk/lib
