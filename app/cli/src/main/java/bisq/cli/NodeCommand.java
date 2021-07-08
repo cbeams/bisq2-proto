@@ -1,6 +1,7 @@
 package bisq.cli;
 
-import bisq.api.conf.NodeConfig;
+import bisq.app.config.NodeConfig;
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ParentCommand;
 

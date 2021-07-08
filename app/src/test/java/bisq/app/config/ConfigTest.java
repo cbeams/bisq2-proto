@@ -1,4 +1,4 @@
-package bisq.api.conf;
+package bisq.app.config;
 
 import org.junit.jupiter.api.Test;
 

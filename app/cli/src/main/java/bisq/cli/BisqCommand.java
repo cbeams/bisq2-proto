@@ -1,10 +1,12 @@
 package bisq.cli;
 
-import bisq.api.conf.Config;
-import bisq.api.conf.NodeConfig;
 import bisq.app.BisqApp;
-import bisq.app.picocli.CommonOptions;
+
+import bisq.app.config.Config;
+import bisq.app.config.NodeConfig;
+
 import bisq.app.picocli.CommandLineUtils;
+import bisq.app.picocli.CommonOptions;
 import bisq.app.picocli.InitializableCommand;
 
 import org.slf4j.Logger;
