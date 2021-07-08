@@ -81,7 +81,7 @@ configure(project(':app:daemon')) {
     }
 
     application {
-        mainClass = 'bisq.app.daemon.Main'
+        mainClass = 'bisq.app.daemon.BisqDaemonMain'
         applicationName = 'bisqd'
     }
 
@@ -103,7 +103,7 @@ configure(project(':app:cli')) {
     }
 
     application {
-        mainClass = 'bisq.app.cli.Main'
+        mainClass = 'bisq.app.cli.BisqCliMain'
         applicationName = 'bisq'
     }
 
@@ -143,7 +143,7 @@ configure(project(':app:fx')) {
     }
 
     application {
-        mainClass = 'bisq.app.fx.Main'
+        mainClass = 'bisq.app.fx.BisqFXMain'
         applicationName = 'bisqfx'
     }
 

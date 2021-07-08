@@ -80,6 +80,6 @@ public class BisqFXApp extends Application implements BisqApp {
     }
 
     public static void main(String[] args) {
-        throw new UnsupportedOperationException(format("Run %s instead", Main.class.getName()));
+        throw new UnsupportedOperationException(format("Run %s instead", BisqFXMain.class.getName()));
     }
 }

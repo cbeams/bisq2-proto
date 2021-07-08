@@ -9,9 +9,9 @@ import bisq.core.service.api.ApiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Main implements BisqApp {
+public class BisqDaemonMain implements BisqApp {
 
-    private static final Logger log = LoggerFactory.getLogger(Main.class);
+    private static final Logger log = LoggerFactory.getLogger(BisqDaemonMain.class);
 
     public static void main(String[] args) {
         bisqd(args);
