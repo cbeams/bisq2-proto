@@ -1,6 +1,6 @@
 rootProject.name = 'bisq2'
 include 'api'
 include 'core'
-include 'daemon'
+include 'app:daemon'
 include 'app:cli'
 include 'app:fx'

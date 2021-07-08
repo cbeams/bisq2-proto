@@ -59,7 +59,7 @@ configure(project(':core')) {
     }
 }
 
-configure(project(':daemon')) {
+configure(project(':app:daemon')) {
     apply plugin: 'application'
 
     dependencies {
