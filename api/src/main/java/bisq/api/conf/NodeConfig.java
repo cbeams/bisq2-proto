@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public record Node(String niceName, String host, int port) {
+public record NodeConfig(String niceName, String host, int port) {
 
-    private static final Logger log = LoggerFactory.getLogger(Node.class);
+    private static final Logger log = LoggerFactory.getLogger(NodeConfig.class);
 
     public static final String DEFAULT_NICE_NAME = "local";
     public static final String DEFAULT_HOST = "localhost";
@@ -18,12 +18,12 @@ public record Node(String niceName, String host, int port) {
     static final String portOpt = "port";
     static final String nodeSectionType = "node";
 
-    public Node {
+    public NodeConfig {
         if (host == null)
             throw new IllegalArgumentException(String.format("%s value must not be null", hostOpt));
     }
 
-    public static Node extractFrom(String nodeSpec, Config conf) {
+    public static NodeConfig extractFrom(String nodeSpec, Config conf) {
         final String host;
         final int port;
         var nodeSection = new Config.Section(nodeSectionType, nodeSpec);
@@ -57,7 +57,7 @@ public record Node(String niceName, String host, int port) {
             log.debug("selected option '{}={}' from node spec '{}'", hostOpt, host, nodeSpec);
             log.debug("selected option '{}={}' from node defaults", portOpt, port);
         }
-        return new Node(nodeSpec, host, port);
+        return new NodeConfig(nodeSpec, host, port);
     }
 
     public static List<String> findAllNiceNamesIn(Config conf) {

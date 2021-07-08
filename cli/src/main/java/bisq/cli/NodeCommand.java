@@ -1,6 +1,6 @@
-package bisq.cli.app;
+package bisq.cli;
 
-import bisq.api.conf.Node;
+import bisq.api.conf.NodeConfig;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ParentCommand;
 
@@ -10,7 +10,7 @@ import static bisq.app.BisqConsole.out;
 
 @Command(name = "node")
 @SuppressWarnings("unused")
-class NodeSubcommand implements Runnable {
+class NodeCommand implements Runnable {
 
     @ParentCommand
     private BisqCommand bisq;
@@ -27,7 +27,7 @@ class NodeSubcommand implements Runnable {
 
     @Command(name = "list")
     public void list() {
-        List<String> allNiceNames = Node.findAllNiceNamesIn(bisq.conf);
+        List<String> allNiceNames = NodeConfig.findAllNiceNamesIn(bisq.conf);
         var selectedNiceName = bisq.node.niceName();
         if (!allNiceNames.contains(selectedNiceName))
             allNiceNames.add(selectedNiceName);

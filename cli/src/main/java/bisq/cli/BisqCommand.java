@@ -1,9 +1,9 @@
-package bisq.cli.app;
+package bisq.cli;
 
 import bisq.api.conf.Config;
+import bisq.api.conf.NodeConfig;
 import bisq.app.BisqApp;
 import bisq.app.picocli.CommonOptions;
-import bisq.api.conf.Node;
 import bisq.app.picocli.CommandLineUtils;
 import bisq.app.picocli.InitializableCommand;
 
@@ -21,7 +21,7 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.function.Function;
 
-import static bisq.cli.app.BisqCommand.bisq;
+import static bisq.cli.BisqCommand.bisq;
 import static java.lang.String.format;
 import static picocli.CommandLine.Help.Visibility.ALWAYS;
 
@@ -29,8 +29,8 @@ import static picocli.CommandLine.Help.Visibility.ALWAYS;
         versionProvider = BisqApp.VersionProvider.class,
         subcommands = {
                 HelpCommand.class,
-                NodeSubcommand.class,
-                OfferSubcommand.class
+                NodeCommand.class,
+                OfferCommand.class
         })
 @SuppressWarnings("unused")
 class BisqCommand implements InitializableCommand {
@@ -66,7 +66,7 @@ class BisqCommand implements InitializableCommand {
             paramLabel = "<node>",
             description = "Nicename or host[:port] address of the Bisq node to use",
             showDefaultValue = ALWAYS)
-    String nodeSpec = Node.DEFAULT_NICE_NAME;
+    String nodeSpec = NodeConfig.DEFAULT_NICE_NAME;
 
     final String confOpt = "--conf";
     @Option(names = {"-c", confOpt},
@@ -76,7 +76,7 @@ class BisqCommand implements InitializableCommand {
     File confFile = defaultConfFilePath().toFile();
 
     Config conf;
-    Node node;
+    NodeConfig node;
 
     @Spec
     CommandSpec spec;
@@ -98,7 +98,7 @@ class BisqCommand implements InitializableCommand {
         stacktrace = selectOptionValue(cliParseResult, confOptions, stacktraceOpt, stacktrace, Boolean::parseBoolean);
         nodeSpec = selectOptionValue(cliParseResult, confOptions, nodeOpt, nodeSpec, s -> s);
 
-        node = Node.extractFrom(nodeSpec, conf);
+        node = NodeConfig.extractFrom(nodeSpec, conf);
     }
 
     private static <T> T selectOptionValue(ParseResult cliParseResult, Map<String, String> confOptions,

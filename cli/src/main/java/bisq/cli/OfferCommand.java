@@ -1,4 +1,4 @@
-package bisq.cli.app;
+package bisq.cli;
 
 import bisq.api.client.BisqApiClient;
 import bisq.api.offer.OfferBook;
@@ -15,11 +15,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import static bisq.app.BisqConsole.out;
-import static bisq.cli.app.OfferSubcommand.*;
+import static bisq.cli.OfferCommand.*;
 
 @Command(name = offer)
 @SuppressWarnings("unused")
-class OfferSubcommand implements InitializableCommand {
+class OfferCommand implements InitializableCommand {
 
     public static final String offer = "offer";
     public static final String create = "create";
