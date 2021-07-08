@@ -1,5 +1,5 @@
 rootProject.name = 'bisq2'
-include ':'
+include 'api'
 include 'core'
 include 'client'
 include 'app'

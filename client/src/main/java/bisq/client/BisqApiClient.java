@@ -1,6 +1,6 @@
 package bisq.client;
 
-import bisq.Bisq;
+import bisq.api.Bisq;
 
 import okhttp3.OkHttpClient;
 

@@ -1,8 +1,8 @@
 package bisq.fx.offer;
 
-import bisq.offer.OfferBook;
-import bisq.event.Event;
-import bisq.event.EventListener;
+import bisq.api.offer.OfferBook;
+import bisq.api.event.Event;
+import bisq.api.event.EventListener;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

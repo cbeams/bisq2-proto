@@ -11,7 +11,7 @@ buildscript {
 def requiredJavaVersion = 16
 def javafxSdkProperty = 'bisq.javafx.sdk'
 
-configure(allprojects) {
+configure(subprojects) {
     apply plugin: 'java'
     apply plugin: "com.palantir.git-version"
 
@@ -35,11 +35,15 @@ configure(allprojects) {
     }
 }
 
+configure(project(':api')) {
+    apply plugin: 'java-library'
+}
+
 configure(project(':client')) {
     apply plugin: 'java-library'
 
     dependencies {
-        api project(':')
+        api project(':api')
         implementation 'com.squareup.okhttp3:okhttp:4.9.1'
         implementation 'com.google.code.gson:gson:2.8.7'
     }
@@ -53,7 +57,7 @@ configure(project(':core')) {
     apply plugin: 'java-library'
 
     dependencies {
-        api project(':')
+        api project(':api')
         implementation 'com.sparkjava:spark-core:2.9.3'
         implementation 'com.google.code.gson:gson:2.8.7'
     }

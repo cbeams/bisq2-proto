@@ -1,7 +1,7 @@
 package bisq.core;
 
-import bisq.Bisq;
-import bisq.offer.OfferBook;
+import bisq.api.Bisq;
+import bisq.api.offer.OfferBook;
 import bisq.core.offer.CoreOfferBook;
 
 public class BisqCore implements Bisq {

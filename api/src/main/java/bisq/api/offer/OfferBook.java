@@ -1,6 +1,6 @@
-package bisq.offer;
+package bisq.api.offer;
 
-import bisq.event.EventSource;
+import bisq.api.event.EventSource;
 
 import java.io.IOException;
 import java.util.List;
