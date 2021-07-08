@@ -1,6 +1,7 @@
 package bisq.app;
 
 import picocli.CommandLine;
+import picocli.CommandLine.Help.Ansi.Style;
 
 import java.io.PrintStream;
 

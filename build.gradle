@@ -39,7 +39,6 @@ configure(project(':api')) {
     apply plugin: 'java-library'
 
     dependencies {
-        api 'info.picocli:picocli:4.6.1'
         implementation 'com.squareup.okhttp3:okhttp:4.9.1'
         implementation 'com.google.code.gson:gson:2.8.7'
     }
@@ -59,10 +58,19 @@ configure(project(':core')) {
     }
 }
 
+configure(project(':app')) {
+    apply plugin: 'java-library'
+
+    dependencies {
+        api 'info.picocli:picocli:4.6.1'
+    }
+}
+
 configure(project(':app:daemon')) {
     apply plugin: 'application'
 
     dependencies {
+        implementation project(':app')
         implementation project(':core')
     }
 
@@ -83,6 +91,7 @@ configure(project(':app:cli')) {
 
     dependencies {
         implementation project(':api')
+        implementation project(':app')
         implementation 'com.google.code.gson:gson:2.8.7'
         testImplementation project(':core')
     }
@@ -133,6 +142,7 @@ configure(project(':app:fx')) {
     }
 
     dependencies {
+        implementation project(':app')
         implementation project(':core')
     }
 
