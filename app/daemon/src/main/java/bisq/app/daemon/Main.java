@@ -1,6 +1,7 @@
-package bisq.daemon.app;
+package bisq.app.daemon;
 
 import bisq.app.BisqApp;
+
 import bisq.core.CoreBisqService;
 import bisq.core.node.BisqNode;
 import bisq.core.service.api.ApiService;
@@ -8,9 +9,9 @@ import bisq.core.service.api.ApiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BisqDaemon implements BisqApp {
+public class Main implements BisqApp {
 
-    private static final Logger log = LoggerFactory.getLogger(BisqDaemon.class);
+    private static final Logger log = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
         bisqd(args);

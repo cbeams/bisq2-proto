@@ -81,7 +81,7 @@ configure(project(':app:daemon')) {
     }
 
     application {
-        mainClass = 'bisq.daemon.app.BisqDaemon'
+        mainClass = 'bisq.daemon.app.Main'
         applicationName = 'bisqd'
     }
 
@@ -143,7 +143,7 @@ configure(project(':app:fx')) {
     }
 
     application {
-        mainClass = 'bisq.fx.app.BisqFXMain'
+        mainClass = 'bisq.app.fx.Main'
         applicationName = 'bisqfx'
     }
 
@@ -163,7 +163,7 @@ configure(project(':app:fx')) {
     task generateBashCompletion(type: JavaExec) {
         classpath = sourceSets.main.runtimeClasspath
         mainClass = 'picocli.AutoComplete'
-        args 'bisq.fx.app.BisqFXCommand',
+        args 'bisq.app.fx.BisqFXCommand',
             '--force',
             "--completionScript=${project.rootDir}/bisqfx-completion.bash"
         javaLauncher = javaToolchains.launcherFor {

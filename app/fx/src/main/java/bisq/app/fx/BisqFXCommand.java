@@ -1,9 +1,8 @@
-package bisq.fx.app;
+package bisq.app.fx;
 
 import bisq.app.BisqApp;
 import bisq.app.picocli.CommonOptions;
 import bisq.app.picocli.InitializableCommand;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -34,6 +33,6 @@ class BisqFXCommand implements Runnable, InitializableCommand {
     }
 
     public void run() {
-        BisqFX.launchAppplication(this);
+        BisqFXApp.launchAppplication(this);
     }
 }

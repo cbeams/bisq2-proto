@@ -1,11 +1,13 @@
-package bisq.fx.app;
+package bisq.app.fx;
+
+import bisq.app.fx.offer.ObservableOfferBook;
 
 import bisq.client.RemoteBisqService;
 import bisq.app.BisqApp;
+
 import bisq.core.CoreBisqService;
 import bisq.core.node.BisqNode;
 import bisq.core.service.api.ApiService;
-import bisq.fx.offer.ObservableOfferBook;
 
 import javafx.application.Application;
 import javafx.beans.property.SimpleListProperty;
@@ -21,9 +23,9 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
 
-public class BisqFX extends Application implements BisqApp {
+public class BisqFXApp extends Application implements BisqApp {
 
-    public static final Logger log = LoggerFactory.getLogger(BisqFX.class);
+    public static final Logger log = LoggerFactory.getLogger(BisqFXApp.class);
 
     static BisqFXCommand bisqfx;
 
@@ -76,6 +78,6 @@ public class BisqFX extends Application implements BisqApp {
     }
 
     public static void main(String[] args) {
-        throw new UnsupportedOperationException(format("Run %s instead", BisqFXMain.class.getName()));
+        throw new UnsupportedOperationException(format("Run %s instead", Main.class.getName()));
     }
 }
