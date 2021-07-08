@@ -81,7 +81,7 @@ configure(project(':app:daemon')) {
     }
 
     application {
-        mainClass = 'bisq.daemon.app.Main'
+        mainClass = 'bisq.app.daemon.Main'
         applicationName = 'bisqd'
     }
 

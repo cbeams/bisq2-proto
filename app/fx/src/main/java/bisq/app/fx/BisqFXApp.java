@@ -2,8 +2,9 @@ package bisq.app.fx;
 
 import bisq.app.fx.offer.ObservableOfferBook;
 
-import bisq.client.RemoteBisqService;
 import bisq.app.BisqApp;
+
+import bisq.client.RemoteBisqService;
 
 import bisq.core.CoreBisqService;
 import bisq.core.node.BisqNode;
@@ -15,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

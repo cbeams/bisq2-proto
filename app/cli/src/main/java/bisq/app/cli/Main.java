@@ -3,6 +3,7 @@ package bisq.app.cli;
 import bisq.app.BisqApp;
 
 import bisq.app.picocli.BisqExecutionStrategy;
+
 import picocli.CommandLine;
 
 import java.io.PrintWriter;
