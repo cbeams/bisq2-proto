@@ -1,6 +1,6 @@
 package bisq.core.service.api.rest;
 
-import bisq.util.event.Event;
+import bisq.event.Event;
 
 import com.google.gson.Gson;
 

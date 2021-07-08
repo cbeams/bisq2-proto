@@ -1,7 +1,7 @@
 package bisq.cli;
 
 import bisq.api.client.BisqApiClient;
-import bisq.api.offer.OfferBook;
+import bisq.offer.OfferBook;
 import bisq.app.picocli.InitializableCommand;
 
 import com.google.gson.Gson;

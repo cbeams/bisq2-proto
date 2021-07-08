@@ -1,4 +1,4 @@
-package bisq.util.event;
+package bisq.event;
 
 public class Event<E> {
 

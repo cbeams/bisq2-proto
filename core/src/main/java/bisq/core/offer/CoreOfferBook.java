@@ -1,16 +1,14 @@
 package bisq.core.offer;
 
-import bisq.api.offer.OfferBook;
-import bisq.util.event.Event;
-import bisq.util.event.EventListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import bisq.offer.OfferBook;
+import bisq.event.Event;
+import bisq.event.EventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static bisq.util.event.Event.Type.CREATION;
-import static bisq.util.event.Event.Type.DELETION;
+import static bisq.event.Event.Type.CREATION;
+import static bisq.event.Event.Type.DELETION;
 
 public class CoreOfferBook implements OfferBook {
 

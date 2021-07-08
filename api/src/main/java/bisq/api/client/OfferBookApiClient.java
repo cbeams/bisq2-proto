@@ -1,8 +1,8 @@
 package bisq.api.client;
 
-import bisq.api.offer.OfferBook;
-import bisq.util.event.Event;
-import bisq.util.event.EventListener;
+import bisq.offer.OfferBook;
+import bisq.event.Event;
+import bisq.event.EventListener;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

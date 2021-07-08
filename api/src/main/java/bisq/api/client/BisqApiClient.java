@@ -1,6 +1,7 @@
 package bisq.api.client;
 
-import bisq.api.Bisq;
+import bisq.Bisq;
+
 import okhttp3.OkHttpClient;
 
 import java.util.concurrent.TimeUnit;

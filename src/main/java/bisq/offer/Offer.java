@@ -1,4 +1,4 @@
-package bisq.api.offer;
+package bisq.offer;
 
 public class Offer {
     private final String value;

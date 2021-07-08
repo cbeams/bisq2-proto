@@ -1,6 +1,6 @@
-package bisq.api;
+package bisq;
 
-import bisq.api.offer.OfferBook;
+import bisq.offer.OfferBook;
 
 public interface Bisq {
 
