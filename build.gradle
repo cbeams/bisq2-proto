@@ -115,7 +115,7 @@ configure(project(':app:cli')) {
     build.dependsOn installDist, generateBashCompletion
 }
 
-configure(project(':fx')) {
+configure(project(':app:fx')) {
     apply plugin: 'application'
     apply plugin: 'org.openjfx.javafxplugin'
 
@@ -148,7 +148,7 @@ configure(project(':fx')) {
         mainClass = 'picocli.AutoComplete'
         args 'bisq.fx.app.BisqFXCommand',
             '--force',
-            '--completionScript=../bisqfx-completion.bash'
+            "--completionScript=${project.rootDir}/bisqfx-completion.bash"
         javaLauncher = javaToolchains.launcherFor {
             languageVersion = JavaLanguageVersion.of(requiredJavaVersion)
         }
