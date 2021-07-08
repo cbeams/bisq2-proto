@@ -4,7 +4,7 @@ import bisq.app.BisqApp;
 import bisq.app.BisqConsole;
 import bisq.core.CoreBisqService;
 import bisq.core.node.BisqNode;
-import bisq.core.service.api.rest.RestApiService;
+import bisq.core.service.api.ApiService;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 import static bisq.cli.BisqCommand.*;
 import static bisq.cli.OfferCommand.*;
-import static bisq.core.service.api.rest.RestApiService.RANDOM_PORT;
+import static bisq.core.service.api.ApiService.RANDOM_PORT;
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -35,7 +35,7 @@ class MainTest {
 
     @BeforeAll
     static void beforeAll() {
-        var restApiService = new RestApiService(new CoreBisqService(), RANDOM_PORT);
+        var restApiService = new ApiService(new CoreBisqService(), RANDOM_PORT);
         restApiPort = restApiService.getPort();
         node = new BisqNode(restApiService);
         new Thread(node).start();

@@ -1,4 +1,4 @@
-package bisq.core.service.api.rest;
+package bisq.core.service.api;
 
 import bisq.api.event.Event;
 

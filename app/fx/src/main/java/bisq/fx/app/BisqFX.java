@@ -4,7 +4,7 @@ import bisq.client.RemoteBisqService;
 import bisq.app.BisqApp;
 import bisq.core.CoreBisqService;
 import bisq.core.node.BisqNode;
-import bisq.core.service.api.rest.RestApiService;
+import bisq.core.service.api.ApiService;
 import bisq.fx.offer.ObservableOfferBook;
 
 import javafx.application.Application;
@@ -33,9 +33,9 @@ public class BisqFX extends Application implements BisqApp {
         stage.setTitle(format("Bisq (%s)", bisqfx.node));
 
         final BisqNode bisqNode;
-        if (bisqfx.host.equals("localhost") && !RestApiService.isRunningLocally(bisqfx.port)) {
+        if (bisqfx.host.equals("localhost") && !ApiService.isRunningLocally(bisqfx.port)) {
             log.info("No api service detected on port {}. Starting own.", bisqfx.port);
-            bisqNode = new BisqNode(new RestApiService(new CoreBisqService(), bisqfx.port));
+            bisqNode = new BisqNode(new ApiService(new CoreBisqService(), bisqfx.port));
             bisqNode.run();
         } else {
             bisqNode = null;

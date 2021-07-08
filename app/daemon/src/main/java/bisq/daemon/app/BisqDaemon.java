@@ -3,7 +3,7 @@ package bisq.daemon.app;
 import bisq.app.BisqApp;
 import bisq.core.CoreBisqService;
 import bisq.core.node.BisqNode;
-import bisq.core.service.api.rest.RestApiService;
+import bisq.core.service.api.ApiService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,7 @@ public class BisqDaemon implements BisqApp {
 
     public static int bisqd(String... args) {
         log.info(BisqApp.nameAndVerison());
-        new BisqNode(new RestApiService(new CoreBisqService(), RestApiService.DEFAULT_PORT)).run();
+        new BisqNode(new ApiService(new CoreBisqService(), ApiService.DEFAULT_PORT)).run();
         return 0;
     }
 }

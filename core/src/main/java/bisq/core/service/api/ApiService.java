@@ -1,7 +1,7 @@
-package bisq.core.service.api.rest;
+package bisq.core.service.api;
 
+import bisq.api.BisqService;
 import bisq.api.offer.OfferBook;
-import bisq.core.CoreBisqService;
 import bisq.api.event.Event;
 import bisq.api.event.EventListener;
 
@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import spark.Spark;
 
 import java.io.IOException;
@@ -20,9 +21,9 @@ import java.net.Socket;
 
 import static spark.Spark.*;
 
-public class RestApiService implements EventListener<String> {
+public class ApiService implements EventListener<String> {
 
-    public static final Logger log = LoggerFactory.getLogger(RestApiService.class);
+    public static final Logger log = LoggerFactory.getLogger(ApiService.class);
 
     public static final int DEFAULT_PORT = 2140;
     public static final int RANDOM_PORT = 0;
@@ -34,29 +35,20 @@ public class RestApiService implements EventListener<String> {
     private final int port;
 
     /**
-     * @param port the port to bind to, or a random available port if set to {@value #RANDOM_PORT}.
+     * @param port the port to bind to, or a random available port if set to
+     *             {@value #RANDOM_PORT}.
      */
-    public RestApiService(CoreBisqService bisq, int port) {
+    public ApiService(BisqService bisq, int port) {
         this.offerBook = bisq.getOfferBook();
-
+        this.port = port == RANDOM_PORT ? findRandomPort() : port;
         this.offerBook.addEventListener(this);
-
-        if (port == RANDOM_PORT) {
-            try (ServerSocket random = new ServerSocket(RANDOM_PORT)) {
-                this.port = random.getLocalPort();
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
-            }
-        } else {
-            this.port = port;
-        }
     }
 
     public void start() {
-        log.info("starting REST api service on port {}", port);
+        log.info("starting HTTP API service on port {}", port);
         Spark.port(port);
 
-        log.info("starting /offerevents WebSocket api service on port {}", port);
+        log.info("starting /offerevents WebSocket API service on port {}", port);
         webSocket("/offerevents", offerEventsWebSocket);
         init();
 
@@ -124,6 +116,14 @@ public class RestApiService implements EventListener<String> {
             return true;
         } catch (IOException ex) {
             return false;
+        }
+    }
+
+    private static int findRandomPort() {
+        try (ServerSocket random = new ServerSocket(RANDOM_PORT)) {
+            return random.getLocalPort();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
     }
 }

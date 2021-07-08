@@ -1,20 +1,20 @@
 package bisq.core.node;
 
-import bisq.core.service.api.rest.RestApiService;
+import bisq.core.service.api.ApiService;
 
 public class BisqNode implements Runnable {
 
-    private final RestApiService restApiService;
+    private final ApiService apiService;
 
-    public BisqNode(RestApiService restApiService) {
-        this.restApiService = restApiService;
+    public BisqNode(ApiService apiService) {
+        this.apiService = apiService;
     }
 
     public void run() {
-        restApiService.start();
+        apiService.start();
     }
 
     public void stop() {
-        restApiService.stop();
+        apiService.stop();
     }
 }
