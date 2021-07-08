@@ -3,7 +3,7 @@ package bisq.cli.app;
 import bisq.api.conf.Config;
 import bisq.app.BisqApp;
 import bisq.app.picocli.CommonOptions;
-import bisq.cli.conf.Node;
+import bisq.api.conf.Node;
 import bisq.app.picocli.CommandLineUtils;
 import bisq.app.picocli.InitializableCommand;
 
