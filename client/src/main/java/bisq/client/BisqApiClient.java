@@ -1,4 +1,4 @@
-package bisq.api.client;
+package bisq.client;
 
 import bisq.Bisq;
 

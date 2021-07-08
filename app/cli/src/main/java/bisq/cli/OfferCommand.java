@@ -1,6 +1,6 @@
 package bisq.cli;
 
-import bisq.api.client.BisqApiClient;
+import bisq.client.BisqApiClient;
 import bisq.offer.OfferBook;
 import bisq.app.picocli.InitializableCommand;
 

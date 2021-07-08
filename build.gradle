@@ -11,7 +11,7 @@ buildscript {
 def requiredJavaVersion = 16
 def javafxSdkProperty = 'bisq.javafx.sdk'
 
-configure(':') {
+configure(allprojects) {
     apply plugin: 'java'
     apply plugin: "com.palantir.git-version"
 
@@ -35,35 +35,11 @@ configure(':') {
     }
 }
 
-configure(subprojects) {
-    apply plugin: 'java'
-    apply plugin: "com.palantir.git-version"
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        implementation 'org.slf4j:slf4j-api:1.7.31'
-        implementation 'ch.qos.logback:logback-core:1.2.3'
-        implementation 'ch.qos.logback:logback-classic:1.2.3'
-        testImplementation "com.google.truth:truth:1.1.3"
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    }
-
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(requiredJavaVersion)
-        }
-    }
-}
-
-configure(project(':api')) {
+configure(project(':client')) {
     apply plugin: 'java-library'
 
     dependencies {
-        implementation project(':')
+        api project(':')
         implementation 'com.squareup.okhttp3:okhttp:4.9.1'
         implementation 'com.google.code.gson:gson:2.8.7'
     }
@@ -78,7 +54,6 @@ configure(project(':core')) {
 
     dependencies {
         api project(':')
-        api project(':api')
         implementation 'com.sparkjava:spark-core:2.9.3'
         implementation 'com.google.code.gson:gson:2.8.7'
     }
@@ -97,6 +72,7 @@ configure(project(':app:daemon')) {
 
     dependencies {
         implementation project(':app')
+        implementation project(':client')
         implementation project(':core')
     }
 
@@ -116,9 +92,8 @@ configure(project(':app:cli')) {
     apply plugin: 'application'
 
     dependencies {
-        implementation project(':')
-        implementation project(':api')
         implementation project(':app')
+        implementation project(':client')
         implementation 'com.google.code.gson:gson:2.8.7'
         testImplementation project(':core')
     }
@@ -170,6 +145,7 @@ configure(project(':app:fx')) {
 
     dependencies {
         implementation project(':app')
+        implementation project(':client')
         implementation project(':core')
     }
 

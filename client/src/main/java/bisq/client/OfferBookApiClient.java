@@ -1,4 +1,4 @@
-package bisq.api.client;
+package bisq.client;
 
 import bisq.offer.OfferBook;
 import bisq.event.Event;

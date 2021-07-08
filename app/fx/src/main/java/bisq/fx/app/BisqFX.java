@@ -1,6 +1,6 @@
 package bisq.fx.app;
 
-import bisq.api.client.BisqApiClient;
+import bisq.client.BisqApiClient;
 import bisq.app.BisqApp;
 import bisq.core.BisqCore;
 import bisq.core.node.BisqNode;
@@ -8,7 +8,6 @@ import bisq.core.service.api.rest.RestApiService;
 import bisq.fx.offer.ObservableOfferBook;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
