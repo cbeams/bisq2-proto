@@ -78,7 +78,7 @@ configure(project(':daemon')) {
     build.dependsOn installDist
 }
 
-configure(project(':cli')) {
+configure(project(':app:cli')) {
     apply plugin: 'application'
 
     dependencies {
@@ -102,7 +102,7 @@ configure(project(':cli')) {
         mainClass = 'picocli.AutoComplete'
         args 'bisq.cli.BisqCommand',
                 '--force',
-                '--completionScript=../bisq-completion.bash'
+                "--completionScript=${project.rootDir}/bisq-completion.bash"
         javaLauncher = javaToolchains.launcherFor {
             languageVersion = JavaLanguageVersion.of(requiredJavaVersion)
         }
