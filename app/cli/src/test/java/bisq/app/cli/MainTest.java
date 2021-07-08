@@ -1,4 +1,4 @@
-package bisq.cli;
+package bisq.app.cli;
 
 import bisq.app.BisqApp;
 import bisq.app.BisqConsole;
@@ -17,8 +17,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static bisq.cli.BisqCommand.*;
-import static bisq.cli.OfferCommand.*;
 import static bisq.core.service.api.ApiService.RANDOM_PORT;
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -90,36 +88,36 @@ class MainTest {
                         """,
                 stderr());
         reset();
-        Assertions.assertEquals(Main.EXIT_OK, bisq(offer, list));
+        Assertions.assertEquals(Main.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.list));
         assertEquals("""
                 []
                 """, stdout());
-        Assertions.assertEquals(Main.EXIT_OK, bisq(offer, create, "offerA"), stderr());
+        Assertions.assertEquals(Main.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.create, "offerA"), stderr());
         reset();
-        Assertions.assertEquals(Main.EXIT_OK, bisq(offer, view, "1"), stderr());
+        Assertions.assertEquals(Main.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.view, "1"), stderr());
         assertEquals("""
                 offerA
                 """, stdout());
         reset();
-        Assertions.assertEquals(Main.EXIT_OK, bisq(offer, create, "offerB"), stderr());
+        Assertions.assertEquals(Main.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.create, "offerB"), stderr());
         reset();
-        Assertions.assertEquals(Main.EXIT_OK, bisq(offer, create, "offerC"), stderr());
+        Assertions.assertEquals(Main.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.create, "offerC"), stderr());
         reset();
-        Assertions.assertEquals(Main.EXIT_OK, bisq(offer, list), stderr());
+        Assertions.assertEquals(Main.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.list), stderr());
         assertEquals("""
                 [offerA, offerB, offerC]
                 """, stdout());
         reset();
-        Assertions.assertEquals(Main.EXIT_OK, bisq(offer, delete, "1"), stderr());
+        Assertions.assertEquals(Main.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.delete, "1"), stderr());
         reset();
-        Assertions.assertEquals(Main.EXIT_OK, bisq(offer, list), stderr());
+        Assertions.assertEquals(Main.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.list), stderr());
         assertEquals("""
                 [offerB, offerC]
                 """, stdout());
         reset();
-        Assertions.assertEquals(Main.EXIT_OK, bisq(offer, delete, "all"), stderr());
+        Assertions.assertEquals(Main.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.delete, "all"), stderr());
         reset();
-        Assertions.assertEquals(Main.EXIT_OK, bisq(offer, list), stderr());
+        Assertions.assertEquals(Main.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.list), stderr());
         assertEquals("""
                 []
                 """, stdout());
@@ -138,14 +136,14 @@ class MainTest {
     }
 
     private String usageText() {
-        bisq(helpOpt);
+        bisq(BisqCommand.helpOpt);
         return stdout();
     }
 
     private static int bisq(String... args) {
         var newArgs = new ArrayList<String>();
-        newArgs.add(stacktraceOpt);
-        newArgs.add(format("%s=localhost:%d", nodeOpt, restApiPort));
+        newArgs.add(BisqCommand.stacktraceOpt);
+        newArgs.add(String.format("%s=localhost:%d", BisqCommand.nodeOpt, restApiPort));
         newArgs.addAll(Arrays.asList(args));
         return Main.bisq(newArgs.toArray(new String[]{}));
     }

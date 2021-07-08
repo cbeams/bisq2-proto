@@ -1,4 +1,4 @@
-package bisq.cli;
+package bisq.app.cli;
 
 import bisq.client.RemoteBisqService;
 import bisq.api.offer.OfferBook;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import static bisq.app.BisqConsole.out;
-import static bisq.cli.OfferCommand.*;
+import static bisq.app.cli.OfferCommand.*;
 
 @Command(name = offer)
 @SuppressWarnings("unused")

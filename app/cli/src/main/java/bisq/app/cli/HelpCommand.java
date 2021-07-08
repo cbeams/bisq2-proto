@@ -1,4 +1,4 @@
-package bisq.cli;
+package bisq.app.cli;
 
 import bisq.app.BisqConsole;
 

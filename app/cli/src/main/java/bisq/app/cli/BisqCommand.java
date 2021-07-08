@@ -1,4 +1,4 @@
-package bisq.cli;
+package bisq.app.cli;
 
 import bisq.app.BisqApp;
 
@@ -23,7 +23,7 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.function.Function;
 
-import static bisq.cli.BisqCommand.bisq;
+import static bisq.app.cli.BisqCommand.bisq;
 import static java.lang.String.format;
 import static picocli.CommandLine.Help.Visibility.ALWAYS;
 
