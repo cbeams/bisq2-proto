@@ -1,10 +1,11 @@
 package bisq.core;
 
-import bisq.api.Bisq;
+import bisq.api.BisqService;
 import bisq.api.offer.OfferBook;
+
 import bisq.core.offer.CoreOfferBook;
 
-public class BisqCore implements Bisq {
+public class CoreBisqService implements BisqService {
 
     private final OfferBook offerBook = new CoreOfferBook();
 

@@ -1,7 +1,7 @@
 package bisq.core.service.api.rest;
 
 import bisq.api.offer.OfferBook;
-import bisq.core.BisqCore;
+import bisq.core.CoreBisqService;
 import bisq.api.event.Event;
 import bisq.api.event.EventListener;
 
@@ -36,7 +36,7 @@ public class RestApiService implements EventListener<String> {
     /**
      * @param port the port to bind to, or a random available port if set to {@value #RANDOM_PORT}.
      */
-    public RestApiService(BisqCore bisq, int port) {
+    public RestApiService(CoreBisqService bisq, int port) {
         this.offerBook = bisq.getOfferBook();
 
         this.offerBook.addEventListener(this);

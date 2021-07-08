@@ -29,9 +29,9 @@ import java.util.List;
 
 import static java.lang.String.format;
 
-public class OfferBookApiClient implements AutoCloseable, OfferBook {
+public class RemoteOfferBook implements AutoCloseable, OfferBook {
 
-    private static final Logger log = LoggerFactory.getLogger(OfferBookApiClient.class);
+    private static final Logger log = LoggerFactory.getLogger(RemoteOfferBook.class);
 
     private final OkHttpClient httpClient;
     private final String restApiUrl;
@@ -41,7 +41,7 @@ public class OfferBookApiClient implements AutoCloseable, OfferBook {
 
     private WebSocket eventWebSocket;
 
-    public OfferBookApiClient(OkHttpClient httpClient, String host, int port) {
+    public RemoteOfferBook(OkHttpClient httpClient, String host, int port) {
         this.httpClient = httpClient;
         this.restApiUrl = format("http://%s:%d/offer", host, port);
         this.eventWsUrl = format("ws://%s:%d/offerevents", host, port);

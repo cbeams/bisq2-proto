@@ -1,6 +1,6 @@
 package bisq.cli;
 
-import bisq.client.BisqApiClient;
+import bisq.client.RemoteBisqService;
 import bisq.api.offer.OfferBook;
 import bisq.app.picocli.InitializableCommand;
 
@@ -36,7 +36,7 @@ class OfferCommand implements InitializableCommand {
 
     @Override
     public void init() {
-        this.offerBook = new BisqApiClient(bisq.node.host(), bisq.node.port()).getOfferBook();
+        this.offerBook = new RemoteBisqService(bisq.node.host(), bisq.node.port()).getOfferBook();
     }
 
     @Command(name = create)

@@ -1,25 +1,25 @@
 package bisq.client;
 
-import bisq.api.Bisq;
+import bisq.api.BisqService;
 
 import okhttp3.OkHttpClient;
 
 import java.util.concurrent.TimeUnit;
 
-public class BisqApiClient implements AutoCloseable, Bisq {
+public class RemoteBisqService implements AutoCloseable, BisqService {
 
     private final OkHttpClient httpClient = new OkHttpClient.Builder()
             .pingInterval(10, TimeUnit.SECONDS) // to keep any websocket connections alive
             .build();
 
-    private final OfferBookApiClient offerBook;
+    private final RemoteOfferBook offerBook;
 
-    public BisqApiClient(String host, int port) {
-        this.offerBook = new OfferBookApiClient(httpClient, host, port);
+    public RemoteBisqService(String host, int port) {
+        this.offerBook = new RemoteOfferBook(httpClient, host, port);
     }
 
     @Override
-    public OfferBookApiClient getOfferBook() {
+    public RemoteOfferBook getOfferBook() {
         return offerBook;
     }
 

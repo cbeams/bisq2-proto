@@ -1,8 +1,8 @@
 package bisq.fx.app;
 
-import bisq.client.BisqApiClient;
+import bisq.client.RemoteBisqService;
 import bisq.app.BisqApp;
-import bisq.core.BisqCore;
+import bisq.core.CoreBisqService;
 import bisq.core.node.BisqNode;
 import bisq.core.service.api.rest.RestApiService;
 import bisq.fx.offer.ObservableOfferBook;
@@ -35,13 +35,13 @@ public class BisqFX extends Application implements BisqApp {
         final BisqNode bisqNode;
         if (bisqfx.host.equals("localhost") && !RestApiService.isRunningLocally(bisqfx.port)) {
             log.info("No api service detected on port {}. Starting own.", bisqfx.port);
-            bisqNode = new BisqNode(new RestApiService(new BisqCore(), bisqfx.port));
+            bisqNode = new BisqNode(new RestApiService(new CoreBisqService(), bisqfx.port));
             bisqNode.run();
         } else {
             bisqNode = null;
         }
 
-        var bisq = new BisqApiClient(bisqfx.host, bisqfx.port);
+        var bisq = new RemoteBisqService(bisqfx.host, bisqfx.port);
         var offerBook = bisq.getOfferBook();
         var observableOfferBook = new ObservableOfferBook(offerBook);
         var offerList = observableOfferBook.list();

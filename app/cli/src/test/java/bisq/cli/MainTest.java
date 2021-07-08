@@ -2,7 +2,7 @@ package bisq.cli;
 
 import bisq.app.BisqApp;
 import bisq.app.BisqConsole;
-import bisq.core.BisqCore;
+import bisq.core.CoreBisqService;
 import bisq.core.node.BisqNode;
 import bisq.core.service.api.rest.RestApiService;
 
@@ -35,7 +35,7 @@ class MainTest {
 
     @BeforeAll
     static void beforeAll() {
-        var restApiService = new RestApiService(new BisqCore(), RANDOM_PORT);
+        var restApiService = new RestApiService(new CoreBisqService(), RANDOM_PORT);
         restApiPort = restApiService.getPort();
         node = new BisqNode(restApiService);
         new Thread(node).start();

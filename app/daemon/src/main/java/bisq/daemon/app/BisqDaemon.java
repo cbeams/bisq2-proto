@@ -1,7 +1,7 @@
 package bisq.daemon.app;
 
 import bisq.app.BisqApp;
-import bisq.core.BisqCore;
+import bisq.core.CoreBisqService;
 import bisq.core.node.BisqNode;
 import bisq.core.service.api.rest.RestApiService;
 
@@ -18,7 +18,7 @@ public class BisqDaemon implements BisqApp {
 
     public static int bisqd(String... args) {
         log.info(BisqApp.nameAndVerison());
-        new BisqNode(new RestApiService(new BisqCore(), RestApiService.DEFAULT_PORT)).run();
+        new BisqNode(new RestApiService(new CoreBisqService(), RestApiService.DEFAULT_PORT)).run();
         return 0;
     }
 }
