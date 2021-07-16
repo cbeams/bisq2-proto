@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 
 import static bisq.app.BisqConsole.*;
 
-public class BisqCliMain implements BisqApp {
+public class BisqCLI implements BisqApp {
 
     static final int EXIT_OK = CommandLine.ExitCode.OK;
     static final int EXIT_APP_ERROR = CommandLine.ExitCode.SOFTWARE;

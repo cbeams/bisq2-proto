@@ -12,9 +12,9 @@ import java.io.PrintWriter;
 
 import static bisq.app.BisqConsole.*;
 
-public class BisqFXMain implements BisqApp {
+public class BisqFX implements BisqApp {
 
-    private static final Logger log = LoggerFactory.getLogger(BisqFXMain.class);
+    private static final Logger log = LoggerFactory.getLogger(BisqFX.class);
 
     public static void main(String[] args) {
         System.exit(bisqfx(args));

@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static com.google.common.truth.Truth.*;
 
-class BisqCliMainTest {
+class BisqCLITest {
 
     private static BisqNode node;
     private static int restApiPort;
@@ -64,7 +64,7 @@ class BisqCliMainTest {
 
     @Test
     void whenVersionOptionIsProvided_thenPrintVersionAndExit() {
-        Assertions.assertEquals(BisqCliMain.EXIT_OK, bisq("-V"), stderr());
+        Assertions.assertEquals(BisqCLI.EXIT_OK, bisq("-V"), stderr());
         var name = BisqApp.APP_INFO.getName();
         var version = BisqApp.APP_INFO.getVersion();
         assertFalse(name.contains("${") || version.contains("${"), "resources were not processed");
@@ -76,7 +76,7 @@ class BisqCliMainTest {
 
     @Test
     void exerciseOfferCrudSubcommands() {
-        Assertions.assertEquals(BisqCliMain.EXIT_USER_ERROR, bisq("offer"), stderr());
+        Assertions.assertEquals(BisqCLI.EXIT_USER_ERROR, bisq("offer"), stderr());
         assertEquals("""
                         Missing required subcommand
                         Usage: bisq offer [COMMAND]
@@ -88,36 +88,36 @@ class BisqCliMainTest {
                         """,
                 stderr());
         reset();
-        Assertions.assertEquals(BisqCliMain.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.list));
+        Assertions.assertEquals(BisqCLI.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.list));
         assertEquals("""
                 []
                 """, stdout());
-        Assertions.assertEquals(BisqCliMain.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.create, "offerA"), stderr());
+        Assertions.assertEquals(BisqCLI.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.create, "offerA"), stderr());
         reset();
-        Assertions.assertEquals(BisqCliMain.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.view, "1"), stderr());
+        Assertions.assertEquals(BisqCLI.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.view, "1"), stderr());
         assertEquals("""
                 offerA
                 """, stdout());
         reset();
-        Assertions.assertEquals(BisqCliMain.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.create, "offerB"), stderr());
+        Assertions.assertEquals(BisqCLI.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.create, "offerB"), stderr());
         reset();
-        Assertions.assertEquals(BisqCliMain.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.create, "offerC"), stderr());
+        Assertions.assertEquals(BisqCLI.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.create, "offerC"), stderr());
         reset();
-        Assertions.assertEquals(BisqCliMain.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.list), stderr());
+        Assertions.assertEquals(BisqCLI.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.list), stderr());
         assertEquals("""
                 [offerA, offerB, offerC]
                 """, stdout());
         reset();
-        Assertions.assertEquals(BisqCliMain.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.delete, "1"), stderr());
+        Assertions.assertEquals(BisqCLI.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.delete, "1"), stderr());
         reset();
-        Assertions.assertEquals(BisqCliMain.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.list), stderr());
+        Assertions.assertEquals(BisqCLI.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.list), stderr());
         assertEquals("""
                 [offerB, offerC]
                 """, stdout());
         reset();
-        Assertions.assertEquals(BisqCliMain.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.delete, "all"), stderr());
+        Assertions.assertEquals(BisqCLI.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.delete, "all"), stderr());
         reset();
-        Assertions.assertEquals(BisqCliMain.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.list), stderr());
+        Assertions.assertEquals(BisqCLI.EXIT_OK, bisq(OfferCommand.offer, OfferCommand.list), stderr());
         assertEquals("""
                 []
                 """, stdout());
@@ -130,7 +130,7 @@ class BisqCliMainTest {
 
     @Test
     void whenUnknownSubcommandIsProvided_thenReportErrorAndPrintUsage() {
-        Assertions.assertEquals(BisqCliMain.EXIT_USER_ERROR, bisq("bogus"));
+        Assertions.assertEquals(BisqCLI.EXIT_USER_ERROR, bisq("bogus"));
         assertThat(stderr()).containsMatch("Unmatched argument .* 'bogus'");
         assertThat(stderr()).endsWith(usageText());
     }
@@ -145,6 +145,6 @@ class BisqCliMainTest {
         newArgs.add(BisqCommand.stacktraceOpt);
         newArgs.add(String.format("%s=localhost:%d", BisqCommand.nodeOpt, restApiPort));
         newArgs.addAll(Arrays.asList(args));
-        return BisqCliMain.bisq(newArgs.toArray(new String[]{}));
+        return BisqCLI.bisq(newArgs.toArray(new String[]{}));
     }
 }
