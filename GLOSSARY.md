@@ -94,19 +94,13 @@ Also known as _Counterparty_
 
 ### Terms
 
-Requirements stipulating:
-- [Conditions](#condition) under which [Exchange](#exchange) will occur
-- [Amounts](#amount) to be exchanged
-- [Security](#security-method), [Settlement](#settlement-method) and [Adjudication](#adjudication-method) methods to be used
+Requirements stipulating [Conditions](#condition) for and [Amounts](#amount) to be exchanged as well as [Security](#security-method), [Settlement](#settlement-method) and [Adjudication](#adjudication-method) methods to be used during [Contract](#contract) [Execution](#execution)
 
 ### Condition
 
-An objective state that must be realized
+An objective state that must be realized in order for [Contract](#contract) [Fulfilment](#fulfillment) to begin
 
-> Conditions may include:
-> - the passage of a certain amount of time
-> - a fact reported on a given date,
-> - settlement account being older than a given age
+> Example _conditions_ include **the passage of a certain amount of time** or **a fact being reported on a certain date**
 
 ### Offer
 
@@ -165,6 +159,8 @@ The process of carrying out the [Terms](#terms) of a [Contract](#contract) after
 
 ### Settlement
 
+The process of transferring ownership of an [Asset](#asset) from one [Party](#party) to another
+
 #### Settlement Period
 
 ### Termination
@@ -183,6 +179,10 @@ The process of carrying out the [Terms](#terms) of a [Contract](#contract) after
 ### Spot Trade
 
 A [Contract](#contract) for immediate [Fulfilment](#fulfillment)
+
+<details>
+This is the only contract type supported in the Bisq 1.x line.
+</details>
 
 ### Forward Trade
 
