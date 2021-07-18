@@ -47,19 +47,19 @@ A named quantity of an [Asset](#asset)
 
 > US dollar _units_ include the **cent** and the **dollar**. Bitcoin _units_ include **sats** and **bitcoin**.
 
-### Base Unit
+#### Base Unit
 
 The smallest transferable [Unit](#unit) of an [Asset](#asset)
 
 > The _base unit_ of the US dollar is the **cent**. The _base unit_ of bitcoin is the **sat**.
 
-### Derived Unit
+#### Derived Unit
 
 A named quantity of [Base Units](#base-unit)
 
 > The **dollar** is a _derived unit_ representing one hundred cents. The **bitcoin** is a _derived unit_ representing one hundred million sats.
 
-### Standard Unit
+#### Standard Unit
 
 The [Unit](#unit) most commonly used when quantifying an [Asset](#asset)
 
@@ -84,6 +84,16 @@ To give one [Amount](#amount) and receive another
 
 > Alice _exchanged_ **1 bitcoin** with Bob for **42,000 US dollars**
 
+### Asset Pair
+
+#### Base Asset
+
+aka _Base Currency_
+
+#### Counter Asset
+
+aka _Counter Currency_
+
 ### Party
 
 A person or group of people forming one side of a [Contract](#contract)
@@ -92,55 +102,39 @@ A person or group of people forming one side of a [Contract](#contract)
 
 Also known as _Counterparty_
 
+#### Maker
+
+A [Party](#party) who creates an [Offer](#offer)
+
+#### Taker
+
+A [Party](#party) who accepts an [Offer](#offer)
+
 ### Terms
 
 Requirements stipulating [Conditions](#condition) for and [Amounts](#amount) to be exchanged as well as [Security](#security-method), [Settlement](#settlement-method) and [Adjudication](#adjudication-method) methods to be used during [Contract](#contract) [Execution](#execution)
 
-### Condition
+#### Condition
 
 An objective state that must be realized in order for [Contract](#contract) [Fulfilment](#fulfillment) to begin
 
 > Example _conditions_ include **the passage of a certain amount of time** or **a fact being reported on a certain date**
 
-### Offer
-
-A proposal to enter into a [Contract](#contract)
-
-### Maker
-
-A [Party](#party) who creates an [Offer](#offer)
-
-### Taker
-
-A [Party](#party) who accepts an [Offer](#offer)
-
-### Security Method
+#### Security Method
 
 The means used to keep [Assets](#asset) safe during [Contract](#contract) [Execution](#execution)
 
-### Settlement Method
+#### Settlement Method
 
 The means used to transfer ownership of [Assets](#asset)
 
-### Settlement Account
-
-User-specific details for a given settlement method
-
-Notes:
- - Formerly known as _Payment Account_
- - Now necessary for both base account and counter account
-
-### Adjudication Method
+#### Adjudication Method
 
 The means used to resolve problems and disputes during [Contract](#contract) [Execution](#execution)
 
-### Base Asset
+### Offer
 
-aka _Base Currency_
-
-### Counter Asset
-
-aka _Counter Currency_
+A proposal to enter into a [Contract](#contract)
 
 
 ## Contract Lifecycle
@@ -160,6 +154,15 @@ The process of carrying out the [Terms](#terms) of a [Contract](#contract) after
 ### Settlement
 
 The process of transferring ownership of an [Asset](#asset) from one [Party](#party) to another
+
+#### Settlement Account
+
+User-specific details for a given settlement method
+
+<details>
+- Known in Bisq 1.x as Payment Account<br>
+- Now necessary for both Base Asset and Counter Asset
+</details>
 
 #### Settlement Period
 
@@ -246,7 +249,9 @@ A thing that is known or proven to be true
 
 A [Fact](#fact) reporter
 
-### Contract for Difference (CFD)
+#### CFD
+
+_(Contract for Difference)_
 
 A [Bet](#bet) where the [Amount](#amount) is based on the difference between the current and future value of an [Asset](#asset)
 
