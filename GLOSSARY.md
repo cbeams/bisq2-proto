@@ -62,9 +62,9 @@ A named quantity of [Base Units](#base-unit)
 
 ### Standard Unit
 
-The [Unit](#unit) most commonly used when quantifying an [Asset](#asset).
+The [Unit](#unit) most commonly used when quantifying an [Asset](#asset)
 
-> Today, the _standard unit_ for bitcoin is **bitcoin**, as in "she saved up 6.15 **bitcoin**". With broader adoption, however, the standard unit for bitcoin may one day change to the **sat**.
+> Today, the _standard unit_ for bitcoin is **bitcoin**, as in "she saved up 6.15 **bitcoin**". Someday the standard unit for bitcoin may change to the **sat**.
 
 ### Amount
 
@@ -236,7 +236,7 @@ A [Contract](#contract) in which two [Parties](#party) agree to give the other a
 
 > Alice _bet_ Bob **50,000 sats** that the **Giants would win by 10 points tomorrow night**
 
-##### Fact
+#### Fact
 
 A thing that is known or proven to be true
 
