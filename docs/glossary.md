@@ -143,19 +143,19 @@ A proposal to enter into a [Contract](#contract)
 
 ### Negotiation
 
+### Acceptance
+
 ### Execution
 
 The process of carrying out the [Terms](#terms) of a [Contract](#contract) after [Acceptance](#acceptance) through to [Conclusion](#conclusion)
 
-### Acceptance
+#### Fulfillment
 
-### Fulfillment
-
-### Settlement
+#### Settlement
 
 The process of transferring ownership of an [Asset](#asset) from one [Party](#party) to another
 
-#### Settlement Account
+##### Settlement Account
 
 User-specific details for a given settlement method
 
@@ -164,17 +164,17 @@ User-specific details for a given settlement method
 - Now necessary for both Base Asset and Counter Asset
 </details>
 
-#### Settlement Period
+##### Settlement Period
 
-### Termination
+#### Conclusion
 
-### Adjudication
+##### Termination
 
-### Enforcement
+###### Adjudication
 
-### Completion
+###### Enforcement
 
-### Conclusion
+#### Completion
 
 
 ## Contract Types
@@ -197,11 +197,11 @@ A [Contract](#contract) for optional [Fulfilment](#fulfillment) on (or possibly 
 
 <details>
 Notes:
-- Advantage for the maker is the premium realized by the strike price
-- Requires additional transaction for taker to buy the option itself at its given strike price
-- Cancellable without penalty (because premium has already been paid)
-- https://www.investopedia.com/articles/active-trading/112213/getting-handle-options-premium.asp
-- https://money.stackexchange.com/questions/81612/why-would-someone-want-to-sell-call-options#81616
+- Advantage for the maker is the premium realized by the strike price<br>
+- Requires additional transaction for taker to buy the option itself at its given strike price<br>
+- Cancellable without penalty (because premium has already been paid)<br>
+- https://www.investopedia.com/articles/active-trading/112213/getting-handle-options-premium.asp<br>
+- https://money.stackexchange.com/questions/81612/why-would-someone-want-to-sell-call-options#81616<br>
 </details>
 
 #### Call Option
@@ -219,10 +219,10 @@ A [Contract](#contract) in which a lender gives a borrower [Principal](#principa
 > Bob took a _loan_ from Alice for **100,000 USDT repayable in 12 months with 8% APY interest**
 
 <details>
-- May involve an additional up-front "loan origination" fee to protect lender against early (i.e. no- or low-interest) payback
-- Secured loans would include over-collateralized loans
-  - would require 3rd key and forced liquidation / margin call schedule
-- Unsecured loans possible. Just as any exchange could be unsecured.
+- May involve an additional up-front "loan origination" fee to protect lender against early (i.e. no- or low-interest) payback<br>
+- Secured loans would include over-collateralized loans<br>
+  - would require 3rd key and forced liquidation / margin call schedule<br>
+- Unsecured loans possible. Just as any exchange could be unsecured.<br>
 </details>
 
 #### Principal
