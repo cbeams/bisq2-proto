@@ -1,12 +1,11 @@
-# Bisq 2 Glossary
+# Glossary
 
-## Fundamentals
-
-### Bisq
+## Bisq
 
 A peer-to-peer [Asset](#asset) [Exchange](#exchange) system
 
-### Asset
+
+## Asset
 
 Property divisible into fungible [Units](#unit).
 
@@ -21,7 +20,7 @@ A short, unique series of characters used to identify an [Asset](#asset)
 Also known as _[Currency](#currency) Code_
 
 <details>
-Where a given [Asset](#asset) is a recognized [Currency](#currency), its asset code should correspond with its ISO 4217 currency code value.
+Where a given Asset is a recognized Currency, its asset code will correspond with its ISO 4217 currency code value.
 </details>
 
 ### Currency
@@ -72,17 +71,18 @@ A number of [Units](#unit)
 
 > The _amount_ transferred was **6.15 bitcoin**.
 
+
+## Contract
+
+An agreement between [Parties](#party) to [Exchange](#exchange) according to a set of [Terms](#terms)
+
+_See [Contract Types](#contract-types)_
+
 ### Exchange
 
 To give one [Amount](#amount) and receive another
 
 > Alice _exchanged_ **1 bitcoin** with Bob for **42,000 US dollars**
-
-### Contract
-
-An agreement between [Parties](#party) to [Exchange](#exchange) according to a set of [Terms](#terms)
-
-_See [Contract Types](#contract-types)_
 
 ### Party
 
