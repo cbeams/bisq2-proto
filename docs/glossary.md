@@ -1,12 +1,12 @@
 # Glossary
 
-## Bisq
-
+Bisq
+--------
 A peer-to-peer [Asset](#asset) [Exchange](#exchange) system
 
 
-## Asset
-
+Asset
+--------
 Property divisible into fungible [Units](#unit).
 
 > **Gold**, the **US dollar** and **bitcoin** are commonly held _assets_
@@ -72,14 +72,8 @@ A number of [Units](#unit)
 > The _amount_ transferred was **6.15 bitcoin**.
 
 
-## Contract
-
-An agreement between [Parties](#party) to [Exchange](#exchange) according to a set of [Terms](#terms)
-
-_See [Contract Types](#contract-types)_
-
-### Exchange
-
+Exchange
+--------
 To give one [Amount](#amount) and receive another
 
 > Alice _exchanged_ **1 bitcoin** with Bob for **42,000 US dollars**
@@ -93,6 +87,17 @@ aka _Base Currency_
 #### Counter Asset
 
 aka _Counter Currency_
+
+### Price
+
+Also known as _Exchange Rate_
+
+
+Contract
+--------
+An agreement between [Parties](#party) to [Exchange](#exchange) according to a set of [Terms](#terms)
+
+_See [Contract Types](#contract-types)_
 
 ### Party
 
@@ -137,7 +142,8 @@ The means used to resolve problems and disputes during [Contract](#contract) [Ex
 A proposal to enter into a [Contract](#contract)
 
 
-## Contract Lifecycle
+Contract Lifecycle
+--------
 
 ### Proposal
 
@@ -177,7 +183,8 @@ User-specific details for a given settlement method
 #### Completion
 
 
-## Contract Types
+Contract Types
+--------
 
 ### Spot Trade
 
