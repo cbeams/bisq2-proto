@@ -99,6 +99,10 @@ An agreement between [Parties](#party) to [Exchange](#exchange) according to a s
 
 _See [Contract Types](#contract-types)_
 
+### Offer
+
+A proposal to enter into a [Contract](#contract)
+
 ### Party
 
 A person or group of people forming one side of a [Contract](#contract)
@@ -136,10 +140,6 @@ The means used to transfer ownership of [Assets](#asset)
 #### Adjudication Method
 
 The means used to resolve problems and disputes during [Contract](#contract) [Execution](#execution)
-
-### Offer
-
-A proposal to enter into a [Contract](#contract)
 
 
 Contract Lifecycle
