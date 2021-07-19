@@ -45,6 +45,7 @@ jobs:
         if: failure()
         with:
             name: reports-${{ runner.os }}
+            if-no-files-found: ignore
             path: |
               build/reports/*
               api/build/reports/*
