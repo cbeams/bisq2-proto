@@ -38,7 +38,7 @@ jobs:
             ${{ runner.os }}-gradlew-
 
       - name: Build
-        run: ./gradlew build -S
+        run: ./gradlew build
 
       - name: Show Reports
         uses: actions/upload-artifact@v2
