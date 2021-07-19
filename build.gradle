@@ -1,19 +1,15 @@
-buildscript {
-    repositories {
-        maven { url 'https://plugins.gradle.org/m2/' }
-    }
-    dependencies {
-        classpath 'org.openjfx:javafx-plugin:0.0.10'
-        classpath "com.palantir.gradle.gitversion:gradle-git-version:0.12.3"
-    }
+plugins {
+    id 'com.google.osdetector'
+    id 'com.palantir.git-version' apply false
+    id 'org.openjfx.javafxplugin' apply false
+    id 'org.beryx.runtime'        apply false
 }
 
-def requiredJavaVersion = 16
-def javafxSdkProperty = 'bisq.javafx.sdk'
+ext.platform = osdetector.os == 'osx' ? 'mac' : osdetector.os == 'windows' ? 'win' : osdetector.os
 
 configure(subprojects) {
-    apply plugin: 'java'
-    apply plugin: "com.palantir.git-version"
+    apply plugin: 'java-library'
+    apply plugin: 'com.palantir.git-version'
 
     repositories {
         mavenCentral()
@@ -33,29 +29,25 @@ configure(subprojects) {
             languageVersion = JavaLanguageVersion.of(requiredJavaVersion)
         }
     }
+
+    test {
+        useJUnitPlatform()
+    }
 }
 
 configure(project(':api')) {
-    apply plugin: 'java-library'
+    // no additional configuration
 }
 
 configure(project(':client')) {
-    apply plugin: 'java-library'
-
     dependencies {
         api project(':api')
         implementation 'com.squareup.okhttp3:okhttp:4.9.1'
         implementation 'com.google.code.gson:gson:2.8.7'
     }
-
-    tasks.named('test') {
-        useJUnitPlatform()
-    }
 }
 
 configure(project(':core')) {
-    apply plugin: 'java-library'
-
     dependencies {
         api project(':api')
         implementation 'com.sparkjava:spark-core:2.9.3'
@@ -64,8 +56,6 @@ configure(project(':core')) {
 }
 
 configure(project(':app')) {
-    apply plugin: 'java-library'
-
     dependencies {
         api 'info.picocli:picocli:4.6.1'
     }
@@ -73,6 +63,7 @@ configure(project(':app')) {
 
 configure(project(':app:daemon')) {
     apply plugin: 'application'
+    apply plugin: 'org.beryx.runtime'
 
     dependencies {
         implementation project(':app')
@@ -89,11 +80,22 @@ configure(project(':app:daemon')) {
         expand(name: applicationName, version: gitVersion())
     }
 
+    runtime {
+        imageDir = file("$buildDir/images/bisqd-${platform}")
+        imageZip = file("$buildDir/distributions/bisqd-${platform}.zip")
+        options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+        launcher {
+            //name = 'bisqd'
+            noConsole = true
+        }
+    }
+
     build.dependsOn installDist
 }
 
 configure(project(':app:cli')) {
     apply plugin: 'application'
+    apply plugin: 'org.beryx.runtime'
 
     dependencies {
         implementation project(':app')
@@ -105,10 +107,6 @@ configure(project(':app:cli')) {
     application {
         mainClass = 'bisq.app.cli.BisqCli'
         applicationName = 'bisq'
-    }
-
-    tasks.named('test') {
-        useJUnitPlatform()
     }
 
     // see https://picocli.info/autocomplete.html
@@ -127,12 +125,23 @@ configure(project(':app:cli')) {
         expand(name: "bisq cli", version: gitVersion())
     }
 
+    runtime {
+        imageDir = file("$buildDir/images/bisq-${platform}")
+        imageZip = file("$buildDir/distributions/bisq-${platform}.zip")
+        options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+        launcher {
+            //name = 'bisq'
+            noConsole = true
+        }
+    }
+
     build.dependsOn installDist, generateBashCompletion
 }
 
 configure(project(':app:fx')) {
     apply plugin: 'application'
     apply plugin: 'org.openjfx.javafxplugin'
+    apply plugin: 'org.beryx.runtime'
 
     javafx {
         if (project.hasProperty(javafxSdkProperty))
@@ -173,6 +182,16 @@ configure(project(':app:fx')) {
 
     processResources {
         expand(name: applicationName, version: gitVersion())
+    }
+
+    runtime {
+        imageDir = file("$buildDir/images/bisqfx-${platform}")
+        imageZip = file("$buildDir/distributions/bisqfx-${platform}.zip")
+        options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+        launcher {
+            //name = 'bisqfx'
+            noConsole = true
+        }
     }
 
     build.dependsOn installDist, generateBashCompletion
