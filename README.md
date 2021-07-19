@@ -1,5 +1,7 @@
 # Bisq2 Prototype
 
+![build status](https://github.com/cbeams/bisq2/actions/workflows/build.yml/badge.svg)
+
 
 ## Introduction
 
