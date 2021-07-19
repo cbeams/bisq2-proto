@@ -54,14 +54,6 @@ class BisqCLITest {
         BisqConsole.err = new PrintStream(errors);
     }
 
-    private String stdout() {
-        return output.toString();
-    }
-
-    private String stderr() {
-        return errors.toString();
-    }
-
     @Test
     void whenVersionOptionIsProvided_thenPrintVersionAndExit() {
         Assertions.assertEquals(BisqCLI.EXIT_OK, bisq("-V"), stderr());
@@ -146,5 +138,19 @@ class BisqCLITest {
         newArgs.add(String.format("%s=localhost:%d", BisqCommand.nodeOpt, restApiPort));
         newArgs.addAll(Arrays.asList(args));
         return BisqCLI.bisq(newArgs.toArray(new String[]{}));
+    }
+
+    private String stdout() {
+        return normalize(output.toString());
+    }
+
+    private String stderr() {
+        return normalize(errors.toString());
+    }
+
+    // avoid spurious failures on Windows by normalizing any CRLF line endings to match
+    // the expected LF line endings in the text blocks in this file
+    private String normalize(String value) {
+        return value.replaceAll("\r\n", "\n");
     }
 }
