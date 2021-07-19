@@ -1,3 +1,16 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+    plugins {
+        id 'org.openjfx.javafxplugin'        version javafxPluginVersion
+        id 'com.palantir.git-version'        version gitVersionPluginVersion
+        id 'com.google.osdetector'           version osPluginVersion
+        id 'org.beryx.runtime'               version runtimePluginVersion
+    }
+}
+
 rootProject.name = 'bisq2'
 include 'api'
 include 'core'
