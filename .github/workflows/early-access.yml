@@ -47,9 +47,7 @@ jobs:
         with:
           name: artifacts
           path: |
-            app/cli/build/distributions/*.zip
-            app/daemon/build/distributions/*.zip
-            app/fx/build/distributions/*.zip
+            app/*/build/distributions/*.zip
 
   # Collect all distributions and release
   release:
