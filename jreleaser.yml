@@ -7,7 +7,7 @@ project:
   website: https://bisq.network/
   authors:
     - Chris Beams
-  license: Apache-2.0
+  license: AGPLv3
   java:
     groupId: network.bisq
     version: 16
