@@ -1,0 +1,124 @@
+project:
+  # Fix this value for the time being
+  version: 2.0.0-SNAPSHOT
+  name: bisq
+  description: bisq
+  longDescription: bisq
+  website: https://bisq.network/
+  authors:
+    - Chris Beams
+  license: Apache-2.0
+  java:
+    groupId: network.bisq
+    version: 16
+    multiProject: true
+  extraProperties:
+    inceptionYear: 2021
+
+release:
+  github:
+    overwrite: true
+    changelog:
+      formatted: ALWAYS
+      change: '- {{commitShortHash}} {{commitTitle}}'
+      labelers:
+        - label: 'merge_pull'
+          title: 'Merge pull'
+        - label: 'merge_branch'
+          title: 'Merge branch'
+        - label: 'feature'
+          title: 'Resolves #'
+          body: 'Resolves #'
+        - label: 'issue'
+          title: 'Fixes #'
+          body: 'Fixes #'
+        - label: 'docs'
+          title: 'docs:'
+        - label: 'task'
+          title: '[chore]'
+        - label: 'task'
+          title: '[build]'
+        - label: 'dependencies'
+          title: '[deps]'
+      categories:
+        - title: '🚀 Features'
+          labels:
+            - 'feature'
+        - title: '✅ Issues'
+          labels:
+            - 'issue'
+        - title: '🧰 Tasks'
+          labels:
+            - 'task'
+        - title: '📝 Documentation'
+          labels:
+            - 'docs'
+        - title: '⚙️  Dependencies'
+          labels:
+            - 'dependencies'
+        - title: 'Merge'
+          labels:
+            - 'merge_pull'
+            - 'merge_branch'
+      hide:
+        categories:
+          - 'Merge'
+      replacers:
+        - search: 'task: '
+        - search: 'docs: '
+        - search: '\[build\] '
+        - search: '\[deps\] '
+        - search: 'build:'
+          replace: '[build]'
+        - search: 'cli:'
+          replace: '[cli]'
+        - search: 'api:'
+          replace: '[api]'
+        - search: 'fx:'
+          replace: '[fx]'
+
+distributions:
+  bisqd:
+    type: JLINK
+    java:
+      mainClass: bisq.app.daemon.BisqDaemon
+    artifacts:
+      - path: artifacts/daemon/build/distributions/{{distributionName}}-mac.zip
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}-osx-x86_64.zip'
+        platform: osx-x86_64
+      - path: artifacts/daemon/build/distributions/{{distributionName}}-win.zip
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}-windows-x86_64.zip'
+        platform: windows-x86_64
+      - path: artifacts/daemon/build/distributions/{{distributionName}}-linux.zip
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}-linux-x86_64.zip'
+        platform: linux-x86_64
+
+  bisq:
+    type: JLINK
+    java:
+      mainClass: bisq.app.cli.BisqCLI
+    artifacts:
+      - path: artifacts/cli/build/distributions/{{distributionName}}-mac.zip
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}-osx-x86_64.zip'
+        platform: osx-x86_64
+      - path: artifacts/cli/build/distributions/{{distributionName}}-win.zip
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}-windows-x86_64.zip'
+        platform: windows-x86_64
+      - path: artifacts/cli/build/distributions/{{distributionName}}-linux.zip
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}-linux-x86_64.zip'
+        platform: linux-x86_64
+
+  bisqfx:
+    type: JLINK
+    java:
+      mainClass: bisq.app.fx.BisqFX
+    artifacts:
+      - path: artifacts/fx/build/distributions/{{distributionName}}-mac.zip
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}-osx-x86_64.zip'
+        platform: osx-x86_64
+      - path: artifacts/fx/build/distributions/{{distributionName}}-win.zip
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}-windows-x86_64.zip'
+        platform: windows-x86_64
+      - path: artifacts/fx/build/distributions/{{distributionName}}-linux.zip
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}-linux-x86_64.zip'
+        platform: linux-x86_64
