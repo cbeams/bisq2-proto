@@ -94,7 +94,6 @@ configure(project(':app:daemon')) {
         imageZip = file("$buildDir/distributions/bisqd-${platform}.zip")
         options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
         launcher {
-            //name = 'bisqd'
             noConsole = true
         }
     }
@@ -139,7 +138,6 @@ configure(project(':app:cli')) {
         imageZip = file("$buildDir/distributions/bisq-${platform}.zip")
         options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
         launcher {
-            //name = 'bisq'
             noConsole = true
         }
     }
@@ -198,8 +196,13 @@ configure(project(':app:fx')) {
         imageZip = file("$buildDir/distributions/bisqfx-${platform}.zip")
         options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
         launcher {
-            //name = 'bisqfx'
             noConsole = true
+            // launcher scripts created by the application plugin are overwritten
+            // by the org.beryx.runtime plugin, thus custom settings must be applied
+            // once more
+            jvmArgs = [ '--add-modules=javafx.controls' ]
+            if (project.hasProperty(javafxSdkProperty))
+                jvmArgs += "--module-path=${project.getProperty(javafxSdkProperty)}/lib"
         }
     }
 
