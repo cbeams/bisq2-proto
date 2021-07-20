@@ -8,7 +8,7 @@ jobs:
   # Build jlink distribution per runner
   build:
     name: 'Build with Java on ${{ matrix.os }}'
-    if: github.repository == 'cbeams/bisq2' && startsWith(github.event.head_commit.message, 'Releasing version') != true
+    if: github.repository == 'cbeams/bisq2' && startsWith(github.event.head_commit.message, 'Release v') != true
     strategy:
       fail-fast: true
       matrix:
