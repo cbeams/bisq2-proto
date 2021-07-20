@@ -1,0 +1,79 @@
+name: EarlyAccess
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  # Build jlink distribution per runner
+  build:
+    name: 'Build with Java on ${{ matrix.os }}'
+    if: github.repository == 'cbeams/bisq2' && startsWith(github.event.head_commit.message, 'Releasing version') != true
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ ubuntu-latest, macOS-latest, windows-latest ]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: 'Check out repository'
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+            java-version: 16
+            distribution: 'zulu'
+
+      - uses: actions/cache@v2
+        with:
+            path: ~/.gradle/caches
+            key: ${{ runner.os }}-gradle-cache-${{ hashFiles('**/*.gradle') }}-${{ hashFiles('**/gradle.properties') }}
+            restore-keys: |
+                ${{ runner.os }}-gradle-
+
+      - uses: actions/cache@v2
+        with:
+            path: ~/.gradle/wrapper
+            key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradlew') }}
+            restore-keys: |
+                ${{ runner.os }}-gradlew-
+
+      - name: Build
+        run: ./gradlew runtimeZip
+
+      - name: 'Upload build artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts
+          path: |
+            app/cli/build/distributions/*.zip
+            app/daemon/build/distributions/*.zip
+            app/fx/build/distributions/*.zip
+
+  # Collect all distributions and release
+  release:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Check out repository'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: 'Download all build artifacts'
+        uses: actions/download-artifact@v2
+
+      - name: 'Set up Java'
+        uses: actions/setup-java@v2
+        with:
+          java-version: 16
+          distribution: 'zulu'
+
+      - name: 'Release with JReleaser'
+        uses: jreleaser/release-action@v1
+        with:
+          version: early-access
+        env:
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
