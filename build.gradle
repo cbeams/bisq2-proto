@@ -94,7 +94,6 @@ configure(project(':app:daemon')) {
         imageZip = file("$buildDir/distributions/bisqd-${platform}.zip")
         options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
         launcher {
-            //name = 'bisqd'
             noConsole = true
         }
     }
@@ -139,7 +138,6 @@ configure(project(':app:cli')) {
         imageZip = file("$buildDir/distributions/bisq-${platform}.zip")
         options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
         launcher {
-            //name = 'bisq'
             noConsole = true
         }
     }
@@ -152,14 +150,6 @@ configure(project(':app:fx')) {
     apply plugin: 'org.openjfx.javafxplugin'
     apply plugin: 'org.beryx.runtime'
 
-    javafx {
-        if (project.hasProperty(javafxSdkProperty))
-            sdk = project.getProperty(javafxSdkProperty)
-        else
-            version = '16'
-        modules = ['javafx.controls']
-    }
-
     application {
         mainClass = 'bisq.app.fx.BisqFX'
         applicationName = 'bisqfx'
@@ -169,12 +159,6 @@ configure(project(':app:fx')) {
         implementation project(':app')
         implementation project(':client')
         implementation project(':core')
-    }
-
-    startScripts {
-        defaultJvmOpts = [ '--add-modules=javafx.controls' ]
-        if (project.hasProperty(javafxSdkProperty))
-            defaultJvmOpts += "--module-path=${project.getProperty(javafxSdkProperty)}/lib"
     }
 
     // see https://picocli.info/autocomplete.html
@@ -193,13 +177,29 @@ configure(project(':app:fx')) {
         expand(name: applicationName, version: gitVersion())
     }
 
+    javafx {
+        // customize the application plugin's `run` task to use the correct JavaFX SDK and
+        // modules; see the beryx runtime plugin's `launcher` closure below for equivalent
+        // customization of generated start scripts.
+        if (project.hasProperty(javafxSdkProperty))
+            sdk = project.getProperty(javafxSdkProperty)
+        else
+            version = '16'
+        modules = ['javafx.controls']
+    }
+
     runtime {
         imageDir = file("$buildDir/images/bisqfx-${platform}")
         imageZip = file("$buildDir/distributions/bisqfx-${platform}.zip")
         options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
         launcher {
-            //name = 'bisqfx'
             noConsole = true
+            // start scripts created by the application plugin are overwritten by the
+            // org.beryx.runtime plugin, thus custom settings must be configured here as
+            // opposed to in the usual `startScripts` closure
+            jvmArgs = [ '--add-modules=javafx.controls' ]
+            if (project.hasProperty(javafxSdkProperty))
+                jvmArgs += "--module-path=${project.getProperty(javafxSdkProperty)}/lib"
         }
     }
 
