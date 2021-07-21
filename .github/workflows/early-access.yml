@@ -40,16 +40,14 @@ jobs:
                 ${{ runner.os }}-gradlew-
 
       - name: Build
-        run: ./gradlew runtimeZip
+        run: ./gradlew build runtimeZip
 
       - name: 'Upload build artifact'
         uses: actions/upload-artifact@v2
         with:
           name: artifacts
           path: |
-            app/cli/build/distributions/*.zip
-            app/daemon/build/distributions/*.zip
-            app/fx/build/distributions/*.zip
+            app/**/build/distributions/*.zip
 
   # Collect all distributions and release
   release:
@@ -77,3 +75,15 @@ jobs:
           version: early-access
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.CI_SIGNING_PASSPHRASE }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.CI_SIGNING_PUBKEY }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.CI_SIGNING_PRIVKEY }}
+
+      - name: JReleaser output
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+            name: jreleaser
+            path: |
+                out/jreleaser/trace.log
+                out/jreleaser/output.properties

@@ -18,6 +18,7 @@ project:
 release:
   github:
     overwrite: true
+    sign: true
     changelog:
       formatted: ALWAYS
       change: '- {{commitShortHash}} {{commitTitle}}'
@@ -63,6 +64,8 @@ release:
       hide:
         categories:
           - 'Merge'
+        contributors:
+          - 'GitHub'
       replacers:
         - search: 'task: '
         - search: 'docs: '
@@ -76,6 +79,10 @@ release:
           replace: '[api]'
         - search: 'fx:'
           replace: '[fx]'
+
+signing:
+    active: always
+    armored: true
 
 distributions:
   bisqd:
