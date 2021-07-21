@@ -1,15 +1,18 @@
 plugins {
     id 'com.google.osdetector'
-    id 'com.palantir.git-version' apply false
+    id 'com.palantir.git-version'
     id 'org.openjfx.javafxplugin' apply false
     id 'org.beryx.runtime'        apply false
 }
+
+version = gitVersion()
 
 ext.platform = osdetector.os == 'osx' ? 'mac' : osdetector.os == 'windows' ? 'win' : osdetector.os
 
 configure(subprojects) {
     apply plugin: 'java-library'
-    apply plugin: 'com.palantir.git-version'
+
+    version = rootProject.version
 
     repositories {
         mavenCentral()
@@ -86,7 +89,7 @@ configure(project(':app:daemon')) {
     }
 
     processResources {
-        expand(name: applicationName, version: gitVersion())
+        expand(name: applicationName, version: version)
     }
 
     runtime {
@@ -130,7 +133,7 @@ configure(project(':app:cli')) {
     }
 
     processResources {
-        expand(name: "bisq cli", version: gitVersion())
+        expand(name: "bisq cli", version: version)
     }
 
     runtime {
@@ -174,7 +177,7 @@ configure(project(':app:fx')) {
     }
 
     processResources {
-        expand(name: applicationName, version: gitVersion())
+        expand(name: applicationName, version: version)
     }
 
     javafx {
