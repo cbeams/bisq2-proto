@@ -42,14 +42,20 @@ jobs:
                 ${{ runner.os }}-gradlew-
 
       - name: Build
-        run: ./gradlew build runtimeZip
+        run: ./gradlew build runtimeZip jpackage
 
       - name: 'Upload build artifact'
         uses: actions/upload-artifact@v2
         with:
           name: artifacts
+          if-no-files-found: ignore
           path: |
-            app/**/build/distributions/*.zip
+            app/**/build/jpackage/*.rpm
+            app/**/build/jpackage/*.dmg
+            app/**/build/jpackage/*.exe
+            app/**/build/jpackage/*.msi
+            app/**/build/jpackage/*.pkg
+            app/**/build/jpackage/*.deb
 
   # Collect all distributions and release
   release:
@@ -64,6 +70,9 @@ jobs:
 
       - name: 'Download all build artifacts'
         uses: actions/download-artifact@v2
+
+      - name: 'Display structure of downloaded files'
+        run: ls -R artifacts
 
       - name: 'Set up Java'
         uses: actions/setup-java@v2

@@ -24,7 +24,9 @@ release:
     sign: true
     changelog:
       formatted: ALWAYS
-      change: '- {{commitShortHash}} {{commitTitle}}'
+      format: '- {{commitShortHash}} {{commitTitle}}'
+      contributors:
+        format: '- {{contributorName}}{{#contributorUsernameAsLink}} ({{.}}){{/contributorUsernameAsLink}}'
       labelers:
         - label: 'merge_pull'
           title: 'Merge pull'
@@ -45,6 +47,10 @@ release:
         - label: 'dependencies'
           title: '[deps]'
       categories:
+        - title: 'Merge'
+          labels:
+            - 'merge_pull'
+            - 'merge_branch'
         - title: '🚀 Features'
           labels:
             - 'feature'
@@ -60,10 +66,6 @@ release:
         - title: '⚙️  Dependencies'
           labels:
             - 'dependencies'
-        - title: 'Merge'
-          labels:
-            - 'merge_pull'
-            - 'merge_branch'
       hide:
         categories:
           - 'Merge'
