@@ -81,8 +81,8 @@ release:
           replace: '[fx]'
 
 signing:
-    active: always
-    armored: true
+  active: always
+  armored: true
 
 distributions:
   bisqd:
