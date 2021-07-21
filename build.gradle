@@ -111,7 +111,7 @@ configure(project(':app:cli')) {
     }
 
     application {
-        mainClass = 'bisq.app.cli.BisqCli'
+        mainClass = 'bisq.app.cli.BisqCLI'
         applicationName = 'bisq'
     }
 
