@@ -35,14 +35,9 @@ configure(subprojects) {
 
     test {
         useJUnitPlatform()
-        test {
-            useJUnitPlatform()
-            test {
-                testLogging {
-                    exceptionFormat = 'full'
-                    showStackTraces = false
-                }
-            }
+        testLogging {
+            exceptionFormat = 'full'
+            showStackTraces = false
         }
     }
 }
