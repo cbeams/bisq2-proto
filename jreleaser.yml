@@ -63,6 +63,8 @@ release:
       hide:
         categories:
           - 'Merge'
+        contributors:
+          - 'GitHub'
       replacers:
         - search: 'task: '
         - search: 'docs: '
