@@ -6,6 +6,11 @@ plugins {
 }
 
 version = gitVersion()
+ext.appVersion = '2.0.0'
+if (version.matches("v\\d+\\.\\d+\\.\\d+.*")) {
+    version = version.substring(1) // strip leading 'v'
+    ext.appVersion = version.substring(0,5) // strip labels and return x.y.z
+}
 
 ext.platform = osdetector.os == 'osx' ? 'mac' : osdetector.os == 'windows' ? 'win' : osdetector.os
 
@@ -94,6 +99,11 @@ configure(project(':app:daemon')) {
         launcher {
             noConsole = true
         }
+        jpackage {
+            imageName = 'bisqd'
+            installerName = 'bisqd'
+            appVersion = rootProject.appVersion
+        }
     }
 
     build.dependsOn installDist
@@ -137,6 +147,11 @@ configure(project(':app:cli')) {
         options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
         launcher {
             noConsole = true
+        }
+        jpackage {
+            imageName = 'bisq'
+            installerName = 'bisq'
+            appVersion = rootProject.appVersion
         }
     }
 
@@ -198,6 +213,11 @@ configure(project(':app:fx')) {
             jvmArgs = [ '--add-modules=javafx.controls' ]
             if (project.hasProperty(javafxSdkProperty))
                 jvmArgs += "--module-path=${project.getProperty(javafxSdkProperty)}/lib"
+        }
+        jpackage {
+            imageName = 'bisqfx'
+            installerName = 'bisqfx'
+            appVersion = rootProject.appVersion
         }
     }
 

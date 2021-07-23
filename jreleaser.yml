@@ -1,6 +1,9 @@
 project:
   # Fix this value for the time being
-  version: 2.0.0-SNAPSHOT
+  version: 2.0.0-early-access
+  snapshot:
+    label: 'v2.0.0-early-access'
+    pattern: 'v.*-early-access'
   name: bisq
   description: bisq
   longDescription: bisq
