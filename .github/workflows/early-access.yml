@@ -84,6 +84,8 @@ jobs:
         uses: jreleaser/release-action@v1
         with:
           version: early-access
+          # override {{artifactsDir}}
+          arguments: full-release -p artifactsDir=artifacts
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.CI_SIGNING_PASSPHRASE }}
