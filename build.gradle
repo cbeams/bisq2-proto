@@ -210,8 +210,12 @@ configure(project(':app:fx')) {
             // start scripts created by the application plugin are overwritten by the
             // org.beryx.runtime plugin, thus custom settings must be configured here as
             // opposed to in the usual `startScripts` closure
-            if (project.hasProperty(javafxSdkProperty))
-                jvmArgs += "--module-path=${project.getProperty(javafxSdkProperty)}/lib"
+            if (project.hasProperty(javafxSdkProperty)) {
+                jvmArgs = [
+                    '--add-modules=javafx.controls',
+                    "--module-path=${project.getProperty(javafxSdkProperty)}/lib"
+                ]
+            }
         }
 
         jpackage {
