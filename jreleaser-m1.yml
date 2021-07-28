@@ -1,0 +1,77 @@
+environment:
+  properties:
+    artifactsDir: app
+
+project:
+  # Fix this value for the time being
+  version: 2.0.0-early-access
+  snapshot:
+    label: 'v2.0.0-early-access'
+    pattern: '.*-early-access'
+  name: bisq
+  description: bisq
+  longDescription: bisq
+  website: https://bisq.network/
+  authors:
+    - Chris Beams
+  license: AGPLv3
+  java:
+    groupId: network.bisq
+    version: 16
+    multiProject: true
+  extraProperties:
+    inceptionYear: 2021
+
+release:
+  github:
+    update: true
+    updateSections:
+      - ASSETS
+    sign: true
+
+signing:
+  active: always
+  armored: true
+
+distributions:
+  bisqd:
+    type: JLINK
+    java:
+      mainClass: bisq.app.daemon.BisqDaemon
+    artifacts:
+      #- path: '{{artifactsDir}}/daemon/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.dmg'
+      #  transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}.dmg'
+      #  platform: 'osx-aarch_64'
+      - path: '{{artifactsDir}}/daemon/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.pkg'
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}.pkg'
+        platform: 'osx-aarch_64'
+      - path: '{{artifactsDir}}/daemon/build/distributions/{{distributionName}}-osx-aarch_64.zip'
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}-osx-aarch_64.zip'
+        platform: 'osx-aarch_64'
+
+  bisq:
+    type: JLINK
+    java:
+      mainClass: bisq.app.cli.BisqCLI
+    artifacts:
+      #- path: '{{artifactsDir}}/cli/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.dmg'
+      #  transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}.dmg'
+      #  platform: 'osx-aarch_64'
+      - path: '{{artifactsDir}}/cli/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.pkg'
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}.pkg'
+        platform: 'osx-aarch_64'
+      - path: '{{artifactsDir}}/cli/build/distributions/{{distributionName}}-osx-aarch_64.zip'
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}-osx-aarch_64.zip'
+        platform: 'osx-aarch_64'
+
+  bisqfx:
+    type: JLINK
+    java:
+      mainClass: bisq.app.fx.BisqFX
+    artifacts:
+      - path: '{{artifactsDir}}/fx/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.dmg'
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}.dmg'
+        platform: 'osx-aarch_64'
+      - path: '{{artifactsDir}}/fx/build/distributions/{{distributionName}}-osx-aarch_64.zip'
+        transform: '{{distributionName}}/{{distributionName}}-{{projectEffectiveVersion}}-osx-aarch_64.zip'
+        platform: 'osx-aarch_64'
