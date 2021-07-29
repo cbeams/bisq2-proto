@@ -94,109 +94,128 @@ signing:
   armored: true
 
 distributions:
-  bisqd:
+  bisqd-jlink:
     type: JLINK
-    java:
-      mainClass: bisq.app.daemon.BisqDaemon
+    executable: bisqd
     artifacts:
-      #- path: '{{artifactsDir}}/daemon/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.dmg'
-      #  transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}.dmg'
-      #  platform: 'osx-x86_64'
-      - path: '{{artifactsDir}}/daemon/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.pkg'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}.pkg'
+      - path: '{{artifactsDir}}/daemon/build/distributions/bisqd-osx-x86_64.zip'
+        transform: 'bisqd/bisqd-{{projectVersion}}-osx-x86_64.zip'
         platform: 'osx-x86_64'
-      - path: '{{artifactsDir}}/daemon/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.msi'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}.msi'
+      - path: '{{artifactsDir}}/daemon/build/distributions/bisqd-windows-x86_64.zip'
+        transform: 'bisqd/bisqd-{{projectVersion}}-windows-x86_64.zip'
         platform: 'windows-x86_64'
-      - path: '{{artifactsDir}}/daemon/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.exe'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}.exe'
-        platform: 'windows-x86_64'
-      - path: '{{artifactsDir}}/daemon/build/jpackage/{{distributionName}}-{{projectVersionNumber}}-1.x86_64.rpm'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}-1.x86_64.rpm'
-        platform: 'linux-x86_64'
-      - path: '{{artifactsDir}}/daemon/build/jpackage/{{distributionName}}_{{projectVersionNumber}}-1_amd64.deb'
-        transform: '{{distributionName}}/{{distributionName}}_{{projectVersion}}-1_amd64.deb'
-        platform: 'linux-x86_64'
-      - path: '{{artifactsDir}}/daemon/build/distributions/{{distributionName}}-osx-x86_64.zip'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}-osx-x86_64.zip'
-        platform: 'osx-x86_64'
-      - path: '{{artifactsDir}}/daemon/build/distributions/{{distributionName}}-windows-x86_64.zip'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}-windows-x86_64.zip'
-        platform: 'windows-x86_64'
-      - path: '{{artifactsDir}}/daemon/build/distributions/{{distributionName}}-linux-x86_64.zip'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}-linux-x86_64.zip'
+      - path: '{{artifactsDir}}/daemon/build/distributions/bisqd-linux-x86_64.zip'
+        transform: 'bisqd/bisqd-{{projectVersion}}-linux-x86_64.zip'
         platform: 'linux-x86_64'
 
-  bisq:
-    type: JLINK
-    java:
-      mainClass: bisq.app.cli.BisqCLI
-    artifacts:
-      #- path: '{{artifactsDir}}/cli/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.dmg'
-      #  transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}.dmg'
-      #  platform: 'osx-x86_64'
-      - path: '{{artifactsDir}}/cli/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.pkg'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}.pkg'
-        platform: 'osx-x86_64'
-      - path: '{{artifactsDir}}/cli/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.msi'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}.msi'
-        platform: 'windows-x86_64'
-      - path: '{{artifactsDir}}/cli/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.exe'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}.exe'
-        platform: 'windows-x86_64'
-      - path: '{{artifactsDir}}/cli/build/jpackage/{{distributionName}}-{{projectVersionNumber}}-1.x86_64.rpm'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}-1.x86_64.rpm'
-        platform: 'linux-x86_64'
-      - path: '{{artifactsDir}}/cli/build/jpackage/{{distributionName}}_{{projectVersionNumber}}-1_amd64.deb'
-        transform: '{{distributionName}}/{{distributionName}}_{{projectVersion}}-1_amd64.deb'
-        platform: 'linux-x86_64'
-      - path: '{{artifactsDir}}/cli/build/distributions/{{distributionName}}-osx-x86_64.zip'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}-osx-x86_64.zip'
-        platform: 'osx-x86_64'
-      - path: '{{artifactsDir}}/cli/build/distributions/{{distributionName}}-windows-x86_64.zip'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}-windows-x86_64.zip'
-        platform: 'windows-x86_64'
-      - path: '{{artifactsDir}}/cli/build/distributions/{{distributionName}}-linux-x86_64.zip'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}-linux-x86_64.zip'
-        platform: 'linux-x86_64'
-
-  bisqfx:
-    type: JLINK
+  bisqd-package:
+    type: NATIVE_PACKAGE
+    executable: bisqd
     brew:
       active: always
       cask:
         enabled: true
-    java:
-      mainClass: bisq.app.fx.BisqFX
+        name: bisqd
     artifacts:
-      - path: '{{artifactsDir}}/fx/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.dmg'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}.dmg'
-        platform: 'osx-x86_64'
-      #- path: '{{artifactsDir}}/fx/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.pkg'
-      #  transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}.pkg'
+      #- path: '{{artifactsDir}}/daemon/build/jpackage/bisqd-{{projectVersionNumber}}.dmg'
+      #  transform: 'bisqd/bisqd-{{projectVersion}}.dmg'
       #  platform: 'osx-x86_64'
-      - path: '{{artifactsDir}}/fx/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.msi'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}.msi'
-        platform: 'windows-x86_64'
-      - path: '{{artifactsDir}}/fx/build/jpackage/{{distributionName}}-{{projectVersionNumber}}.exe'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}.exe'
-        platform: 'windows-x86_64'
-      - path: '{{artifactsDir}}/fx/build/jpackage/{{distributionName}}-{{projectVersionNumber}}-1.x86_64.rpm'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}-1.x86_64.rpm'
-        platform: 'linux-x86_64'
-      - path: '{{artifactsDir}}/fx/build/jpackage/{{distributionName}}_{{projectVersionNumber}}-1_amd64.deb'
-        transform: '{{distributionName}}/{{distributionName}}_{{projectVersion}}-1_amd64.deb'
-        platform: 'linux-x86_64'
-      - path: '{{artifactsDir}}/fx/build/distributions/{{distributionName}}-osx-x86_64.zip'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}-osx-x86_64.zip'
+      - path: '{{artifactsDir}}/daemon/build/jpackage/bisqd-{{projectVersionNumber}}.pkg'
+        transform: 'bisqd/bisqd-{{projectVersion}}.pkg'
         platform: 'osx-x86_64'
-        extraProperties:
-          skipBrew: true
-      - path: '{{artifactsDir}}/fx/build/distributions/{{distributionName}}-windows-x86_64.zip'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}-windows-x86_64.zip'
+      - path: '{{artifactsDir}}/daemon/build/jpackage/bisqd-{{projectVersionNumber}}.msi'
+        transform: 'bisqd/bisqd-{{projectVersion}}.msi'
         platform: 'windows-x86_64'
-      - path: '{{artifactsDir}}/fx/build/distributions/{{distributionName}}-linux-x86_64.zip'
-        transform: '{{distributionName}}/{{distributionName}}-{{projectVersion}}-linux-x86_64.zip'
+      - path: '{{artifactsDir}}/daemon/build/jpackage/bisqd-{{projectVersionNumber}}.exe'
+        transform: 'bisqd/bisqd-{{projectVersion}}.exe'
+        platform: 'windows-x86_64'
+      - path: '{{artifactsDir}}/daemon/build/jpackage/bisqd-{{projectVersionNumber}}-1.x86_64.rpm'
+        transform: 'bisqd/bisqd-{{projectVersion}}-1.x86_64.rpm'
         platform: 'linux-x86_64'
-        extraProperties:
-          skipBrew: true
+      - path: '{{artifactsDir}}/daemon/build/jpackage/bisqd_{{projectVersionNumber}}-1_amd64.deb'
+        transform: 'bisqd/bisqd_{{projectVersion}}-1_amd64.deb'
+        platform: 'linux-x86_64'
+
+  bisq-jlink:
+    type: JLINK
+    executable: bisq
+    artifacts:
+      - path: '{{artifactsDir}}/cli/build/distributions/bisq-osx-x86_64.zip'
+        transform: 'bisq/bisq-{{projectVersion}}-osx-x86_64.zip'
+        platform: 'osx-x86_64'
+      - path: '{{artifactsDir}}/cli/build/distributions/bisq-windows-x86_64.zip'
+        transform: 'bisq/bisq-{{projectVersion}}-windows-x86_64.zip'
+        platform: 'windows-x86_64'
+      - path: '{{artifactsDir}}/cli/build/distributions/bisq-linux-x86_64.zip'
+        transform: 'bisq/bisq-{{projectVersion}}-linux-x86_64.zip'
+        platform: 'linux-x86_64'
+
+  bisq-package:
+    type: NATIVE_PACKAGE
+    executable: bisq
+    brew:
+      active: always
+      cask:
+        enabled: true
+        name: bisq
+    artifacts:
+      #- path: '{{artifactsDir}}/cli/build/jpackage/bisq-{{projectVersionNumber}}.dmg'
+      #  transform: 'bisq/bisq-{{projectVersion}}.dmg'
+      #  platform: 'osx-x86_64'
+      - path: '{{artifactsDir}}/cli/build/jpackage/bisq-{{projectVersionNumber}}.pkg'
+        transform: 'bisq/bisq-{{projectVersion}}.pkg'
+        platform: 'osx-x86_64'
+      - path: '{{artifactsDir}}/cli/build/jpackage/bisq-{{projectVersionNumber}}.msi'
+        transform: 'bisq/bisq-{{projectVersion}}.msi'
+        platform: 'windows-x86_64'
+      - path: '{{artifactsDir}}/cli/build/jpackage/bisq-{{projectVersionNumber}}.exe'
+        transform: 'bisq/bisq-{{projectVersion}}.exe'
+        platform: 'windows-x86_64'
+      - path: '{{artifactsDir}}/cli/build/jpackage/bisq-{{projectVersionNumber}}-1.x86_64.rpm'
+        transform: 'bisq/bisq-{{projectVersion}}-1.x86_64.rpm'
+        platform: 'linux-x86_64'
+      - path: '{{artifactsDir}}/cli/build/jpackage/bisq_{{projectVersionNumber}}-1_amd64.deb'
+        transform: 'bisq/bisq_{{projectVersion}}-1_amd64.deb'
+        platform: 'linux-x86_64'
+
+  bisqfx-jlink:
+    type: JLINK
+    executable: bisqfx
+    artifacts:
+      - path: '{{artifactsDir}}/fx/build/distributions/bisqfx-osx-x86_64.zip'
+        transform: 'bisqfx/bisqfx-{{projectVersion}}-osx-x86_64.zip'
+        platform: 'osx-x86_64'
+      - path: '{{artifactsDir}}/fx/build/distributions/bisqfx-windows-x86_64.zip'
+        transform: 'bisqfx/bisqfx-{{projectVersion}}-windows-x86_64.zip'
+        platform: 'windows-x86_64'
+      - path: '{{artifactsDir}}/fx/build/distributions/bisqfx-linux-x86_64.zip'
+        transform: 'bisqfx/bisqfx-{{projectVersion}}-linux-x86_64.zip'
+        platform: 'linux-x86_64'
+
+  bisqfx-package:
+    type: NATIVE_PACKAGE
+    executable: bisqfx
+    brew:
+      active: always
+      cask:
+        enabled: true
+        name: bisqfx
+    artifacts:
+      - path: '{{artifactsDir}}/fx/build/jpackage/bisqfx-{{projectVersionNumber}}.dmg'
+        transform: 'bisqfx/bisqfx-{{projectVersion}}.dmg'
+        platform: 'osx-x86_64'
+      #- path: '{{artifactsDir}}/fx/build/jpackage/bisqfx-{{projectVersionNumber}}.pkg'
+      #  transform: 'bisqfx/bisqfx-{{projectVersion}}.pkg'
+      #  platform: 'osx-x86_64'
+      - path: '{{artifactsDir}}/fx/build/jpackage/bisqfx-{{projectVersionNumber}}.msi'
+        transform: 'bisqfx/bisqfx-{{projectVersion}}.msi'
+        platform: 'windows-x86_64'
+      - path: '{{artifactsDir}}/fx/build/jpackage/bisqfx-{{projectVersionNumber}}.exe'
+        transform: 'bisqfx/bisqfx-{{projectVersion}}.exe'
+        platform: 'windows-x86_64'
+      - path: '{{artifactsDir}}/fx/build/jpackage/bisqfx-{{projectVersionNumber}}-1.x86_64.rpm'
+        transform: 'bisqfx/bisqfx-{{projectVersion}}-1.x86_64.rpm'
+        platform: 'linux-x86_64'
+      - path: '{{artifactsDir}}/fx/build/jpackage/bisqfx_{{projectVersionNumber}}-1_amd64.deb'
+        transform: 'bisqfx/bisqfx_{{projectVersion}}-1_amd64.deb'
+        platform: 'linux-x86_64'
