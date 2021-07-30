@@ -50,6 +50,7 @@ jobs:
           name: artifacts
           if-no-files-found: ignore
           path: |
+            app/**/build/distributions/*.zip
             app/**/build/jpackage/*.rpm
             app/**/build/jpackage/*.dmg
             app/**/build/jpackage/*.exe
