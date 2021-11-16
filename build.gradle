@@ -191,13 +191,7 @@ configure(project(':app:fx')) {
     }
 
     javafx {
-        // customize the application plugin's `run` task to use the correct JavaFX SDK and
-        // modules; see the beryx runtime plugin's `launcher` closure below for equivalent
-        // customization of generated start scripts.
-        if (project.hasProperty(javafxSdkProperty))
-            sdk = project.getProperty(javafxSdkProperty)
-        else
-            version = '16'
+        version = '17.0.1'
         modules = ['javafx.controls']
     }
 
@@ -207,15 +201,6 @@ configure(project(':app:fx')) {
         options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
         launcher {
             noConsole = true
-            // start scripts created by the application plugin are overwritten by the
-            // org.beryx.runtime plugin, thus custom settings must be configured here as
-            // opposed to in the usual `startScripts` closure
-            if (project.hasProperty(javafxSdkProperty)) {
-                jvmArgs = [
-                    '--add-modules=javafx.controls',
-                    "--module-path=${project.getProperty(javafxSdkProperty)}/lib"
-                ]
-            }
         }
 
         jpackage {
@@ -233,8 +218,6 @@ configure(project(':app:fx')) {
                 installerOptions += ['--linux-package-name', 'bisqfx', '--linux-shortcut']
             } else if (osdetector.os == 'osx') {
                 installerOptions += ['--mac-package-name', 'bisqfx']
-                if (project.hasProperty(javafxSdkProperty))
-                    jvmArgs += "--module-path=${project.getProperty(javafxSdkProperty)}/lib"
             }
         }
     }

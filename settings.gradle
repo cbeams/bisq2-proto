@@ -2,6 +2,7 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         mavenCentral()
+        mavenLocal()
     }
     plugins {
         id 'org.openjfx.javafxplugin'        version javafxPluginVersion
